@@ -1,0 +1,244 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background Image */
+body {
+    background: url('../../asset/bg3.JPG') ;
+    background-size: cover;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #b37452;
+    color: #fff;
+    padding: 1px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header .logo img {
+    height: 80px;
+    margin-left: -10px;
+}
+
+header .title {
+    font-family: aver, sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+header .title span {
+    font-family: aver, sans-serif;
+    font-style: italic;
+    color: #f0d8c1;
+}
+
+header .profile img {
+    height: 50px;
+    cursor: pointer;
+    margin-left: -10px;
+}
+
+
+
+.cafe-name {
+    font-size: 36px;
+    font-family: 'Georgia', serif;
+    text-transform: lowercase;
+}
+
+.cafe-name span {
+    font-style: italic;
+    font-weight: 500;
+}
+
+.user-profile {
+    width: 45px;
+    height: 45px;
+    background: url('userprof.png') no-repeat center;
+    background-size: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+/* Body */
+/* Main container for the columns */
+.main-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  margin: 50px 10px;
+}
+
+h1 {
+  font-family: 'Aver', sans-serif;
+  margin-bottom: 25px;
+}
+/* Each section styling */
+.cup-count-section, .meals-section {
+  background-color: #1f0d01b6;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 35%;
+}
+
+.cup-count-section button:hover{
+  background-color: #d9a26e;
+}
+
+.meals-section button:hover{
+  background-color: #d9a26e;
+}
+.sales-section{
+  background-color: #1f0d01b6;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Div that organizes buttons and labels */
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.item button {
+  background-color: #a9734d;
+  border: none;
+  border-radius: 25px;
+  padding: 15px 20px;
+  color: white;
+  font-size: 19px;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.item span {
+  margin-left: 10px;
+  font-weight: bold;
+  width: 40px;
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+/* Make buttons and labels vertical */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.total-sales span{
+  background-color: #a9734d;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 15px;
+  color: white;
+  font-size: 19px;
+  cursor: pointer;
+  flex-grow: 1;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.total-sales p{
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.total-quantity span{
+  background-color: #a9734d;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 15px;
+  color: white;
+  font-size: 19px;
+  cursor: pointer;
+  flex-grow: 1;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.total-quantity p{
+  font-size: 25px;
+  font-weight: bold;
+}
+/* Hot/Cold buttons */
+.hot-cold-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.hot-cold-buttons button {
+  background-color: #d5a87a;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 50px;
+  font-size: 24px;
+  margin: 0 20px;
+  cursor: pointer;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hot-button {
+  background-color: #f28c28;
+}
+
+.cold-button {
+  background-color: #1d82c4;
+}
+
+/* Footer */
+footer {
+    background-color: #d9a26e;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: white;
+}
+
+footer p {
+    margin: 0;
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .main-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .hot-cold-buttons {
+      margin: 20px 0;
+  }
+
+  .buttons button {
+      width: 100%;
+      max-width: 150px;
+  }
+}

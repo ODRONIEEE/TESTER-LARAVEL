@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Controllers\User;
+
+
+use App\Http\Controllers\Controller;
+
+class UserControl extends Controller
+{
+    public function home(){
+        return view('dashboard');
+    }
+    public function menu(){
+
+    return view('menu');
+    }
+    public function userprofile(){
+        return view('userProfile');
+    }
+    public function cart(){
+        return view('cart');
+    }
+    public function welcome(){
+        return view('welcome');
+    }
+}

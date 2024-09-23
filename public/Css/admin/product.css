@@ -1,0 +1,180 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    background-image: url('../../asset/bg3.JPG');
+    background-size: cover;
+    overflow: hidden;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #b37452;
+    color: #fff;
+    padding: 1px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header .logo img {
+    height: 80px;
+    margin-left: -10px;
+}
+
+header .title {
+    font-family: aver, sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+header .title span {
+    font-family: aver, sans-serif;
+    font-style: italic;
+    color: #f0d8c1;
+}
+
+header .profile img {
+    height: 50px;
+    cursor: pointer;
+    margin-left: -10px;
+}
+
+.update-system {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.update-system h2 {
+    font-family: 'Aver', sans-serif;
+    font-size: 2.8rem; /* Increased font size */
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px; /* Unique effect without border or shadow */
+    padding: 10px 0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    flex-direction: column;
+    padding-bottom: 60px; /* Ensure buttons don't overlap the footer */
+}
+
+.buttons-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px; /* Adjusted gap between buttons */
+    max-width: 1000px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.button {
+    font-family: 'Aver', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d99072;
+    border-radius: 15px;
+    text-decoration: none;
+    color: black;
+    font-size: 1.4rem; /* Slightly smaller font size */
+    height: 130px; /* Adjusted button height */
+    text-align: center;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    padding: 10px;
+}
+
+.button:hover {
+    transform: scale(1.08); /* Hover effect */
+    background-color: #e79d85; /* Different hover color */
+    color: white;
+}
+
+footer {
+    text-align: center;
+    padding: 15px 0; /* Smaller footer padding */
+    background-color: #c06a4d;
+    height: 50px; /* Smaller footer height */
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+}
+
+footer p {
+    font-family: 'Aver', sans-serif;
+    font-size: 20px;
+    color: white;
+}
+
+@media screen and (max-width: 1024px) {
+    .buttons-container {
+        grid-template-columns: repeat(2, 1fr); /* Two buttons per row */
+        gap: 20px; /* Reduced gap for smaller screens */
+    }
+
+    .button {
+        height: 110px;
+        font-size: 1.2rem;
+    }
+
+    .update-system h2 {
+        font-size: 2.4rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: row; /* Ensure logo, title, and profile are horizontally aligned */
+        justify-content: space-between;
+        padding: 10px;
+        height: 60px; /* Adjusted header size for smaller screens */
+    }
+
+    .logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .profile {
+        width: 35px;
+        height: 35px;
+        margin-right: 10px; /* Adjusted margin for smaller screens */
+    }
+
+    .title {
+        font-size: 1.3rem;
+    }
+
+    .buttons-container {
+        grid-template-columns: repeat(1, 1fr); /* One button per row on mobile */
+        gap: 15px;
+    }
+
+    .button {
+        height: 100px;
+        font-size: 1.1rem;
+    }
+
+    .update-system h2 {
+        font-size: 2rem;
+    }
+}
