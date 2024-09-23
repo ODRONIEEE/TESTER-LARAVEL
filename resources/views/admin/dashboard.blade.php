@@ -11,7 +11,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="{{route('admin.dashboard')}}"><img src="{{asset('asset/logowhite.png')}}" alt="Logo"></a>
+            <a href="{{route('welcome')}}"><img src="{{asset('asset/logowhite.png')}}" alt="Logo"></a>
         </div>
         <div class="title">
             archive <span>cafe</span>

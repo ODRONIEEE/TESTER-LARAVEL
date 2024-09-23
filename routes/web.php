@@ -35,6 +35,7 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
 
 //Admin Routes
 Route::middleware(['auth','AdminMiddleware'])->group(function(){
+    Route::get('welcome',[AdminControl::class, 'welcome'])->name('welcome');
     Route::get('/admin/dashboard',[AdminControl::class, 'home'])->name('admin.dashboard');
     Route::get('/admin/product',[AdminControl::class, 'product'])->name('admin.product');
     Route::get('/admin/pos',[AdminControl::class, 'pos'])->name('admin.pos');

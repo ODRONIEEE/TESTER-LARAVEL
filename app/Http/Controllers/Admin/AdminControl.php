@@ -20,5 +20,8 @@ class AdminControl extends Controller
     public function sales(){
         return view('admin.sales');
     }
+    public function welcome(){
+        return view('welcome');
+    }
 
 }
