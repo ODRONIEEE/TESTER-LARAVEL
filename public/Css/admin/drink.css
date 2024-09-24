@@ -1,0 +1,245 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background Image */
+body {
+    background: url('../../asset/bg3.JPG') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #b37452;
+    color: #fff;
+    padding: 1px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header .logo img {
+    height: 80px;
+    margin-left: -10px;
+    cursor: pointer;
+}
+
+header .title {
+    font-family: 'Aver', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+header .title span {
+    font-family: 'Aver', sans-serif;
+    font-family: aver, sans-serif;
+    font-style: italic;
+    color: #f0d8c1;
+}
+
+header .profile img {
+    height: 50px;
+    cursor: pointer;
+}
+
+
+
+.cafe-name {
+    font-size: 36px;
+    font-family: 'Georgia', serif;
+    text-transform: lowercase;
+}
+
+.cafe-name span {
+    font-style: italic;
+    font-weight: 500;
+}
+
+.user-profile {
+    width: 45px;
+    height: 45px;
+    background: url('userprof.png') no-repeat center;
+    background-size: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.back-btn {
+    padding: 15px 30px;
+    border-radius: 15px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+/* Body *//* Menu */
+.menu-container {
+    padding: 30px;
+}
+
+.category-menu {
+    font-family: 'Aver', sans-serif;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.category-menu button {
+    font-family: 'Aver', sans-serif;
+    padding: 10px 90px;
+    background-color: #a9734d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.category-menu button:hover {
+    background-color: #f1c88e;
+}
+
+/* Menu Content */
+.menu-content {
+    display: flex;
+    gap: 30px;
+}
+
+.menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+    background-color: #1f0d01b6;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+.menu-items button {
+    padding: 10px;
+    background-color: #a9734d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.menu-items button:hover {
+    background-color: #f1c88e;
+
+}
+
+/* Product Customization */
+.product-details {
+    background-color: #1f0d01b6;
+    padding: 20px;
+    border-radius: 10px;
+    flex-grow: 1;
+    color: white;
+}
+
+.product-details h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 40px;
+    font-style: italic;
+}
+
+
+.customization-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.customization-options h3 {
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+.customization-options button {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #a9734d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.customization-options button:hover{
+    background-color: #f1c88e;
+
+}
+
+.espresso-shots {
+    font-style: italic;
+}
+
+.extras {
+    font-style: italic;
+}
+
+.syrups {
+    font-style: italic;
+}
+
+.total-price {
+    text-align: right;
+
+}
+
+.place-order {
+    width: 100%;
+    padding: 15px;
+    background-color: #a9734d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+
+/* Footer */
+footer {
+    background-color: #d9a26e;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: white;
+}
+
+footer p {
+    margin: 0;
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .menu-content {
+        flex-direction: column;
+    }
+
+    .menu-items {
+        width: 100%;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+    }
+}

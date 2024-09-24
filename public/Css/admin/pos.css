@@ -1,0 +1,224 @@
+/* General Body and HTML Setup */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    background: none;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../../asset/bg3.JPG') no-repeat center center fixed;
+    background-size: cover;
+    z-index: -2;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #b37452;
+    color: #fff;
+    padding: 1px 20px; /* Adjusted for the logo position */
+    z-index: 1;
+}
+
+.logo img {
+    height: 80px;
+    margin-left: -10px; /* Move logo a bit to the left */
+}
+
+.header-title {
+    font-family: 'Aver', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: lowercase;
+}
+
+.profile img {
+    width: 40px;
+    height: auto;
+}
+
+.menu-title {
+    font-family: 'Aver', sans-serif;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Main Content */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.menu-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Button Styles */
+.menu-option {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    text-decoration: none;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    z-index: 1;
+    margin: 10px;
+    box-sizing: border-box;
+    background-color: #d2a374; /* Button background color */
+    border-radius: 15px; /* Slightly rounded corners */
+}
+
+.menu-option:hover {
+    transform: scale(1.05);
+    background-color: #b3895d; /* Darker shade for hover effect */
+}
+
+.menu-option span {
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Footer */
+footer {
+    background-color: #b37452;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    z-index: 1;
+    width: 100%;
+    position: relative; /* Change from fixed to relative */
+    margin-top: auto; /* Let the footer sit at the bottom of the page */
+}
+
+footer p {
+    font-family: 'Aver', sans-serif;
+    font-size: 30px;
+    margin: 0;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    body, html {
+        overflow-x: hidden;
+        overflow-y: auto; /* Scroll vertically */
+    }
+
+    .menu-options {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .menu-option {
+        width: 250px;
+        height: 250px;
+        font-size: 2rem;
+    }
+
+    .header-title {
+        font-size: 30px;
+    }
+
+    .menu-title {
+        font-size: 2.5rem;
+    }
+}
+
+/* For tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .menu-options {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .menu-option {
+        width: 250px;
+        height: 250px;
+    }
+
+    .menu-title {
+        font-size: 2.5rem;
+    }
+
+    .header-title {
+        font-size: 1.3rem;
+    }
+}
+
+/* For small laptops */
+@media (min-width: 1025px) and (max-width: 1366px) {
+    .menu-options {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .menu-option {
+        width: 250px;
+        height: 250px;
+    }
+
+    .menu-title {
+        font-size: 2.5rem;
+    }
+
+    .header-title {
+        font-size: 1.4rem;
+    }
+}
+
+/* For large laptops and desktops */
+@media (min-width: 1367px) {
+    .menu-options {
+        justify-content: center;
+    }
+
+    .menu-option {
+        width: 250px;
+        height: 250px;
+    }
+
+    .menu-title {
+        font-size: 3rem;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+    }
+}

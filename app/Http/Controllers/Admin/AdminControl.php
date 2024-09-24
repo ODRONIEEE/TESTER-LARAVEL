@@ -23,5 +23,8 @@ class AdminControl extends Controller
     public function welcome(){
         return view('welcome');
     }
+    public function drink(){
+        return view('admin.drink-menu');
+    }
 
 }

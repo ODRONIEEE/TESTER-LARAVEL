@@ -40,4 +40,5 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/product',[AdminControl::class, 'product'])->name('admin.product');
     Route::get('/admin/pos',[AdminControl::class, 'pos'])->name('admin.pos');
     Route::get('/admin/sales',[AdminControl::class, 'sales'])->name('admin.sales');
+    Route::get('/admin/drink-menu',[AdminControl::class, 'drink'])->name('admin.drink-menu');
 });

@@ -23,7 +23,7 @@
     </header>
 
   <section class="update-system">
-    <h2>UPDATE SYSTEM</h2>
+    <h2>Product System</h2>
   </section>
 
   <main>

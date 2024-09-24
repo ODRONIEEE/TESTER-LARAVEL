@@ -21,6 +21,7 @@
                 <img src="{{asset('asset/icon.png')}}" alt="Profile">
             </a>
         </div>
+        <div>{{Auth::user()->name}}</div>
     </header>
     <main>
         <div class="content">
