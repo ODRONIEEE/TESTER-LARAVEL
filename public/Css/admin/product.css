@@ -12,7 +12,7 @@ body, html {
 }
 
 body {
-    background-image: url('../../asset/bg3.JPG');
+    background-image: url('../../images/bg3.JPG');
     background-size: cover;
     overflow: hidden;
     color: white;

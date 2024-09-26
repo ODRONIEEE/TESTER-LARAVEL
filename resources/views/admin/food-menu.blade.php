@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Archive Cafe</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="{{url('../../assets/img/favicon.png')}}" rel="icon">
+    <link href="{{url('../../assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Dosis:wght@200;300;400;500;600;700;800&family=Aver&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{url('../../assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url('../..assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/vendor/aos/aos.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="{{url('../../assets/css/main.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/css/drinks_menu.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/css/menu_landing.css')}}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+    <header id="header" class="header header-menu d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+            <a href="{{route('admin.dashboard')}}" class="logo d-flex align-items-center me-auto">
+                <img src="{{asset('images/logowhite.png')}}" alt="">
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li class="nav-item cafe-center" style="margin-right: 400px;">
+                        <h1 class="cafe-name">archive <span>cafe</span></h1>
+                    </li>
+
+                    <li><a href="#cafe">Cafe</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+
+
+                    <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </button>
+
+
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+        </div>
+    </header>
+
+
+    <main class="main">
+
+
+        <div class="menu-container">
+            <nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
+                <a class="custom-category-btn" href="{{url()->previous()}}">Back</a>
+                <button class="custom-category-btn" onclick="showCategoryFood('pastry')">Pastiers</button>
+                <button class="custom-category-btn" onclick="showCategoryFood('pasta')">Pasta</button>
+                <button class="custom-category-btn" onclick="showCategoryFood('rice')">Rice Meal</button>
+                <button class="custom-category-btn" onclick="showCategoryFood('appetizers')">Appetizers</button>
+                <button class="custom-category-btn" onclick="showCategoryFood('burger')">Burger</button>
+            </nav>
+
+            <div id="food" class="row menu-content" style="display:none">
+                <!-- Product Buttons inside the box -->
+                <div id="menu-items-food" class="col-lg-3 col-md-4 col-sm-12 menu-items" style="display:none">
+                    <!-- Coffee Product Buttons -->
+                </div>
+
+                <!-- Product Selection and Customization -->
+                <div class="col-lg-9 col-md-8 col-sm-12 product-details">
+                    <h2 id="product-name" class="text-center mb-4"></h2>
+                    <div class="customization-options">
+
+                        <!-- Quantity Only -->
+                        <div class="row mb-3 justify-content-center">
+                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                <h3>Quantity</h3>
+                                <button class="custom-btn" onclick="adjustQuantity(-1)">-</button>
+                                <span id="quantity-count" class="mx-3">0</span>
+                                <button class="custom-btn" onclick="adjustQuantity(1)">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Dine In and Take Out Buttons -->
+                        <div class="row mb-3 justify-content-center">
+                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                <button class="custom-btn w-50" onclick="setOrderType('dine-in')">Dine In</button>
+                                <button class="custom-btn w-50 mt-2" onclick="setOrderType('take-out')">Take
+                                    Out</button>
+                            </div>
+                        </div>
+
+                        <!-- Total Price -->
+                        <div class="total-price mb-3 text-center">
+                            <h3>Total: Php <span id="total-price">000.00</span></h3>
+                        </div>
+
+                        <!-- Place Order -->
+                        <div class="text-center">
+                            <button class="custom-btn place-order w-50" onclick="placeOrder()">Place Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </main>
+    <footer id="footer" class="footer-menu text-center">
+
+        <h1>"brewing timeless moments"</h1>
+
+
+
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="{{url('assets/js/main.js')}}"></script>
+    <script src="{{url('assets/js/drinks_menu.js')}}"></script>
+</body>
+
+</html>

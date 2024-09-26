@@ -10,9 +10,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('welcome', function () {
+    return view('welcome');
+})->middleware(['auth', 'verified'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -42,4 +42,7 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/pos',[AdminControl::class, 'pos'])->name('admin.pos');
     Route::get('/admin/sales',[AdminControl::class, 'sales'])->name('admin.sales');
     Route::get('/admin/drink-menu',[AdminControl::class, 'drink'])->name('admin.drink-menu');
+    Route::get('/admin/food-menu',[AdminControl::class, 'food'])->name('admin.food-menu');
+    Route::get('/admin/orders',[AdminControl::class, 'orders'])->name('admin.orders');
+
 });

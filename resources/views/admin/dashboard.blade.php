@@ -11,14 +11,14 @@
 <body>
     <header>
         <div class="logo">
-            <a href="{{route('welcome')}}"><img src="{{asset('asset/logowhite.png')}}" alt="Logo"></a>
+            <a href="{{route('welcome')}}"><img src="{{asset('../../images/logowhite.png')}}" alt="Logo"></a>
         </div>
         <div class="title">
             archive <span>cafe</span>
         </div>
         <div class="profile">
             <a href="{{route('profile.edit')}}">
-                <img src="{{asset('asset/icon.png')}}" alt="Profile">
+                <img src="{{asset('../../images/icon.png')}}" alt="Profile">
             </a>
         </div>
         <div>{{Auth::user()->name}}</div>
@@ -29,10 +29,10 @@
                 <a href="{{ route('admin.pos')}}"  class="button">POS</a>
                 <a href="{{ route('admin.product')}}"  class="button">PRODUCT</a>
                 <a href="{{route('admin.sales')}}" class="button">SALES</a>
-                <a href="../../User acc/Html/order.html" class="button">ORDERS</a>
+                <a href="{{route('admin.orders')}}" class="button">ORDERS</a>
             </div>
             <div class="iced-coffee">
-                <img src="{{asset('asset/cold americano.png')}}" alt="Iced Coffee">
+                <img src="{{asset('images/icedcoffee.png')}}" alt="Iced Coffee">
             </div>
         </div>
     </main>

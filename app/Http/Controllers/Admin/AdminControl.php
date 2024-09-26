@@ -20,11 +20,17 @@ class AdminControl extends Controller
     public function sales(){
         return view('admin.sales');
     }
+    public function orders(){
+        return view('admin.orders');
+    }
     public function welcome(){
         return view('welcome');
     }
     public function drink(){
         return view('admin.drink-menu');
+    }
+    public function food(){
+        return view('admin.food-menu');
     }
 
 }

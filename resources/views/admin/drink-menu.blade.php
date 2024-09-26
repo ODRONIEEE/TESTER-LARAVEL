@@ -1,124 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu-Drinks</title>
-    <link rel="stylesheet" href="{{url('../../Css/admin/drink.css')}}">
-    <link href="https://fonts.cdnfonts.com/css/aver" rel="stylesheet">
-    <script src="{{asset('Js/drink.js')}}"></script>
-</head>
-<body>
 
-    <header>
-        <div class="logo">
-            <a href="{{route('admin.dashboard')}}"><img src="{{asset('asset/logowhite.png')}}" alt="Logo"></a>
-        </div>
-        <div class="title">
-            archive <span>cafe</span>
-        </div>
-        <div class="profile">
-            <a href="{{route('profile.edit')}}">
-                <img src="{{asset('asset/icon.png')}}" alt="Profile">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Archive Cafe</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="{{url('../../assets/img/favicon.png')}}" rel="icon">
+    <link href="{{url('../../assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Dosis:wght@200;300;400;500;600;700;800&family=Aver&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{url('../../assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url('../..assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/vendor/aos/aos.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="{{url('../../assets/css/main.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/css/drinks_menu.css')}}" rel="stylesheet">
+    <link href="{{url('../../assets/css/menu_landing.css')}}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body class="index-page">
+
+    <header id="header" class="header header-menu d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+            <a href="index.html" class="logo d-flex align-items-center me-auto">
+                <img src="{{asset('images/logowhite.png')}}" alt="Logo">
             </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li class="nav-item cafe-center" style="margin-right: 400px;">
+                        <h1 class="cafe-name">archive <span>cafe</span></h1>
+                    </li>
+                    <li><a href="#cafe">Cafe</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <!-- Dropdown changed to button -->
+                    <li class="dropdown">
+                        <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </button>
+                    </li>
+                    <li class="dropdown">
+                        <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                            <i class="bi bi-person toggle-dropdown"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a href="#">Login</a></li>
+
+                            <li><a href="#">Sign Up</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
         </div>
     </header>
 
-    <!-- Body Section -->
-    <div class="menu-container">
 
-        <nav class="category-menu">
-           <a href="{{ url()->previous() }}" class="terms-btn">
-            <button>Back</button>
-        </a>
+    <main class="main">
 
-            <button onclick="showCategory('coffee')">Coffee</button>
-            <button onclick="showCategory('non-coffee')">Non-Coffee</button>
-            <button onclick="showCategory('refreshers')">Refreshers</button>
-            <button onclick="showCategory('tea')">Tea</button>
-        </nav>
 
-        <div class="menu-content">
-            <!-- Product Buttons inside the box -->
-            <div id="menu-items" class="menu-items">
-                <!-- Coffee Product Buttons -->
+        <div class="menu-container">
+            <nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
+                <a class="custom-category-btn" href="{{url()->previous()}}">Back</a>
+                <button class="custom-category-btn" onclick="showCategory('coffee')">Coffee</button>
+                <button class="custom-category-btn" onclick="showCategory('non-coffee')">Non-Coffee</button>
+                <button class="custom-category-btn" onclick="showCategory('refreshers')">Refreshers</button>
+                <button class="custom-category-btn" onclick="showCategory('tea')">Tea</button>
+            </nav>
+
+            <div id="coffee-non" class="row menu-content" style="display:none">
+                <!-- Product Buttons inside the box -->
+                <div id="menu-items-coffee" class="col-lg-3 col-md-4 col-sm-12 menu-items" style="display:none">
+                    <!-- Coffee Product Buttons -->
+                </div>
+
+                <!-- Product Selection and Customization -->
+                <div class="col-lg-9 col-md-8 col-sm-12 product-details">
+                    <h2 id="product-name" class="text-center mb-4"></h2>
+                    <div class="customization-options">
+                        <!-- Size -->
+                        <div class="size-options mb-3">
+                            <h3>Size</h3>
+                            <button class="custom-btn" id="size-regular" onclick="setSize('regular')">Regular
+                                16oz</button>
+                            <button class="custom-btn" id="size-large" onclick="setSize('large')">Large 22oz</button>
+                        </div>
+
+                        <!-- Type and Quantity in 1 Row -->
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <h3>Type</h3>
+                                <button class="custom-btn" onclick="setTemperature('hot')">Hot</button>
+                                <button class="custom-btn" onclick="setTemperature('cold')">Cold</button>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <h3>Quantity</h3>
+                                <button class="custom-btn" onclick="adjustQuantity(-1)">-</button>
+                                <span id="quantity-count" class="mx-3">0</span>
+                                <button class="custom-btn" onclick="adjustQuantity(1)">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Espresso Shots and Extras in 1 Row -->
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <h3>Espresso Shots</h3>
+                                <button class="custom-btn" onclick="adjustShots(-1)">-</button>
+                                <span id="shots-count" class="mx-3">0</span>
+                                <button class="custom-btn" onclick="adjustShots(1)">+</button>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <h3>Extras</h3>
+                                <button class="custom-btn" onclick="setMilk('regular')">Regular Milk</button>
+                                <button class="custom-btn" onclick="setMilk('oat')">Oat Milk</button>
+                            </div>
+                        </div>
+
+                        <!-- Syrups and Quantity in 1 Row -->
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <h3>Syrup</h3>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button class="custom-btn" onclick="selectSyrup('roasted-almonds')">Roasted
+                                        Almonds</button>
+                                    <button class="custom-btn" onclick="selectSyrup('vanilla')">Vanilla</button>
+                                    <button class="custom-btn" onclick="selectSyrup('hazelnut')">Hazelnut</button>
+                                    <button class="custom-btn" onclick="selectSyrup('strawberry')">Strawberry</button>
+                                    <!-- Add more syrup buttons here -->
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <h3>Quantity</h3>
+                                <button class="custom-btn" onclick="adjustQuantity(-1)">-</button>
+                                <span id="quantity-count" class="mx-3">0</span>
+                                <button class="custom-btn" onclick="adjustQuantity(1)">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Total Price -->
+                        <div class="total-price mb-3 text-end">
+                            <h3>Total: Php <span id="total-price">000.00</span></h3>
+                        </div>
+
+                        <!-- Place Order -->
+                        <button class="custom-btn place-order w-100" onclick="placeOrder()">Place Order</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Product Selection and Customization -->
-            <div class="product-details">
-                <h2 id="product-name">Caramel Macchiato</h2>
-               <div class="customization-options">
-                    <!-- Size -->
-                    <div class="size-options">
-                        <h3>Size</h3>
-                        <button id="size-regular" onclick="setSize('regular')">Regular 16oz</button>
-                        <button id="size-large" onclick="setSize('large')">Large 22oz</button>
-                    </div>
+            <div id="refreshers-non" class="row menu-content" style="display:none">
+                <!-- Product Buttons inside the box -->
+                <div id="menu-items-refreshers" class="col-lg-3 col-md-4 col-sm-12 menu-items" style="display:none">
+                    <!-- Coffee Product Buttons -->
+                </div>
 
-                    <!-- Hot or Cold -->
-                    <div class="type-options">
-                        <h3>Type</h3>
-                        <button onclick="setTemperature('hot')">Hot</button>
-                        <button onclick="setTemperature('cold')">Cold</button>
-                    </div>
+                <!-- Product Selection and Customization -->
+                <div class="col-lg-9 col-md-8 col-sm-12 product-details">
+                    <h2 id="product-name" class="text-center mb-4"></h2>
+                    <div class="customization-options">
 
-                    <!-- Espresso Shots -->
-                    <div class="espresso-shots">
-                        <h3>Espresso Shots</h3>
-                        <button onclick="adjustShots(-1)">-</button>
-                        <span id="shots-count">0</span>
-                        <button onclick="adjustShots(1)">+</button>
-                    </div>
+                        <!-- Quantity Only -->
+                        <div class="row mb-3 justify-content-center">
+                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                <h3>Quantity</h3>
+                                <button class="custom-btn" onclick="adjustQuantity(-1)">-</button>
+                                <span id="quantity-count" class="mx-3">0</span>
+                                <button class="custom-btn" onclick="adjustQuantity(1)">+</button>
+                            </div>
+                        </div>
 
-                    <!-- Extras -->
-                    <div class="extras">
-                        <h3>Extras</h3>
-                        <button onclick="setMilk('regular')">Regular Milk</button>
-                        <button onclick="setMilk('oat')">Oat Milk</button>
-                    </div>
+                        <!-- Dine In and Take Out Buttons -->
+                        <div class="row mb-3 justify-content-center">
+                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                <button class="custom-btn w-50" onclick="setOrderType('dine-in')">Dine In</button>
+                                <button class="custom-btn w-50 mt-2" onclick="setOrderType('take-out')">Take
+                                    Out</button>
+                            </div>
+                        </div>
 
-                    <!-- Syrups -->
-                    <div class="syrups">
-                        <h3>Syrup</h3>
-                        <button onclick="selectSyrup('roasted-almonds')">Roasted Almonds</button>
-                        <button onclick="selectSyrup('vanilla')">Vanilla</button>
-                        <button onclick="selectSyrup('hazelnut')">Hazelnut</button>
-                        <button onclick="selectSyrup('strawberry')">Strawberry</button>
-                        <button onclick="selectSyrup('fructose')">Fructose Sauce</button>
-                        <button onclick="selectSyrup('white-choco')">White Chocolate</button>
-                        <button onclick="selectSyrup('chocolate')">Chocolate</button>
-                        <button onclick="selectSyrup('salted-caramel')">Salted Caramel</button>
-                        <button onclick="selectSyrup('caramel')">Caramel</button>
-                        <button onclick="selectSyrup('butterscotch')">Butterscotch</button>
-                        <button onclick="selectSyrup('dulce')">Dulce</button>
-                        <button onclick="selectSyrup('con-leche')">Con Leche</button>
-                    </div>
+                        <!-- Total Price -->
+                        <div class="total-price mb-3 text-center">
+                            <h3>Total: Php <span id="total-price">000.00</span></h3>
+                        </div>
 
-                    <!-- Quantity -->
-                    <div class="quantity">
-                        <h3>Quantity</h3>
-                        <button onclick="adjustQuantity(-1)">-</button>
-                        <span id="quantity-count">0</span>
-                        <button onclick="adjustQuantity(1)">+</button>
+                        <!-- Place Order -->
+                        <div class="text-center">
+                            <button class="custom-btn place-order w-50" onclick="placeOrder()">Place Order</button>
+                        </div>
                     </div>
-
-                    <!-- Total Price -->
-                    <div class="total-price">
-                        <h3>Total: Php <span id="total-price">000.00</span></h3>
-                    </div>
-
-                    <!-- Place Order -->
-                    <button class="place-order" onclick="placeOrder()">Add to Cart</button>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <footer>
-        <p>"brewing timeless moments"</p>
-    </footer>
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
+    <!-- Preloader -->
+    <div id="preloader"></div>
 
+    <!-- Vendor JS Files -->
+    <script src="{{url('../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url('../../assets/vendor/php-email-form/validate.js')}}"></script>
+    <script src="{{url('../../assets/vendor/aos/aos.js')}}"></script>
+    <script src="{{url('../../assets/vendor/glightbox/js/glightbox.min.js')}}"></script>
+    <script src="{{url('../../assets/vendor/swiper/swiper-bundle.min.js')}}"></script>
+    <script src="{{url('../../assets/vendor/waypoints/noframework.waypoints.js')}}"></script>
+    <script src="{{url('../../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js')}}"></script>
+    <script src="{{url('../../assets/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+
+    <!-- Main JS File -->
+    <script src="{{url('assets/js/main.js')}}"></script>
+    <script src="{{url('assets/js/drinks_menu.js')}}"></script>
 </body>
+
 </html>

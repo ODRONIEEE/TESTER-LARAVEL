@@ -10,14 +10,14 @@
 <body>
     <header>
         <div class="logo">
-            <a href="{{route('admin.dashboard')}}"><img src="{{asset('asset/logowhite.png')}}" alt="Logo"></a>
+            <a href="{{route('admin.dashboard')}}"><img src="{{asset('images/logowhite.png')}}" alt="Logo"></a>
         </div>
         <div class="title">
             archive <span>cafe</span>
         </div>
         <div class="profile">
             <a href="{{route('profile.edit')}}">
-                <img src="{{asset('asset/icon.png')}}" alt="Profile">
+                <img src="{{asset('images/icon.png')}}" alt="Profile">
             </a>
         </div>
     </header>

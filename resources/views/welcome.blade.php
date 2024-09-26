@@ -88,7 +88,7 @@
             <h1 class="cafe-name">archive <span>cafe</span></h1>
           </li>
           <li><a href="#cafe">Cafe</a></li>
-          <li><a href="menu.html">Menu</a></li>
+          <li><a href="{{route('login')}}">Menu</a></li>
           <li><a href="#team">Meet The Team</a></li>
           <li class="nav-item d-none d-md-block">
             <span class="navbar-divider"></span>
