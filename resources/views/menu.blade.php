@@ -37,8 +37,7 @@
 
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center">
-
-            <a href="{{url()->previous()}}" class="logo d-flex align-items-center me-auto">
+            <a href="{{route('dashboard')}}" class="logo d-flex align-items-center me-auto">
                 <img src="assets/img/logo/logo.png" alt="">
             </a>
 
@@ -52,17 +51,22 @@
                         <span class="navbar-divider"></span>
                     </li>
 
-                    <li class="dropdown">
-                        <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
-                          <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
-                      </li>
+                    <li class="nav-item">
+                        @auth
+                        @if(Auth::user()->usertype === 'user')
+                            <!-- If the user is logged in, redirect to the cart page -->
+                            <a href="{{ route('cart') }}" class="btn-icon-only">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </a>
+                        @endif
+                        @endauth
+                        </li>
                       <li class="dropdown">
                         <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
                           <i class="bi bi-person toggle-dropdown"></i>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <li><a href="{{route('profile.edit')}}">{{Auth::user()->name}}</a></li>
+                          <li><a href="{{route('userProfile')}}">{{Auth::user()->name}}</a></li>
 
                           <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -158,21 +162,10 @@
             </div>
         </div>
 
-
-
-
-
-
-
-
-
     </main>
     <footer id="footer" class="footer-product text-center">
 
         <h1>"brewing timeless moments"</h1>
-
-
-
     </footer>
 
     <!-- Scroll Top -->

@@ -38,7 +38,7 @@
     @if (Route::has('login'))
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
-        <a href="#home" class="logo d-flex align-items-center me-auto">
+        <a href="{{route('welcome')}}" class="logo d-flex align-items-center me-auto">
           <img src="assets/img/logo/logo.png" alt="">
         </a>
         @auth
@@ -89,12 +89,13 @@
           <li class="nav-item d-none d-md-block">
             <span class="navbar-divider"></span>
           </li>
-          <!-- Dropdown changed to button -->
+          <!-- CART LOGO -->
           <li class="dropdown">
             <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
               <i class="fa-solid fa-cart-shopping"></i>
             </button>
           </li>
+          <!-- USER LOGO -->
           <li class="dropdown">
             <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
               <i class="bi bi-person toggle-dropdown"></i>
@@ -114,7 +115,7 @@
           </li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
+        </nav>
       @endif
       @else
       <nav id="navmenu" class="navmenu">
@@ -129,11 +130,7 @@
             <span class="navbar-divider"></span>
           </li>
           <!-- Dropdown changed to button -->
-          <li class="dropdown">
-            <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
-              <i class="fa-solid fa-cart-shopping"></i>
-            </button>
-          </li>
+
           <li class="dropdown">
             <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
               <i class="bi bi-person toggle-dropdown"></i>
@@ -434,8 +431,8 @@
           <ul>
             <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="#cafe">About us</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Terms and conditions</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="{{route('privacy')}}">Privacy</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="{{route('terms')}}">Terms and conditions</a></li>
           </ul>
         </div>
 

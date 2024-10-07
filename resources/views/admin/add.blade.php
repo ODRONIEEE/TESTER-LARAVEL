@@ -9,8 +9,8 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
-    <link href="{{asset('assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+    <link href="{{asset('assets/img/logobrown.png')}}" rel="icon">
+
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -39,7 +39,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-        <a href="{{route('admin.dashboard')}}" class="logo d-flex align-items-center me-auto">
+        <a href="{{url()->previous()}}" class="logo d-flex align-items-center me-auto">
           <img src="{{asset('assets/img/logo/logo.png')}}" alt="">
         </a>
         @auth
@@ -84,79 +84,95 @@
 
 
     <div class="menu-container ">
-        <div class="row">
-            <div class="col-sm-4 sales-section ">
 
-                <h1>Cup Count</h1>
-                <div class="buttons">
-                    <div class="item">
-                        <button onclick="addItem('Coffee')">Coffee</button>
-                        <span id="coffee-count">0</span>
-                    </div>
-                    <div class="item">
-                        <button onclick="addItem('Non-Coffee')">Non-Coffee</button>
-                        <span id="non-coffee-count">0</span>
-                    </div>
-                    <div class="item">
-                        <button onclick="addItem('Refreshers')">Refreshers</button>
-                        <span id="refreshers-count">0</span>
-                    </div>
-                    <div class="item">
-                        <button onclick="addItem('Tea')">Tea</button>
-                        <span id="tea-count">0</span>
-                    </div>
-                </div>
 
-            </div>
+        <div class="row menu-content " style="max-width: 80%;margin: auto;">
 
-            <div class="col-sm-4 sales-section">
 
-                <h1>Meals</h1>
-                <div class="buttons">
-                    <div class="item">
-                        <button onclick="addItem('Pastries')">Pastries</button>
-                        <span id="pastries-count">0</span>
-                    </div>
-                    <div class="item">
-                        <button onclick="addItem('Pasta')">Pasta</button>
-                        <span id="pasta-count">0</span>
-                    </div>
-                    <div class="item">
-                        <button onclick="addItem('Rice Meal')">Rice Meal</button>
-                        <span id="rice-meal-count">0</span>
-                    </div>
-                    <div class="item">
-                        <button onclick="addItem('Appetizer')">Appetizer</button>
-                        <span id="appetizer-count">0</span>
-                    </div>
-                </div>
 
-            </div>
-            <div class="col-sm-3  sales-section">
+            <div class="col-lg-12 col-md-8 col-sm-12 product-details">
+                <h2 id="product-name" class="text-center mb-4"></h2>
+                <div class="customization-options">
 
-                <h1>Sales</h1>
-                <div class="buttons">
-                    <div class="total-sales">
-                        <p>Total Sales</p>
-                        <span id="total-sales">Php 0000.00</span>
-                    </div>
-                    <br><br>
-                    <div class="total-quantity">
-                        <div class="item">
-                            <button class="btn btn-lg" style="background-color: #ffffff;color: black;">Reset
-                                Sales</button>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <!-- Product Name -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Product Name</label>
+                                <input type="text" class="form-control w-100 custom-input"
+                                    placeholder="Enter Product Name" />
+                            </div>
+
+                            <!-- Category Dropdown -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Category</label>
+                                <select class="form-control w-100 custom-input">
+                                    <option>Select Category</option>
+                                    <option>Food</option>
+                                    <option>Drinks</option>
+                                </select>
+                            </div>
+
+                            <!-- Type Dropdown -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Type</label>
+                                <select class="form-control w-100 custom-input">
+                                    <option>Select Type</option>
+                                    <option>Coffee</option>
+                                    <option>Non-Coffee</option>
+                                    <option>Refreshers</option>
+                                </select>
+                            </div>
+
+                            <!-- Sugar Dropdown -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Sugar</label>
+                                <select class="form-control w-100 custom-input">
+                                    <option>Select Sugar Level</option>
+                                    <option>Sweet</option>
+                                    <option>Regular</option>
+                                    <option>Mild</option>
+                                </select>
+                            </div>
+
+                            <!-- Espresso Dropdown -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Espresso</label>
+                                <select class="form-control w-100 custom-input">
+                                    <option>Select Espresso Level</option>
+                                    <option>Strong</option>
+                                    <option>Regular</option>
+                                    <option>Mild</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                        <!-- Product Description -->
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group" style="flex-grow: 1;">
+                                <h2 class="mb-2">Product Description</h2>
+                                <textarea class="form-control custom-input"></textarea>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="row " style="max-width: 50%;">
+                        <div class="col-lg-6 col-md-6 col-sm-12"><button
+                                class="custom-btn place-order w-100">Cancel</button></div>
+                        <div class="col-lg-6 col-md-6 col-sm-12"><button
+                                class="custom-btn place-order w-100">Save</button></div>
+                    </div>
                 </div>
-
             </div>
-
+        </div>
     </div>
-
 
 </main>
 
-<footer id="footer" class="footer-menu background-dark text-center">
+<footer id="footer" class="footer-menu text-center">
     <h1>"brewing timeless moments"</h1>
 </footer>
 

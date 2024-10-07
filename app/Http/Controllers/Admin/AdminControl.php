@@ -32,5 +32,7 @@ class AdminControl extends Controller
     public function food(){
         return view('admin.food-menu');
     }
-
+    public function add(){
+        return view('admin.add');
+    }
 }

@@ -23,4 +23,5 @@ class UserControl extends Controller
     public function welcome(){
         return view('welcome');
     }
+
 }

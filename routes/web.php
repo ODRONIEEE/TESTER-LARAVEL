@@ -8,6 +8,10 @@ use App\Http\Controllers\Admin\AdminControl;
 Route::get('/', function () {
     return view('welcome');
 });
+route::get('terms', function(){return view('terms'); })->name('terms');
+route::get('privacy', function(){return view('privacy'); })->name('privacy');
+route::get('welcome', function(){return view('welcome'); })->name('welcome');
+
 
 
 Route::get('welcome', function () {
@@ -31,6 +35,7 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::get('menu',[UserControl::class, 'menu'])->name('menu');
     Route::get('cart',[UserControl::class, 'cart'])->name('cart');
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
+
 });
 
 
@@ -44,5 +49,6 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/drink-menu',[AdminControl::class, 'drink'])->name('admin.drink-menu');
     Route::get('/admin/food-menu',[AdminControl::class, 'food'])->name('admin.food-menu');
     Route::get('/admin/orders',[AdminControl::class, 'orders'])->name('admin.orders');
+    Route::get('/admin/add',[AdminControl::class, 'add'])->name('admin.add');
 
 });
