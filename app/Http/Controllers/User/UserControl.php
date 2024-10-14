@@ -23,5 +23,11 @@ class UserControl extends Controller
     public function welcome(){
         return view('welcome');
     }
+    public function history(){
+        return view('Order_history');
+    }
+    public function preference(){
+        return view('preferences');
+    }
 
 }

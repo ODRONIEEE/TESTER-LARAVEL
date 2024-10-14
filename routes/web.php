@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductControl;
 use App\Http\Controllers\User\UserControl;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminControl;
@@ -35,7 +36,8 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::get('menu',[UserControl::class, 'menu'])->name('menu');
     Route::get('cart',[UserControl::class, 'cart'])->name('cart');
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
-
+    Route::get('Order_history',[UserControl::class, 'history'])->name('Order_history');
+    Route::get('preferences',[UserControl::class, 'preference'])->name('preferences');
 });
 
 
@@ -49,6 +51,12 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/drink-menu',[AdminControl::class, 'drink'])->name('admin.drink-menu');
     Route::get('/admin/food-menu',[AdminControl::class, 'food'])->name('admin.food-menu');
     Route::get('/admin/orders',[AdminControl::class, 'orders'])->name('admin.orders');
-    Route::get('/admin/add',[AdminControl::class, 'add'])->name('admin.add');
+
+});
+
+Route::middleware(['auth','AdminMiddleware'])->group(function(){
+    Route::get('/admin.add',[ProductControl::class, 'create'])->name('admin.add');
+    route::post('/admin.add', [ProductControl::class, 'store'])->name('admin.add');
+
 
 });

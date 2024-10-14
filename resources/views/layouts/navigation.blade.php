@@ -6,9 +6,15 @@
             <div class="flex items-center">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ Auth::user()->usertype == 'admin' ? route('welcome') : route('admin.dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
+                    @if (Auth::user()->usertype === 'admin')
+                        <a href="{{route('admin.dashboard')}}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        </a>
+                    @else
+                        <a href="{{route('welcome')}}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        </a>
+                    @endif
                 </div>
             </div>
 

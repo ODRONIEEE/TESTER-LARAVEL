@@ -169,17 +169,17 @@
         </div>
 
         <div class="row" style="display: flex;
-flex-wrap: nowrap;
-flex-direction: row;
-align-content: center;
-justify-content: center;
-align-items: center;">
+            flex-wrap: nowrap;
+            flex-direction: row;
+            align-content: center;
+            justify-content: center;
+            align-items: center;">
 
             <div class="col-5 text-center">
                 <div class="row">
                     <div class="col-6">
-                        <button class="btn-dashboard" onclick="window.location.href='#'">Order History</button>
-                        <button class="btn-dashboard"onclick="window.location.href='#'">Preferences</button>
+                        <button class="btn-dashboard" onclick="window.location.href='{{route('Order_history')}}'">Order History</button>
+                        <button class="btn-dashboard"onclick="window.location.href='{{route('preferences')}}'">Preferences</button>
                     </div>
                     <div class="col-6">
                         <button class="btn-dashboard"onclick="window.location.href='{{route('privacy')}}'">Privacy</button>
