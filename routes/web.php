@@ -54,9 +54,10 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
 
 });
 
-Route::middleware(['auth','AdminMiddleware'])->group(function(){
-    Route::get('/admin.add',[ProductControl::class, 'create'])->name('admin.add');
-    route::post('/admin.add', [ProductControl::class, 'store'])->name('admin.add');
-
+Route::middleware(['auth', 'AdminMiddleware'])->group(function () {
+    Route::get('/admin/add', [ProductControl::class, 'create'])->name('admin.add');
+    Route::post('/admin/add', [ProductControl::class, 'store'])->name('admin.store');
+    Route::get('/admin/product_info', [ProductControl::class, 'show'])->name('admin.product_info');
 
 });
+

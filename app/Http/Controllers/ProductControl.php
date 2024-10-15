@@ -13,7 +13,7 @@ class ProductControl extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -21,6 +21,7 @@ class ProductControl extends Controller
      */
     public function create()
     {
+
         return view('admin.add');
     }
 
@@ -29,36 +30,58 @@ class ProductControl extends Controller
      */
     public function store(Request $request)
 {
+    // Validation
     $fields = $request->validate([
         'name' => 'required|string',
         'description' => 'required|string',
-        'price' => 'required|integer',
+        'price' => 'required|numeric', // Allow decimal prices
         'stock' => 'required|integer',
-        'quantity' => 'required|integer',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'image' => 'required|image',
     ]);
 
-    $product_code = IdGenerator::generate(['table' => 'products', 'field'=> 'product_code', 'length' => 5, 'prefix' => 'PRD_C']);
-    $fields['product_code'] = $product_code; // Add the product code to the fields
+    // Generate Product Code
+    $product_code = IdGenerator::generate([
+        'table' => 'product',
+        'field'=> 'product_code',
+        'length' => 5,
+        'prefix' => 'PRD_C'
+    ]);
 
-    // Handle the file upload
-    if ($request->hasFile('image')) { // Ensure this matches the input name
-        $path = $request->file('image')->store('public/products');
-        $fields['image'] = basename($path); // Store only the file name
-    }
+    $filePath = public_path('uploads');
+    if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            $file_name = time() . '-' . $file->getClientOriginalName();
 
-    Product::create($fields); // Ensure fields contains 'image'
+            $file->move($filePath, $file_name);
+            $fields['image'] = $file_name;
+        }
+    $fields['product_code'] = $product_code;
 
-    return redirect()->back()->with('success', 'Product created successfully');
+
+    // Create the product
+    Product::create($fields);
+
+    // Redirect with success message
+    return redirect()->route('admin.product')->with('success', 'Product created successfully');
 }
+
+    // Helper method for file upload
+    private function handleFileUpload(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            return basename($request->file('image')->store('products', 'public'));
+        }
+        return null;
+    }
 
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $products = Product::latest('id')->get();
+        return view('admin.product_info', compact('products'));
     }
 
     /**

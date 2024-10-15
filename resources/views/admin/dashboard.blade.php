@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <div class="col-6 text-center">
-                    <img src="{{asset('assets/img/products/cold americano.png')}}" class="img-fluid cold-latte" alt="Cold Latte">
+                    <img src="{{asset('assets/img/logo/logo2.png')}}" class="img-fluid cold-latte" alt="Cold Latte">
                 </div>
             </div>
 

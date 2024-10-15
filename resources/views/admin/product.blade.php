@@ -40,7 +40,7 @@
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
         <a href="{{route('admin.dashboard')}}" class="logo d-flex align-items-center me-auto">
-          <img src="{{asset('assets/img/logo/logo.png')}}" alt="">
+          <img src="{{asset('assets/img/logo/logo2.png')}}" alt="">
         </a>
         @auth
         <nav id="navmenu" class="navmenu">
@@ -51,11 +51,6 @@
 
             <li class="nav-item d-none d-md-block">
               <span class="navbar-divider"></span>
-            </li>
-            <li>
-                <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false" width="30px">
-                  <i class="fa-solid fa-cart-shopping"></i>
-                </button>
             </li>
             <li class="dropdown">
               <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
@@ -103,28 +98,28 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="menu-options">
-                        <a href="editproduct.html" class="menu-system ">
+                        <a href="{{route('admin.product_info')}}" class="menu-system ">
                             <span>Coffee</span>
                         </a>
-                        <a href="editproduct.html" class="menu-system ">
+                        <a href="{{route('admin.product_info')}}" class="menu-system ">
                             <span>Non Coffee</span>
                         </a>
-                        <a href="editproduct.html" class="menu-system ">
+                        <a href="{{route('admin.product_info')}}" class="menu-system ">
                             <span>Refreshers</span>
                         </a>
-                        <a href="editproduct.html" class="menu-system ">
+                        <a href="{{route('admin.product_info')}}" class="menu-system ">
                             <span>Tea</span>
                         </a>
-                        <a href="editproduct.html" class="menu-system ">
+                        <a href="{{route('admin.product_info')}}" class="menu-system ">
                             <span>Pastries</span>
                         </a>
-                        <a href="editproduct.html" class="menu-system ">
+                        <a href="{{route('admin.product_info')}}" class="menu-system ">
                             <span>Rice Meal</span>
                         </a>
-                        <a href="editproduct.html" class="menu-system ">
+                        <a href="{{route('admin.product_info')}}" class="menu-system ">
                             <span>Appetizer</span>
                         </a>
-                        <a href="editproduct.html" class="menu-system ">
+                        <a href="{{route('admin.product_info')}}" class="menu-system ">
                             <span>Burger</span>
                         </a>
                     </div>

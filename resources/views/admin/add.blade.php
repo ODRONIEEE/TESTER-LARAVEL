@@ -40,7 +40,7 @@
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
         <a href="{{url()->previous()}}" class="logo d-flex align-items-center me-auto">
-          <img src="{{asset('assets/img/logo/logo.png')}}" alt="">
+          <img src="{{asset('assets/img/logo/logo2.png')}}" alt="">
         </a>
         @auth
         <nav id="navmenu" class="navmenu">
@@ -79,7 +79,16 @@
     </div>
   </header>
   @endif
-
+  @if (session('success'))
+  <div class="alert alert-success">
+      {{ session('success') }}
+  </div>
+@endif
+@if (session('error'))
+  <div class="alert alert-danger">
+      {{ session('error') }}
+  </div>
+@endif
 <main class="main">
     <div class="menu-container ">
         <div class="row menu-content " style="max-width: 80%;margin: auto;">
@@ -109,8 +118,17 @@
             </div>
 
 
-        <form action="{{route('admin.add')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('admin.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
+            @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
                 <div class="col-lg-10 col-md-8 col-sm-10 product-details">
                     <h2 id="product-name" class="text-center mb-4"></h2>
                     <div class="customization-options">
@@ -129,7 +147,7 @@
                                 <!-- Product Quantity -->
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                     <label class="me-2 w-25 w-md-100">Product Quantity</label>
-                                    <input type="text" name="quantity" class="form-control w-100 custom-input" placeholder="Enter Product Quantity" required/>
+                                    <input type="text" name="stock" class="form-control w-100 custom-input" placeholder="Enter Product Quantity" required/>
                                 </div>
 
                                 <!-- Category Dropdown -->
@@ -138,8 +156,8 @@
                                     <select class="form-control w-100 custom-input" id="category"
                                         onchange="updateProductType()">
                                         <option value="">Select Category</option>
-                                        <option value="Drinks">Drinks</option>
-                                        <option value="Food">Food</option>
+                                        <option value= 1 >Drinks</option>
+                                        <option value= 2 >Food</option>
                                     </select>
                                 </div>
 
@@ -241,20 +259,20 @@
 <!-- Main JS File -->
 <script src="{{url('assets/js/main.js')}}"></script>
 <script>
-    function previewPhoto() {
-        const file = document.getElementById('product-photo').files[0];
-        const preview = document.getElementById('photo-preview');
+function previewPhoto() {
+            const file = document.getElementById('product-photo').files[0];
+            const preview = document.getElementById('photo-preview');
 
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block'; // Show the image once it's loaded
-        };
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block'; // Show the image once it's loaded
+            };
 
-        if (file) {
-            reader.readAsDataURL(file); // Read the file as a Data URL
+            if (file) {
+                reader.readAsDataURL(file); // Read the file as a Data URL
+            }
         }
-    }
 
     function updateProductType() {
         var category = document.getElementById("category").value;
