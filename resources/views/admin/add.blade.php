@@ -79,16 +79,6 @@
     </div>
   </header>
   @endif
-  @if (session('success'))
-  <div class="alert alert-success">
-      {{ session('success') }}
-  </div>
-@endif
-@if (session('error'))
-  <div class="alert alert-danger">
-      {{ session('error') }}
-  </div>
-@endif
 <main class="main">
     <div class="menu-container ">
         <div class="row menu-content " style="max-width: 80%;margin: auto;">
@@ -137,7 +127,7 @@
                                 <!-- Product Name -->
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                     <label class="me-2 w-25 w-md-100">Product Name</label>
-                                    <input type="text" name ="name" class="form-control w-100 custom-input" placeholder="Enter Product Name" required/>
+                                    <input type="text" name="name" class="form-control w-100 custom-input" placeholder="Enter Product Name" required/>
                                 </div>
                                 <!-- Product Price -->
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
@@ -153,9 +143,9 @@
                                 <!-- Category Dropdown -->
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                     <label class="me-2 w-25 w-md-100">Category</label>
-                                    <select class="form-control w-100 custom-input" id="category"
+                                    <select class="form-control w-100 custom-input" id="category" name="cat_id"
                                         onchange="updateProductType()">
-                                        <option value="">Select Category</option>
+                                        <option value=0>Select Category</option>
                                         <option value= 1 >Drinks</option>
                                         <option value= 2 >Food</option>
                                     </select>
@@ -165,8 +155,10 @@
                                 <!-- Type Dropdown -->
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                     <label class="me-2 w-25 w-md-100">Type</label>
-                                    <select class="form-control w-100 custom-input" id="type">
-                                        <option value="">Select Type</option>
+                                    <select class="form-control w-100 custom-input" id="type" name="type_id">
+                                        <option value=0>Select Type</option>
+                                            <option value=1>Drinks</option>
+                                            <option value=2>Food</option>
                                     </select>
                                 </div>
 
@@ -174,11 +166,11 @@
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column"
                                     id="sugar-dropdown" style="display:none !important;">
                                     <label class="me-2 w-25 w-md-100">Sugar</label>
-                                    <select class="form-control w-100 custom-input">
-                                        <option>Select Sugar Level</option>
-                                        <option>Sweet</option>
-                                        <option>Regular</option>
-                                        <option>Mild</option>
+                                    <select class="form-control w-100 custom-input" id="espresso" name="sugar_id">
+                                        <option value=0>Select Sugar Level</option>
+                                        <option value=1>Sweet</option>
+                                        <option value=2>Regular</option>
+                                        <option value=3>Mild</option>
                                     </select>
                                 </div>
 
@@ -186,11 +178,11 @@
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column"
                                     id="espresso-dropdown" style="display:none !important;">
                                     <label class="me-2 w-25 w-md-100">Espresso</label>
-                                    <select class="form-control w-100 custom-input">
-                                        <option>Select Espresso Level</option>
-                                        <option>Strong</option>
-                                        <option>Regular</option>
-                                        <option>Mild</option>
+                                    <select class="form-control w-100 custom-input" id="espresso" name="espresso_id">
+                                        <option value=0>Select Espresso Level</option>
+                                        <option value=1>Strong</option>
+                                        <option value=2>Regular</option>
+                                        <option value=3>Mild</option>
                                     </select>
                                 </div>
 
@@ -220,9 +212,8 @@
                         </div>
 
                         <div class="row" style="max-width: 50%;">
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <button type="button" class="custom-btn place-order w-100">Cancel</button>
-                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12"><button
+                                class="custom-btn place-order w-100">Cancel</button></div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <button type="submit" class="custom-btn place-order w-100">Save</button>
                             </div>
@@ -258,8 +249,8 @@
 
 <!-- Main JS File -->
 <script src="{{url('assets/js/main.js')}}"></script>
-<script>
-function previewPhoto() {
+    <script>
+        function previewPhoto() {
             const file = document.getElementById('product-photo').files[0];
             const preview = document.getElementById('photo-preview');
 
@@ -274,82 +265,73 @@ function previewPhoto() {
             }
         }
 
-    function updateProductType() {
-        var category = document.getElementById("category").value;
-        var typeDropdown = document.getElementById("type");
-        var sugarDropdown = document.getElementById("sugar-dropdown");
-        var espressoDropdown = document.getElementById("espresso-dropdown");
+        function updateProductType() {
+            var category = document.getElementById("category").value;
+            var typeDropdown = document.getElementById("type");
+            var sugarDropdown = document.getElementById("sugar-dropdown");
+            var espressoDropdown = document.getElementById("espresso-dropdown");
 
-        // Clear the current options in the "Type" dropdown
-        typeDropdown.innerHTML = '<option value="">Select Type</option>';
+            // Clear the current options in the "Type" dropdown
+            typeDropdown.innerHTML = '<option value="">Select Type</option>';
 
-        // Define the options for each category
-        var drinksTypes = ['Coffee', 'Non-Coffee', 'Refreshers', 'Tea'];
-        var foodTypes = ['Pastries', 'Pasta', 'Rice Meal', 'Appetizer', 'Burger'];
+            var drinksTypes = [
+            { id: 1, name: 'Coffee' },
+            { id: 2, name: 'Non-Coffee' },
+            { id: 3, name: 'Refreshers' },
+            { id: 4, name: 'Tea' }
+        ];
+            var foodTypes = ['Pastries', 'Pasta', 'Rice Meal', 'Appetizer', 'Burger'];
 
-        console.log("Selected category: ", category); // Log the selected category
 
-        if (category === 'Drinks') {
-            console.log("Drinks selected. Showing Sugar dropdown."); // Log for Drinks selection
+            // Hide both Sugar and Espresso dropdowns initially
+            sugarDropdown.style.display = 'none';
+            espressoDropdown.style.display = 'none';
 
-            // Show the Sugar dropdown when Drinks is selected
-            if (sugarDropdown) {
+            // Check if the category is '1' (Drinks) or '2' (Food)
+            if (category == 1) {  // Drinks selected
+                // Show the Sugar dropdown when Drinks is selected
+
                 sugarDropdown.style.display = 'block';
-                console.log("Sugar dropdown displayed."); // Log for Sugar dropdown display
-            }
 
-            // Populate the Type dropdown with drink types
-            drinksTypes.forEach(function (type) {
-                var option = document.createElement("option");
-                option.value = type;
-                option.text = type;
-                typeDropdown.add(option);
-            });
+                // Populate the Type dropdown with drink types
+                drinksTypes.forEach(function(type) {
+                    var option = document.createElement("option");
+                    option.value = type.id;
+                    option.text = type.name;
+                    typeDropdown.add(option);
+                });
 
-            // Show Espresso dropdown if Coffee is selected in Type
-            typeDropdown.onchange = function () {
-                var selectedType = typeDropdown.value;
-
-                // Show or hide the Espresso dropdown based on the selected type
-                if (selectedType === 'Coffee') {
-                    if (espressoDropdown) {
+                // Show Espresso dropdown only if Coffee is selected in Type
+                typeDropdown.onchange = function () {
+                    var selectedType = typeDropdown.value;
+                    if (selectedType === 'Coffee') {
                         espressoDropdown.style.display = 'block';
-                        console.log("Espresso dropdown displayed."); // Log for Espresso dropdown display
-                    }
-                } else {
-                    if (espressoDropdown) {
+                    } else {
                         espressoDropdown.style.display = 'none';
-                        console.log("Espresso dropdown hidden."); // Log for Espresso dropdown hide
                     }
-                }
-            };
+                };
 
-        } else if (category === 'Food') {
-            console.log("Food selected. Hiding Sugar dropdown."); // Log for Food selection
-
-            // Hide the Sugar dropdown when Food is selected
-            if (sugarDropdown) {
+            } else if (category == 2) {  // Food selected
+                // Both Sugar and Espresso dropdowns remain hidden for Food
                 sugarDropdown.style.display = 'none';
-                console.log("Sugar dropdown hidden."); // Log for Sugar dropdown hide
-            }
-
-            // Hide the Espresso dropdown as well
-            if (espressoDropdown) {
                 espressoDropdown.style.display = 'none';
-                console.log("Espresso dropdown hidden."); // Log for Espresso dropdown hide
+                // Populate the Type dropdown with food types
+                foodTypes.forEach(function(type) {
+                    var option = document.createElement("option");
+                    option.value = type.id;
+                    option.text = type.name;
+                    typeDropdown.add(option);
+                });
+            } else {
+                // Hide both dropdowns if no category is selected
+                sugarDropdown.style.display = 'none';
+                espressoDropdown.style.display = 'none';
             }
-
-            // Populate the Type dropdown with food types
-            foodTypes.forEach(function (type) {
-                var option = document.createElement("option");
-                option.value = type;
-                option.text = type;
-                typeDropdown.add(option);
-            });
         }
-    }
 
-</script>
+
+
+
+    </script>
 </body>
-
 </html>

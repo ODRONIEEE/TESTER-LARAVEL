@@ -9,7 +9,7 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="assets/img/logo/logo.png" rel="icon">
+  <link href="assets/img/logo/logo2.png" rel="icon">
 
 
   <!-- Fonts -->
@@ -39,7 +39,7 @@
         <header id="header" class="header d-flex align-items-center fixed-top">
             <div class="container-fluid container-xl position-relative d-flex align-items-center">
                 <a href="{{route('welcome')}}" class="logo d-flex align-items-center me-auto">
-                <img src="assets/img/logo/logo.png" alt="">
+                <img src="assets/img/logo/logo2.png" alt="">
                 </a>
                     @auth
                     @if (Auth::user()->usertype === 'admin')

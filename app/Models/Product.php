@@ -18,6 +18,11 @@ class Product extends Model
         'price',
         'stock',
         'image',
+        'cat_id',
+        'sugar',
+        'type_id',
+        'espresso_id',
+
     ];
 
 }

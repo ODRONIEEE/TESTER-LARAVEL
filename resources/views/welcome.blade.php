@@ -9,7 +9,7 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/favicon.png" rel="icon" type="image">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -29,7 +29,8 @@
     <link href="{{url('assets/css/drinks_menu.css')}}" rel="stylesheet">
     <link href="{{url('assets/css/menu_landing.css')}}" rel="stylesheet">
   <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.8.0/css/all.min.css" rel="stylesheet">
+
 
 </head>
 
@@ -39,7 +40,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
         <a href="{{route('welcome')}}" class="logo d-flex align-items-center me-auto">
-          <img src="assets/img/logo/logo.png" alt="">
+          <img src="assets/img/logo/logo2.png" alt="">
         </a>
         @auth
         @if (Auth::user()->usertype === 'admin')

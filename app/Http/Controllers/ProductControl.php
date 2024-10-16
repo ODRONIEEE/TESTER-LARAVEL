@@ -36,7 +36,11 @@ class ProductControl extends Controller
         'description' => 'required|string',
         'price' => 'required|numeric', // Allow decimal prices
         'stock' => 'required|integer',
-        'image' => 'required|image',
+        'image' => 'required|image|max:10000',
+        'cat_id' => 'integer',
+        'espresso_id' => 'integer',
+        'type_id' => 'integer',
+        'sugar_id' => 'integer',
     ]);
 
     // Generate Product Code
@@ -48,13 +52,12 @@ class ProductControl extends Controller
     ]);
 
     $filePath = public_path('uploads');
-    if ($request->hasfile('image')) {
-            $file = $request->file('image');
-            $file_name = time() . '-' . $file->getClientOriginalName();
-
-            $file->move($filePath, $file_name);
-            $fields['image'] = $file_name;
-        }
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $file_name = time() . '_' . $file->getClientOriginalName(); // Unique filename
+        $file->move($filePath, $file_name);
+        $fields['image'] = $file_name; // Save with 'image' key
+    }
     $fields['product_code'] = $product_code;
 
 
@@ -80,6 +83,7 @@ class ProductControl extends Controller
      */
     public function show(Request $request)
     {
+        $products = Product::paginate(2);
         $products = Product::latest('id')->get();
         return view('admin.product_info', compact('products'));
     }
@@ -103,8 +107,9 @@ class ProductControl extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(product $product)
     {
-        //
+        $product->delete();
+        return view('admin.product_info')->with('success', 'Product deleted successfully');
     }
 }

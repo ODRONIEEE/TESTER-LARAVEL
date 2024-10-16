@@ -94,7 +94,8 @@
                             <th scope="col" class="text-center">Product Name</th>
                             <th scope="col" class="text-center">Description</th>
                             <th scope="col" class="text-center">Price</th>
-                            <th scope="col" class="text-center">Quantity</th>
+                            <th scope="col" class="text-center">Stock</th>
+                            <th scope="col" class="text-center">Photo</th>
                             <th scope="col" class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -107,14 +108,23 @@
                         <td>{{ $row->description }}</td>
                         <td>{{ $row->price }}</td>
                         <td>{{ $row->stock }}</td>
-                        <td>{{ $row->photo }}</td>
+                        <td>
+                            <div class="showPhoto">
+                                <div id="imagePreview" style="@if ($row->image) background-image: url('{{ asset('uploads/' . $row->image) }}'); @else background-image: url('{{ asset('assets/img/icon/Profile.png') }}'); @endif;">
+                                </div>
+                            </div>
+                        </td>
+
+
                         <td class="text-center">
                             <div class="action-buttons">
-                                <button class="btn btn-brown " style="background-color: #e2e2e2;">Edit
-                                    Product</button>
-                                <button class="btn btn-gray" style="background-color: #b86143;">Remove
-                                    Product</button>
-                            </div>
+                                <button class="btn btn-brown " style="background-color: #e2e2e2;">Edit Product</button>
+                                <form action="" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-brown " style="background-color: #e2e2e2;">Remove Product</button>
+                                </div>
+                                </form>
                         </td>
                         @empty
                         <tr>
@@ -126,6 +136,7 @@
 
                     </tbody>
                 </table>
+                {{-- {{$products->links()}} --}}
             </div>
         </div>
 
@@ -249,6 +260,27 @@
     }
 
 </script>
+<style>
+.showPhoto {
+    width: 150px; /* Set a smaller fixed width for the circle */
+    height: 150px; /* Set a smaller fixed height for the circle */
+    margin: auto; /* Center the circle horizontally */
+}
+
+.showPhoto > div {
+    width: 100%; /* Full width of the parent */
+    height: 100%; /* Full height of the parent */
+    border-radius: 50%; /* Makes it circular */
+    background-size: cover; /* Cover the entire div */
+    background-repeat: no-repeat; /* No repeating of the background */
+    background-position: center; /* Center the image */
+    border: 2px solid #ccc; /* Optional: Add a border for better visibility */
+}
+
+
+
+
+</style>
 </body>
 
 </html>

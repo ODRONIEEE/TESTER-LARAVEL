@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->id();
+            $table->integer('cat_id')->nullable();
+            $table->integer('type_id')->nullable();
+            $table->integer('sugar_id')->nullable();
+            $table->integer('espresso_id')->nullable();
             $table->string('product_code'); //Unique code for product identifier <!-- Custom -->
             $table->string('name');
             $table->text('description')->nullable();
@@ -20,6 +24,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('image')->nullable();
             $table->timestamps();
+
         });
     }
 

@@ -29,7 +29,6 @@ require __DIR__.'/auth.php';
 
 
 //User Routes
-
 Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::get('welcome',[UserControl::class, 'welcome'])->name('welcome');
     Route::get('dashboard',[UserControl::class, 'home'])->name('dashboard');
@@ -54,10 +53,12 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
 
 });
 
+//Product Control routes
 Route::middleware(['auth', 'AdminMiddleware'])->group(function () {
     Route::get('/admin/add', [ProductControl::class, 'create'])->name('admin.add');
     Route::post('/admin/add', [ProductControl::class, 'store'])->name('admin.store');
     Route::get('/admin/product_info', [ProductControl::class, 'show'])->name('admin.product_info');
+    Route::delete('/admin/product_info', [ProductControl::class, 'destroy'])->name('admin.product_info');
 
 });
 
