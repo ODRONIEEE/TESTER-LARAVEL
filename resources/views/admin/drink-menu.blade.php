@@ -123,7 +123,7 @@
         <div class="menu-container ">
             <nav class="category-menu d-flex justify-content-around align-items-center flex-wrap mb-3">s
                 <a class="custom-category-btn" href="{{ url()->previous() }}">Back</a>
-                <button class="custom-category-btn" onclick="showCategory('coffee')">Coffee</button>
+                <button type="submit" class="custom-category-btn" onclick="showCategory('coffee')">Coffee</button>
                 <button class="custom-category-btn" onclick="showCategory('non-coffee')">Non-Coffee</button>
                 <button class="custom-category-btn" onclick="showCategory('refreshers')">Refreshers</button>
                 <button class="custom-category-btn" onclick="showCategory('tea')">Tea</button>

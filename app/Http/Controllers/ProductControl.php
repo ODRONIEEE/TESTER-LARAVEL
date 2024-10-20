@@ -36,7 +36,7 @@ class ProductControl extends Controller
         'description' => 'required|string',
         'price' => 'required|numeric', // Allow decimal prices
         'stock' => 'required|integer',
-        'image' => 'required|image|max:10000',
+        'image' => 'required|image|max:10240',
         'cat_id' => 'integer',
         'espresso_id' => 'integer',
         'type_id' => 'integer',
@@ -81,11 +81,10 @@ class ProductControl extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show($type)
     {
-        $products = Product::paginate(2);
-        $products = Product::latest('id')->get();
-        return view('admin.product_info', compact('products'));
+        $products = Product::where('type_id', $type)->get();
+        return view('admin.product_info', compact('products', 'type'));
     }
 
     /**

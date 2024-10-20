@@ -107,32 +107,31 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="menu-options">
-                        <a href="{{route('admin.product_info')}}" class="menu-system ">
+                        <a href="{{ route('admin.product_info', ['type' => 1]) }}" class="menu-system">
                             <span>Coffee</span>
                         </a>
-                        <a href="{{route('admin.product_info')}}" class="menu-system ">
+                        <a href="{{ route('admin.product_info', ['type' => 2]) }}" class="menu-system">
                             <span>Non Coffee</span>
                         </a>
-                        <a href="{{route('admin.product_info')}}" class="menu-system ">
+                        <a href="{{ route('admin.product_info', ['type' => 3]) }}" class="menu-system">
                             <span>Refreshers</span>
                         </a>
-                        <a href="{{route('admin.product_info')}}" class="menu-system ">
+                        <a href="{{ route('admin.product_info', ['type' => 4]) }}" class="menu-system">
                             <span>Tea</span>
                         </a>
-                        <a href="{{route('admin.product_info')}}" class="menu-system ">
+                        <a href="{{ route('admin.product_info', ['type' => 5]) }}" class="menu-system">
                             <span>Pastries</span>
                         </a>
-                        <a href="{{route('admin.product_info')}}" class="menu-system ">
+                        <a href="{{ route('admin.product_info', ['type' => 6]) }}" class="menu-system">
                             <span>Rice Meal</span>
                         </a>
-                        <a href="{{route('admin.product_info')}}" class="menu-system ">
+                        <a href="{{ route('admin.product_info', ['type' => 7]) }}" class="menu-system">
                             <span>Appetizer</span>
                         </a>
-                        <a href="{{route('admin.product_info')}}" class="menu-system ">
+                        <a href="{{ route('admin.product_info', ['type' => 8]) }}" class="menu-system">
                             <span>Burger</span>
                         </a>
                     </div>
-
                 </div>
             </div>
     </section>

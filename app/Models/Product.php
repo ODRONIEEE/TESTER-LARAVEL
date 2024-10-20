@@ -19,9 +19,9 @@ class Product extends Model
         'stock',
         'image',
         'cat_id',
-        'sugar',
-        'type_id',
         'espresso_id',
+        'type_id',
+        'sugar_id',
 
     ];
 

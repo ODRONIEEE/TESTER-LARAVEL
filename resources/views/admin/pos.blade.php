@@ -30,10 +30,10 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="menu-options">
-                        <a href="{{route('admin.drink-menu')}}" class="menu-option drinks">
+                        <a href="{{route('admin.drink-menu',['category' => 1])}}" class="menu-option drinks">
                             <span>DRINKS</span>
                         </a>
-                        <a href="{{route('admin.food-menu')}}" class="menu-option foods">
+                        <a href="{{route('admin.food-menu',['category' => 2])}}" class="menu-option foods">
                             <span>FOODS</span>
                         </a>
                     </div>

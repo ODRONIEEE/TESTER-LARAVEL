@@ -4,7 +4,7 @@
 
 let shots = 1;
 let quantity = 1;
-let pricePerItem = 100; 
+let pricePerItem = 100;
 let totalPrice = 100;
 
 // Redirect functions
@@ -39,42 +39,46 @@ function calculateTotal() {
 }
 
 // Show menu categories
-function showCategory(category) {
-    const menuItems = {
-        'coffee': ['Americano', 'Cafe Latte', 'Mocha', 'White Chocolate', 'Salted Caramel', 'Caramel Macchiato', 'Butter Scotch', 'Cafe Con Leche', 'Dirty Green Matcha'],
-        'non-coffee': ['Strawberry Latte', 'Chocolate Latte', 'Matcha Latte', 'Chocolate Strawberry Latte', 'Matcha Chocolate', 'Sea Salt Matcha'],
-        'refreshers': ['Green Apple', 'Lychee', 'Kiwi', 'Passion Fruit', 'Pink Blossom'],
-        'tea': ['Blue Citron', 'Blue Honey', 'Black Tea']
-    };
-
+async function showCategory(category) {
     // Hide both sections initially
     document.getElementById("coffee-non").style.display = "none";
     document.getElementById("refreshers-non").style.display = "none";
 
-    // Clear and populate menu items based on the category
     let itemsDiv;
-    
     if (category === 'coffee' || category === 'non-coffee') {
-        document.getElementById("coffee-non").style.display = "";
-        itemsDiv = document.getElementById("menu-items-coffee");
+      document.getElementById("coffee-non").style.display = "";
+      itemsDiv = document.getElementById("menu-items-coffee");
     } else if (category === 'refreshers' || category === 'tea') {
-        document.getElementById("refreshers-non").style.display = "";
-        itemsDiv = document.getElementById("menu-items-refreshers");
+      document.getElementById("refreshers-non").style.display = "";
+      itemsDiv = document.getElementById("menu-items-refreshers");
     }
 
     // Clear previous items
     itemsDiv.innerHTML = "";
 
-    // Populate menu items
-    menuItems[category].forEach(item => {
-        let button = document.createElement("button");
-        button.innerText = item;
-        button.onclick = () => loadProduct(item);
-        itemsDiv.appendChild(button);
-    });
+    // Fetch items from the API
+    try {
+      const response = await fetch(`/api/menu/${category}`);
+      console.log(response);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const menuItems = await response.json();
 
-    itemsDiv.style.display = 'flex'; // Show the items
-}
+      // Populate menu items
+      menuItems.forEach(item => {
+        let button = document.createElement("button");
+        button.innerText = item; // Use the item name directly since it’s a string
+        button.onclick = () => loadProduct(item); // Modify as needed for your loadProduct function
+        itemsDiv.appendChild(button);
+      });
+      itemsDiv.style.display = 'flex'; // Show the items
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+
+  }
+
 
 
 function showCategoryFood(category) {
@@ -92,7 +96,7 @@ function showCategoryFood(category) {
 
     // Clear and populate menu items based on the category
     let     itemsDiv = document.getElementById("menu-items-food");
-    
+
 
     // Clear previous items
     itemsDiv.innerHTML = "";
@@ -121,7 +125,7 @@ function showOrder(category) {
 
     // Clear and populate menu items based on the category
     let itemsDiv = document.getElementById("menu-items-order");
-    
+
     // Clear previous items
     itemsDiv.innerHTML = "";
 
@@ -175,7 +179,7 @@ buttons.forEach(button => {
     button.addEventListener('click', function() {
         // Remove the 'clicked' class from all buttons (optional if you want only one button to stay clicked)
         buttons.forEach(btn => btn.classList.remove('clicked'));
-        
+
         // Add the 'clicked' class to the clicked button
         this.classList.add('clicked');
     });

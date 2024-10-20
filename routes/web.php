@@ -30,8 +30,7 @@ require __DIR__.'/auth.php';
 
 //User Routes
 Route::middleware(['auth','UserMiddleware'])->group(function(){
-    Route::get('welcome',[UserControl::class, 'welcome'])->name('welcome');
-    Route::get('dashboard',[UserControl::class, 'home'])->name('dashboard');
+    Route::get('welcome',[UserControl::class, 'home'])->name('welcome');
     Route::get('menu',[UserControl::class, 'menu'])->name('menu');
     Route::get('cart',[UserControl::class, 'cart'])->name('cart');
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
@@ -45,10 +44,14 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('welcome',[AdminControl::class, 'welcome'])->name('welcome');
     Route::get('/admin/dashboard',[AdminControl::class, 'home'])->name('admin.dashboard');
     Route::get('/admin/product',[AdminControl::class, 'product'])->name('admin.product');
-    Route::get('/admin/pos',[AdminControl::class, 'pos'])->name('admin.pos');
+    Route::get('/admin/pos/{category}',[AdminControl::class, 'pos'])->name('admin.pos');
+
+    Route::get('/admin/pos',[AdminControl::class, 'test'])->name('admin.test');
     Route::get('/admin/sales',[AdminControl::class, 'sales'])->name('admin.sales');
-    Route::get('/admin/drink-menu',[AdminControl::class, 'drink'])->name('admin.drink-menu');
-    Route::get('/admin/food-menu',[AdminControl::class, 'food'])->name('admin.food-menu');
+
+    Route::get('/admin/drink-menu/{category}',[AdminControl::class, 'drink'])->name('admin.drink-menu');
+    Route::get('/admin/food-menu/{category}',[AdminControl::class, 'food'])->name('admin.food-menu');
+
     Route::get('/admin/orders',[AdminControl::class, 'orders'])->name('admin.orders');
 
 });
@@ -57,8 +60,6 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
 Route::middleware(['auth', 'AdminMiddleware'])->group(function () {
     Route::get('/admin/add', [ProductControl::class, 'create'])->name('admin.add');
     Route::post('/admin/add', [ProductControl::class, 'store'])->name('admin.store');
-    Route::get('/admin/product_info', [ProductControl::class, 'show'])->name('admin.product_info');
-    Route::delete('/admin/product_info', [ProductControl::class, 'destroy'])->name('admin.product_info');
-
+    Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
 });
 

@@ -166,7 +166,7 @@
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column"
                                     id="sugar-dropdown" style="display:none !important;">
                                     <label class="me-2 w-25 w-md-100">Sugar</label>
-                                    <select class="form-control w-100 custom-input" id="espresso" name="sugar_id">
+                                    <select class="form-control w-100 custom-input" id="sugar" name="sugar_id">
                                         <option value=0>Select Sugar Level</option>
                                         <option value=1>Sweet</option>
                                         <option value=2>Regular</option>

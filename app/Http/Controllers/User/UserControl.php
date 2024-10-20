@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 class UserControl extends Controller
 {
     public function home(){
-        return view('dashboard');
+        return view('welcome');
     }
     public function menu(){
 
@@ -19,9 +19,6 @@ class UserControl extends Controller
     }
     public function cart(){
         return view('cart');
-    }
-    public function welcome(){
-        return view('welcome');
     }
     public function history(){
         return view('Order_history');
