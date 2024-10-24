@@ -30,7 +30,7 @@ require __DIR__.'/auth.php';
 
 //User Routes
 Route::middleware(['auth','UserMiddleware'])->group(function(){
-    Route::get('welcome',[UserControl::class, 'home'])->name('welcome');
+    Route::get('dashboard',[UserControl::class, 'home'])->name('dashboard');
     Route::get('menu',[UserControl::class, 'menu'])->name('menu');
     Route::get('cart',[UserControl::class, 'cart'])->name('cart');
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
@@ -61,5 +61,7 @@ Route::middleware(['auth', 'AdminMiddleware'])->group(function () {
     Route::get('/admin/add', [ProductControl::class, 'create'])->name('admin.add');
     Route::post('/admin/add', [ProductControl::class, 'store'])->name('admin.store');
     Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
+    Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
+
 });
 

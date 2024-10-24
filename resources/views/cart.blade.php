@@ -39,7 +39,7 @@
     @if (Route::has('login'))
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
-        <a href="{{route('dashboard')}}" class="logo d-flex align-items-center me-auto">
+        <a href="{{route('welcome')}}" class="logo d-flex align-items-center me-auto">
           <img src="assets/img/logo/logo.png" alt="">
         </a>
         @auth
@@ -84,9 +84,9 @@
           <li class="nav-item cafe-center">
             <h1 class="cafe-name">archive <span>cafe</span></h1>
           </li>
-          <li><a href="{{route('dashboard')}}">Cafe</a></li>
+          <li><a href="{{route('welcome')}}">Cafe</a></li>
           <li><a href="{{route('menu')}}">Menu</a></li>
-          <li><a href="{{route('dashboard')}}">Meet The Team</a></li>
+          <li><a href="{{route('welcome')}}">Meet The Team</a></li>
           <li class="nav-item d-none d-md-block">
             <span class="navbar-divider"></span>
           </li>

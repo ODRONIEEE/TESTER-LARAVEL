@@ -95,10 +95,10 @@
                 <span class="navbar-divider"></span>
               </li>
               <!-- CART LOGO -->
-              <li class="dropdown">
-                <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
-                  <i class="fa-solid fa-cart-shopping"></i>
-                </button>
+              <li>
+                <a href="{{ route('cart') }}" class="btn-icon-only">
+                  <img src="{{ asset('assets/img/cart.png') }}" alt="Cart" height="30" width="30">
+                </a>
               </li>
               <!-- USER LOGO -->
               <li class="dropdown">
@@ -159,40 +159,39 @@
 
       <main class="main">
 
-        <!-- Hero Section -->
         <section id="hero" class="hero section light-background">
-
-            <div class="container">
-              <div class="row gy-4">
-                <!-- Text content section -->
-                <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
-                  <h1>Archive Cafe</h1>
-                  <p>“Brewing Timeless Moments”</p>
-                  <div class="d-flex">
-                    <a href="#menu" class="btn-get-started">Hot Drinks!</a>
-                  </div>
-                </div>
-
-                <!-- Image section -->
-                <div class="col-lg-6 order-1 order-lg-2 hero-img position-relative" data-aos="zoom-out" data-aos-delay="200">
-                  <img src="{{asset('assets/img/cold cafe latte.png')}}" class="img-fluid cold-latte" alt="Cold Latte">
-                  <img src="{{asset('assets/img/hot cafe latte.png')}}" class="img-fluid hot-latte" alt="Hot Latte">
-                  <img src="{{asset('assets/img/products/splash-removebg-preview.png')}}" class="img-fluid splash" alt="Splash">
+          <div class="container ">
+            <div class="row gy-4">
+              <!-- Text content section -->
+              <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start"
+                style="margin-bottom: 34px;" data-aos="zoom-out">
+                <h1>Archive Cafe</h1>
+                <p>“Brewing Timeless Moments”</p>
+                <div class="d-flex justify-content-center justify-content-lg-start">
+                  <a href="#menu" class="btn-get-started">Order Now</a>
                 </div>
               </div>
 
+              <!-- Image section -->
+              <div class="col-lg-6  order-1 order-lg-2">
+                <img src="assets/img/coffee.png" class="img-fluid cold-latte" alt="Cold Latte">
+              </div>
             </div>
-            <div class="custom-shape-divider-bottom-1727186153">
-              <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path
-                  d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-                  class="shape-fill"></path>
-              </svg>
-            </div>
-          </section><!-- /Hero Section -->
+          </div>
+
+          <!-- SVG shape divider -->
+          <div class="custom-shape-divider-bottom-1727186153">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path
+                d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+                class="shape-fill"></path>
+            </svg>
+          </div>
+        </section>
 
 
-          <section id="menu" class="about section ">
+
+        <section id="menu" class="about section ">
           <!-- Section Title -->
           <div class="container section-title" data-aos="fade-up">
             <h2>Try Our Best Selling!</h2>
@@ -245,7 +244,7 @@
                     <div class="swiper-slide ">
                       <h2 class="text-center">Hot Americano</h2>
                       <div class=" card card-slider">
-                        <img src="{{asset('assets/img/hot cafe latte.png')}}" class=" img-fluid" alt="">
+                        <img src="assets/img/products/hot caffe late.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
@@ -253,14 +252,14 @@
                     <div class="swiper-slide ">
                       <h2 class="text-center">Refresher Green Apple</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/refresher green apple.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
                     <div class="swiper-slide ">
                       <h2 class="text-center">Refresher kiwi</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/refresher kiwi.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
@@ -268,7 +267,7 @@
                     <div class="swiper-slide ">
                       <h2 class="text-center">Cold Americano</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/cold cafe latte.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
@@ -276,22 +275,27 @@
                     <div class="swiper-slide ">
                       <h2 class="text-center">Refreshers Passion Fruit</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/refreshers passion fruit.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
                     <div class="swiper-slide ">
                       <h2 class="text-center">Refresher Lychee</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/Refresher lychee.png" class=" img-fluid" alt="">
                       </div>
                     </div>
+
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
+
+
 
         <!-- Team Section -->
         <section id="cafe" class="team  section">
@@ -300,15 +304,14 @@
           <div class="container section-title" data-aos="fade-up">
             <h2>How do we make our coffee?</h2>
 
-          </div>
-          <!-- End Section Title -->
+          </div><!-- End Section Title -->
 
           <div class="container">
 
             <div class="row gy-4">
 
 
-              <div class="col-lg-4" data-aos="fade-up" data-aos-delay="10">
+              <div class="col-lg-4" >
                 <div class="team-member cafe d-flex align-items-start flex-column">
                   <p>A filipino inspired cafe that serves home made pasta and home blend drinks that compliments in every way</p>
 
@@ -316,15 +319,16 @@
 
                   <p>It depicts how you can sit back, enoy a sip of cup creating memories whilst reminiscing past memories</p>
 
+
                   <p>Making yourself at home because that is what every filipino household holds.</p>
                 </div>
               </div>
 
 
-              <div class="col-lg-8" data-aos="fade-up" data-aos-delay="400">
+              <div class="col-lg-8">
                 <div class="team-member d-flex align-items-start">
-                  <video controls autoplay loop muted width="700">
-                    <source src="{{asset('assets/video/Archive Cafe - Video.mp4')}}" type="video/mp4">
+                  <video controls autoplay loop muted width="800">
+                    <source src="assets/video/Archive Cafe - Video.mp4" type="video/mp4">
                   </video>
                 </div>
               </div>
@@ -332,93 +336,92 @@
             </div>
 
           </div>
-
-        </section>
-
+        </section><!-- /Team Section -->
 
 
-     <!-- Team Section -->
-    <section id="team" class="team section">
+        <!-- Team Section -->
+        <section id="team" class="team section">
 
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-          <h2>Meet the Team</h2>
-          <p>Behind the scnes</p>
-        </div><!-- End Section Title -->
+          <!-- Section Title -->
+          <div class="container section-title" data-aos="fade-down">
+            <h2>Meet the Team</h2>
+            <p>Behind the scnes</p>
+          </div><!-- End Section Title -->
 
-        <div class="container">
+          <div class="container" >
 
-          <div class="row gy-4">
+            <div class="row gy-4">
 
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-              <div class="team-member d-flex align-items-start">
-                <div class="pic"><img src="assets/img/team/me.png" class="img-fluid" alt=""></div>
-                <div class="member-info">
-                  <h4>Quinn Vladimir Odron</h4>
-                  <span>Project Manager</span>
+              <div class="col-lg-6" >
+                <div class="team-member d-flex align-items-start" >
+                  <div class="pic"><img src="assets/img/team/me.png" class="img-fluid" alt=""></div>
+                  <div class="member-info">
+                    <h4>Quinn Vladimir Odron</h4>
+                    <span>Project Manager</span>
 
-                  <div class="social">
+                    <div class="social">
 
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
+                      <a href=""><i class="bi bi-facebook"></i></a>
+                      <a href=""><i class="bi bi-instagram"></i></a>
 
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div><!-- End Team Member -->
+              </div><!-- End Team Member -->
 
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-              <div class="team-member d-flex align-items-start">
-                <div class="pic"><img src="assets/img/team/Christian Jay Demetria.jpg" class="img-fluid" alt=""></div>
-                <div class="member-info">
-                  <h4>Christian Jay Demetria</h4>
-                  <span>Senior Developer</span>
+              <div class="col-lg-6" >
+                <div class="team-member d-flex align-items-start">
+                  <div class="pic"><img src="assets/img/team/Christian Jay Demetria.jpg" class="img-fluid" alt=""></div>
+                  <div class="member-info">
+                    <h4>Christian Jay Demetria</h4>
+                    <span>Senior Developer</span>
 
-                  <div class="social">
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <div class="social">
+                      <a href=""><i class="bi bi-facebook"></i></a>
+                      <a href=""><i class="bi bi-instagram"></i></a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div><!-- End Team Member -->
+              </div><!-- End Team Member -->
 
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-              <div class="team-member d-flex align-items-start">
-                <div class="pic"><img src="assets/img/team/Andrei Lopez.jpg" class="img-fluid" alt=""></div>
-                <div class="member-info">
-                  <h4>Andrei Lopez</h4>
-                  <span>Frontend Developer</span>
+              <div class="col-lg-6" >
+                <div class="team-member d-flex align-items-start">
+                  <div class="pic"><img src="assets/img/team/Andrei Lopez.jpg" class="img-fluid" alt=""></div>
+                  <div class="member-info">
+                    <h4>Andrei Lopez</h4>
+                    <span>Frontend Developer</span>
 
-                  <div class="social">
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <div class="social">
+                      <a href=""><i class="bi bi-facebook"></i></a>
+                      <a href=""><i class="bi bi-instagram"></i></a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div><!-- End Team Member -->
+              </div><!-- End Team Member -->
 
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-              <div class="team-member d-flex align-items-start">
-                <div class="pic"><img src="assets/img/team/Harold Pineda.jpg" class="img-fluid" alt=""></div>
-                <div class="member-info">
-                  <h4>Harold Pineda</h4>
-                  <span>Frontend Developer</span>
+              <div class="col-lg-6" >
+                <div class="team-member d-flex align-items-start">
+                  <div class="pic"><img src="assets/img/team/Harold Pineda.jpg" class="img-fluid" alt=""></div>
+                  <div class="member-info">
+                    <h4>Harold Pineda</h4>
+                    <span>Frontend Developer</span>
 
-                  <div class="social">
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <div class="social">
+                      <a href=""><i class="bi bi-facebook"></i></a>
+                      <a href=""><i class="bi bi-instagram"></i></a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div><!-- End Team Member -->
+              </div><!-- End Team Member -->
+
+            </div>
 
           </div>
 
-        </div>
-
-      </section><!-- /Team Section -->
+        </section><!-- /Team Section -->
 
       </main>
+
       <footer id="footer" class="footer dark-background">
         <div class="container footer-top">
           <div class="row gy-4">

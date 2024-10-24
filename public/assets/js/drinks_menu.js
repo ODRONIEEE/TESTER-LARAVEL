@@ -55,10 +55,10 @@ async function showCategory(category) {
 
     // Clear previous items
     itemsDiv.innerHTML = "";
-
+///api/menu/${category}
     // Fetch items from the API
     try {
-      const response = await fetch(`/api/menu/${category}`);
+      const response = await fetch({{ url('api/menu/${category}') }});
       console.log(response);
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -86,8 +86,8 @@ function showCategoryFood(category) {
         'pastry': ['Ny Style Biscoff', 'Oreo', 'NY Levain', 'Matcha'],
         'pasta': ['Chicken Alfredo', 'Chicken Pomodoro'],
         'rice':  ['Paella', 'Chicken Pops'],
-         'appetizers':  ['Nachos', 'French Fries', 'Parmesan Potato Chips'],
-          'burger':  ['Cheesy Burger', 'Classic Burger','Dynamite Burger','Chicken Popeyes']
+        'appetizers':  ['Nachos', 'French Fries', 'Parmesan Potato Chips'],
+        'burger':  ['Cheesy Burger', 'Classic Burger','Dynamite Burger','Chicken Popeyes']
     };
 
     // Hide both sections initially

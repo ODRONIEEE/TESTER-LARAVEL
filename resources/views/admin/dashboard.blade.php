@@ -117,7 +117,7 @@
 
 </main>
 
-<footer id="footer" class="footer-menu text-center">
+<footer id="footer" class="footer-product text-center">
     <h1>"brewing timeless moments"</h1>
 </footer>
 

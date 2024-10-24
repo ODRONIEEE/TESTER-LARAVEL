@@ -33,7 +33,7 @@
                         <x-nav-link href="{{ route('admin.product')}}" :active="request()->routeIs('admin.product')">
                             {{ __('Product') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('admin.pos')}}" :active="request()->routeIs('admin.pos')">
+                        <x-nav-link href="{{ route('admin.test')}}" :active="request()->routeIs('admin.test')">
                             {{ __('POS') }}
                         </x-nav-link>
                         {{-- <x-nav-link href="{{ route('admin.orders')}}" :active="request()->routeIs('admin.orders')">

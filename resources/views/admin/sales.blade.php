@@ -193,7 +193,7 @@
 
 </main>
 
-<footer id="footer" class="footer-menu background-dark text-center">
+<footer id="footer" class="footer-product background-dark text-center">
     <h1>"brewing timeless moments"</h1>
 </footer>
 

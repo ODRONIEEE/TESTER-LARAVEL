@@ -36,11 +36,11 @@ class ProductControl extends Controller
         'description' => 'required|string',
         'price' => 'required|numeric', // Allow decimal prices
         'stock' => 'required|integer',
-        'image' => 'required|image|max:10240',
+        'image' => 'required|image|max:102400',
         'cat_id' => 'integer',
-        'espresso_id' => 'integer',
+        'espresso_id' => 'integer|nullable',
         'type_id' => 'integer',
-        'sugar_id' => 'integer',
+        'sugar_id' => 'integer|nullable',
     ]);
 
     // Generate Product Code
@@ -108,7 +108,19 @@ class ProductControl extends Controller
      */
     public function destroy(product $product)
     {
+         // Delete the image file if it exists
+         if ($product->image) {
+            $imagePath = public_path('uploads/' . $product->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        // Delete the product
         $product->delete();
-        return view('admin.product_info')->with('success', 'Product deleted successfully');
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Product deleted successfully');
     }
+
 }

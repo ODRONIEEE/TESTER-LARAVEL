@@ -2335,3 +2335,35 @@
     width: 100%;
     height: auto;
   }
+
+
+
+/* Additional media queries for tablets */
+@media (max-width: 1024px) {
+    .d-md-none {
+      display: block;
+    }
+
+    .cafe-name {
+      font-size: 1.5em;
+    }
+
+    .nav-item.d-none.d-md-block {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1366px) {
+    .d-md-none {
+      display: block;
+    }
+
+    .cafe-name {
+      font-size: 1.5em;
+    }
+
+    .nav-item.d-none.d-md-block {
+      display: none;
+    }
+  }
+

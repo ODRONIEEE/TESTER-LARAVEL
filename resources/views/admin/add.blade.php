@@ -145,7 +145,7 @@
                                     <label class="me-2 w-25 w-md-100">Category</label>
                                     <select class="form-control w-100 custom-input" id="category" name="cat_id"
                                         onchange="updateProductType()">
-                                        <option value=0>Select Category</option>
+                                        <option value=>Select Category</option>
                                         <option value= 1 >Drinks</option>
                                         <option value= 2 >Food</option>
                                     </select>
@@ -156,7 +156,7 @@
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                     <label class="me-2 w-25 w-md-100">Type</label>
                                     <select class="form-control w-100 custom-input" id="type" name="type_id">
-                                        <option value=0>Select Type</option>
+                                        <option value=>Select Type</option>
                                             <option value=1>Drinks</option>
                                             <option value=2>Food</option>
                                     </select>
@@ -167,7 +167,7 @@
                                     id="sugar-dropdown" style="display:none !important;">
                                     <label class="me-2 w-25 w-md-100">Sugar</label>
                                     <select class="form-control w-100 custom-input" id="sugar" name="sugar_id">
-                                        <option value=0>Select Sugar Level</option>
+                                        <option value=>Select Sugar Level</option>
                                         <option value=1>Sweet</option>
                                         <option value=2>Regular</option>
                                         <option value=3>Mild</option>
@@ -179,7 +179,7 @@
                                     id="espresso-dropdown" style="display:none !important;">
                                     <label class="me-2 w-25 w-md-100">Espresso</label>
                                     <select class="form-control w-100 custom-input" id="espresso" name="espresso_id">
-                                        <option value=0>Select Espresso Level</option>
+                                        <option value=>Select Espresso Level</option>
                                         <option value=1>Strong</option>
                                         <option value=2>Regular</option>
                                         <option value=3>Mild</option>
@@ -280,7 +280,14 @@
             { id: 3, name: 'Refreshers' },
             { id: 4, name: 'Tea' }
         ];
-            var foodTypes = ['Pastries', 'Pasta', 'Rice Meal', 'Appetizer', 'Burger'];
+
+            var foodTypes = [
+            { id: 5, name: 'Appetizers' },
+            { id: 6, name: 'Pasta' },
+            { id: 7, name: 'Burger' },
+            { id: 8, name: 'Rice Meal' },
+            { id: 9, name: 'Pastries' },
+        ];
 
 
             // Hide both Sugar and Espresso dropdowns initially
