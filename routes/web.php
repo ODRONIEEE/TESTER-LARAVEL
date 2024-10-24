@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\AdminControl;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 route::get('terms', function(){return view('terms'); })->name('terms');
 route::get('privacy', function(){return view('privacy'); })->name('privacy');
 route::get('welcome', function(){return view('welcome'); })->name('welcome');
@@ -41,7 +41,6 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
 
 //Admin Routes
 Route::middleware(['auth','AdminMiddleware'])->group(function(){
-    Route::get('welcome',[AdminControl::class, 'welcome'])->name('welcome');
     Route::get('/admin/dashboard',[AdminControl::class, 'home'])->name('admin.dashboard');
     Route::get('/admin/product',[AdminControl::class, 'product'])->name('admin.product');
     Route::get('/admin/pos/{category}',[AdminControl::class, 'pos'])->name('admin.pos');

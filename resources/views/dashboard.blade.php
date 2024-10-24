@@ -83,7 +83,7 @@
                                     <li class="nav-item cafe-center">
                                         <h1 class="cafe-name">archive <span>cafe</span></h1>
                                     </li>
-                                    <li><a href="{{route('dashboard')}}">Cafe</a></li>
+                                    <li><a href="#cafe">Cafe</a></li>
                                     <li><a href="{{route('menu')}}">Menu</a></li>
                                     <li><a href="#team">Meet The Team</a></li>
                                     <li class="nav-item d-none d-md-block">
@@ -127,7 +127,7 @@
                                 <li class="nav-item cafe-center">
                                     <h1 class="cafe-name">archive <span>cafe</span></h1>
                                 </li>
-                                <li><a href="{{route('dashboard')}}">Cafe</a></li>
+                                <li><a href="#cafe">Cafe</a></li>
                                 <li><a href="{{route('login')}}">Menu</a></li>
                                 <li><a href="#team">Meet The Team</a></li>
                                 <li class="nav-item d-none d-md-block">

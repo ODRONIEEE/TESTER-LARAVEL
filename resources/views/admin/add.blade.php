@@ -194,8 +194,15 @@
                                 <!-- Upload Photo -->
                                 <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                     <label class="me-2 w-25 w-md-100">Upload Photo</label>
-                                    <input type="file" name="image" class="form-control w-100 custom-input" id="product-photo"
-                                        accept="image/*" onchange="previewPhoto()">
+                                    <div class="w-100">
+                                        <input type="file" name="image" class="form-control custom-input" id="product-photo"
+                                            accept="image/*" onchange="previewPhoto(this)">
+                                        <small class="text-color: bg-gray-900">Maximum file size: 100MB. Supported formats: JPG, PNG, GIF</small>
+                                        <div id="upload-error" class="text-danger" style="display: none;"></div>
+                                        <div class="progress mt-2" style="display: none;">
+                                            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Photo Preview -->
@@ -336,8 +343,71 @@
             }
         }
 
+    </script>
+    <script>
+        function previewPhoto(input) {
+            const file = input.files[0];
+            const preview = document.getElementById('photo-preview');
+            const errorDiv = document.getElementById('upload-error');
 
+            // Clear previous errors
+            errorDiv.style.display = 'none';
+            errorDiv.textContent = '';
 
+            if (file) {
+                // Check file type
+                if (!file.type.startsWith('image/')) {
+                    errorDiv.textContent = 'Please select an image file.';
+                    errorDiv.style.display = 'block';
+                    input.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.onerror = function() {
+                    errorDiv.textContent = 'Error reading file. Please try again.';
+                    errorDiv.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+            document.querySelector('form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const xhr = new XMLHttpRequest();
+                const progressBar = document.querySelector('.progress-bar');
+                const progress = document.querySelector('.progress');
+
+                progress.style.display = 'block';
+
+                xhr.upload.onprogress = function(e) {
+                    if (e.lengthComputable) {
+                        const percentage = (e.loaded / e.total) * 100;
+                        progressBar.style.width = percentage + '%';
+                        progressBar.textContent = Math.round(percentage) + '%';
+                    }
+                };
+
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        window.location.href = xhr.responseURL;
+                    } else {
+                        const errorDiv = document.getElementById('upload-error');
+                        errorDiv.textContent = 'Upload failed. Please try again.';
+                        errorDiv.style.display = 'block';
+                    }
+                };
+
+                xhr.open('POST', this.action, true);
+                xhr.send(formData);
+            });
 
     </script>
 </body>

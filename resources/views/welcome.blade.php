@@ -343,17 +343,17 @@
         <section id="team" class="team section">
 
           <!-- Section Title -->
-          <div class="container section-title" data-aos="fade-down">
+          <div class="container section-title" data-aos="fade-up">
             <h2>Meet the Team</h2>
             <p>Behind the scnes</p>
           </div><!-- End Section Title -->
 
-          <div class="container" >
+          <div class="container" data-aos="fade-up">
 
             <div class="row gy-4">
 
               <div class="col-lg-6" >
-                <div class="team-member d-flex align-items-start" >
+                <div class="team-member d-flex align-items-start" data-aos="fade-up">
                   <div class="pic"><img src="assets/img/team/me.png" class="img-fluid" alt=""></div>
                   <div class="member-info">
                     <h4>Quinn Vladimir Odron</h4>
