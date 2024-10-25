@@ -31,6 +31,8 @@
     <link href="{{asset('assets/css/menu_landing.css')}}" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.8.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8KA4jHQsc1osGZb8sdmFic2S1wIldw18AJzAf" crossorigin="anonymous">
+
 
 
 </head>
@@ -80,7 +82,7 @@
                   </li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-              </nav>
+            </nav>
 
             @elseif (Auth::user()->usertype === 'user')
           <nav id="navmenu" class="navmenu">
@@ -95,9 +97,9 @@
                 <span class="navbar-divider"></span>
               </li>
               <!-- CART LOGO -->
-              <li>
+              <li class="nav-item">
                 <a href="{{ route('cart') }}" class="btn-icon-only">
-                  <img src="{{ asset('assets/img/cart.png') }}" alt="Cart" height="30" width="30">
+                    CART
                 </a>
               </li>
               <!-- USER LOGO -->
@@ -241,7 +243,7 @@
 
                   <div class="swiper-wrapper align-items-center">
 
-                    <div class="swiper-slide ">
+                    <div class="swiper-slide">
                       <h2 class="text-center">Hot Americano</h2>
                       <div class=" card card-slider">
                         <img src="assets/img/products/hot caffe late.png" class=" img-fluid" alt="">

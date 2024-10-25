@@ -1,44 +1,3 @@
-
-
-
-
-let shots = 1;
-let quantity = 1;
-let pricePerItem = 100;
-let totalPrice = 100;
-
-// Redirect functions
-function redirectToLogo() {
-    window.location.href = "logo.html";
-}
-
-function redirectToProfile() {
-    window.location.href = "user-profile.html";
-}
-
-// Adjust shots
-function adjustShots(value) {
-    shots += value;
-    if (shots < 1) shots = 1;
-    document.getElementById("shots-count").innerText = shots;
-    calculateTotal();
-}
-
-// Adjust quantity
-function adjustQuantity(value) {
-    quantity += value;
-    if (quantity < 1) quantity = 1;
-    document.getElementById("quantity-count").innerText = quantity;
-    calculateTotal();
-}
-
-// Calculate total price
-function calculateTotal() {
-    totalPrice = pricePerItem * quantity;
-    document.getElementById("total-price").innerText = totalPrice.toFixed(2);
-}
-
-// Show menu categories
 async function showCategory(category) {
     // Hide both sections initially
     document.getElementById("coffee-non").style.display = "none";
@@ -78,6 +37,46 @@ async function showCategory(category) {
     }
 
   }
+
+
+
+let shots = 1;
+let quantity = 1;
+let pricePerItem = 100;
+let totalPrice = 100;
+
+// Redirect functions
+function redirectToLogo() {
+    window.location.href = "logo.html";
+}
+
+function redirectToProfile() {
+    window.location.href = "user-profile.html";
+}
+
+// Adjust shots
+function adjustShots(value) {
+    shots += value;
+    if (shots < 1) shots = 1;
+    document.getElementById("shots-count").innerText = shots;
+    calculateTotal();
+}
+
+// Adjust quantity
+function adjustQuantity(value) {
+    quantity += value;
+    if (quantity < 1) quantity = 1;
+    document.getElementById("quantity-count").innerText = quantity;
+    calculateTotal();
+}
+
+// Calculate total price
+function calculateTotal() {
+    totalPrice = pricePerItem * quantity;
+    document.getElementById("total-price").innerText = totalPrice.toFixed(2);
+}
+
+
 
 
 
