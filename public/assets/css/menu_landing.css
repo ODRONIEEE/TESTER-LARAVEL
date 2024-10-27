@@ -8,14 +8,14 @@
     text-transform: uppercase;
     letter-spacing: 5px;
     color: #ffffff;
-
+ 
 }
 
 
 
   .menu-options {
         display: flex;
-        flex-wrap: wrap;
+       
         justify-content: center;
         align-items: center;
         gap: 20px;
@@ -95,7 +95,7 @@
     background-color: #242424;
     height: 100%;
     padding: 10px;
-
+  
     margin: auto;
 }
 .footer-product h1 {
@@ -179,6 +179,11 @@
     .header-title {
         font-size: 1.4rem;
     }
+    .hero h1 {
+
+font-size: 5.5rem; 
+
+}
 }
 
 /* For large laptops and desktops */
@@ -200,11 +205,45 @@
         font-size: 1.5rem;
     }
 }
+@media (max-width: 640px) {
+  .hero h1 {
+    font-size: 5.5rem;
+  }
 
+}
+/* Media query for mobile view */
+@media (max-width: 768px) {
+    .menu-options {
+        flex-direction: column; /* Stack menu options */
+        gap: 15px;
+    }
 
+    .menu-option {
+        width: 200px; /* Reduce size for mobile */
+        height: 200px;
+        font-size: 1.8rem; /* Adjust font size */
+    }
 
+    /* Adjusting title size for smaller screens */
+    .menu-title {
+        font-size: 2rem;
+        margin: 10px 0;
+    }
+}
 
+/* Tablet view (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .menu-options {
+        justify-content: center;
+    }
 
+    .menu-option {
+        width: 250px;
+        height: 250px;
+    }
 
-
-
+    /* Adjust title for tablet view */
+    .menu-title {
+        font-size: 2.5rem;
+    }
+}

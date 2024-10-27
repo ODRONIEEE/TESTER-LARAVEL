@@ -2,28 +2,28 @@
 .menu-container {
 
     min-height: 94vh;
-
+   
      padding: 120px;
-       background-image: url('../img/background\ management.JPG');
-     background-size: cover;
+       background-image: url('../img/background\ management.JPG'); 
+     background-size: cover; 
      background-position: center top;
      background-repeat: no-repeat;
-     max-width: 100%;
-     height: auto;
+     max-width: 100%; 
+     height: auto; 
    }
    .login-container {
        position: relative;
        width: 100%;
        min-height: 94vh;
        padding: 140px;
-       background-image: url('../img/background management.JPG');
-       background-size: cover;
+       background-image: url('../img/background management.JPG'); 
+       background-size: cover; 
        background-position: center;
        background-repeat: no-repeat;
        height: auto;
        z-index: 1; /* Ensure the content is above the overlay */
    }
-
+   
    .login-container::before {
        content: "";
        position: absolute;
@@ -34,25 +34,25 @@
        background-color: rgba(0, 0, 0, 0.5); /* Black with 50% transparency */
        z-index: -1; /* Make sure this is behind the content */
    }
-
+   
    .menu-container-light{
    background-color: white !important;
     width: 100%;
     min-height: 94vh;
      padding: 120px;
-
-     height: auto;
+   
+     height: auto; 
    }
    .menu-container-light-details{
    background-color: white !important;
     width: 100%;
     min-height: 94vh;
      padding: 95px;
-     width: 100%;
-     height: auto;
+     width: 100%; 
+     height: auto; 
    }
    /* Styling specifically for divs inside .category-menu */
-   .category-box {
+   .category-box {   
        text-align: center;
        background-color: #a9734d;
        color: white;
@@ -64,9 +64,8 @@
        width: 200px;
        height: 200px;
    }
-
-
-   /* Styling specifically for buttons inside .category-menu */
+   
+   /* Styling for the buttons inside .category-menu */
    .category-menu button {
        padding: 10px 50px;
        background-color: #a9734d;
@@ -75,39 +74,51 @@
        border-radius: 5px;
        cursor: pointer;
        font-size: 1.2em;
-           height: 60px;
+       height: 60px;
+       margin: 5px; /* Add some margin for spacing between buttons */
+       flex: 1; /* Ensure buttons scale */
    }
-
-   /* Hover effect specifically for buttons */
+   
+   /* Hover effect for buttons */
    .category-menu button:hover {
        background-color: #f1c88e;
    }
+   
+   /* Active/clicked state for buttons */
    .category-menu button.clicked {
        background-color: #f1c88e;
    }
-   /* Styling specifically for links inside .category-menu */
+   
+   /* Styling for links inside .category-menu */
    .category-menu a {
-      padding: 15px 50px;
+       padding: 15px 50px;
        background-color: #f1c88e;
-         color: white;
+       color: white;
        border: none;
        border-radius: 5px;
        cursor: pointer;
        font-size: 1.2em;
-           height: 60px;
+       height: 60px;
+       margin: 5px; /* Add some margin for spacing */
+       display: inline-block;
+       text-align: center; /* Ensure centered text in links */
+       flex: 1; /* Ensure links scale similarly to buttons */
    }
+   
+   /* Styling for product buttons inside .category-menu-products */
    .category-menu-products button {
-        padding: 10px 30px;
+       padding: 10px 30px;
        background-color: #ededed;
        color: #737373;
        border: none;
        border-radius: 50px;
        cursor: pointer;
-       font-size: .9em;
+       font-size: 0.9em;
        height: 45px;
+       margin: 5px; /* Add spacing */
    }
-
-
+   
+   
    /* Hover effect specifically for buttons */
    .category-menu-products button:hover {
        background-color: #ed8705;
@@ -115,11 +126,11 @@
    .category-menu-products button.clicked {
        background-color: #ed8705;
    }
-
+   
    .ca
    /* Hover effect for .category-menu container (won't override specific elements) */
-
-
+   
+   
    /* Menu Content */
    .menu-content {
        display: flex;
@@ -127,7 +138,7 @@
        gap: 38px;
        width: 100%;
    }
-
+   
    .menu-items {
        display: flex;
        flex-direction: column;
@@ -140,7 +151,7 @@
            margin: 20px;
            color: white;
    }
-
+   
    .menu-items button {
        padding: 10px;
        background-color: #a9734d;
@@ -150,11 +161,11 @@
        cursor: pointer;
        font-size: 1em;
    }
-
+   
    .menu-items button:hover {
        background-color: #f1c88e;
    }
-
+   
    /* Product Customization */
    .product-details {
        background-color: #1f0d01b6;
@@ -166,8 +177,8 @@
        max-width: 75%;
        margin:20px;
    }
-
-
+   
+   
    .product-details h2 {
        text-align: center;
        margin-bottom: 10px;
@@ -175,19 +186,19 @@
        font-style: italic;
          color: white;
    }
-
+   
    .customization-options {
        display: flex;
        flex-direction: column;
        gap: 10px;
    }
-
+   
    .customization-options h3 {
        font-size: 23px;
        margin-bottom: 10px;
          color: white;
    }
-
+   
    .customization-options button {
        padding: 15px;
        margin-bottom: 15px;
@@ -198,19 +209,19 @@
        cursor: pointer;
        font-size: 15px;
    }
-
+   
    .customization-options button:hover {
        background-color: #f1c88e;
    }
-
+   
    .espresso-shots, .extras, .syrups {
        font-style: italic;
    }
-
+   
    .total-price {
        text-align: right;
    }
-
+   
    .place-order {
        width: 100%;
        padding: 15px;
@@ -228,59 +239,59 @@
        justify-content: space-evenly;
        align-items: stretch;
       }
-
+   
    /* Media Queries for Responsive Design */
    @media (max-width: 768px) {
        .category-menu button {
            padding: 10px 30px;
            font-size: 1em;
        }
-
+   
        .menu-content {
            flex-direction: column;
        }
-
+   
        .menu-items {
            max-width: 100%;
        }
-
+   
        .product-details {
            max-width: 100%;
        }
-
+   
        .product-details h2 {
            font-size: 30px;
        }
-
+   
        .customization-options h3 {
            font-size: 20px;
        }
-
+   
        .customization-options button {
            font-size: 14px;
        }
    }
-
+   
    @media (max-width: 480px) {
        .category-menu button {
            padding: 10px 20px;
            font-size: 0.9em;
        }
-
+   
        .product-details h2 {
            font-size: 25px;
        }
-
+   
        .customization-options h3 {
            font-size: 18px;
        }
-
+   
        .customization-options button {
            padding: 12px;
            font-size: 13px;
        }
    }
-
+   
    .product-img{
        height: auto;
        width: 30%;
@@ -288,24 +299,24 @@
        margin-right: auto;
        margin-top: 20px;
    }
-
+   
    .btn-order {
        background-color: #ed8705;
        border: none;
        border-radius: 50px;
        width: 100px;
    }
-
+   
    .btn-order:hover {
        background-color: black !important;
    }
-
+   
    .yellow-border{
        border-top: 2px solid #ed8705;
      width: 100%;
     margin-bottom: 10px;
    }
-
+   
    .product-divider{
        border-right: 2px solid black !important;
        height: 600px;
@@ -314,29 +325,37 @@
    }
    .btn-group-wrapper {
        display: flex;
-       justify-content: flex-end;
-       width: 100%;
+       justify-content: flex-end;    
+       width: 100%;                 
    }
-
+   
    .btn-group {
-       display: flex;
-     width: 50%;
+       display: flex;                
+     width: 50%;              
    }
-
+   
    .btn-group button {
-       flex: 1;
-       margin-right: 5px;
-       padding: 10px;
-       font-size: 16px;
-       border-radius: 5px;
+       flex: 1;                     
+       margin-right: 5px;        
+       padding: 10px;              
+       font-size: 16px;              
+       border-radius: 5px;          
    }
-
+   
    .btn-group button:last-child {
-       margin-right: 0;
+       margin-right: 0;            
    }
-
-
-
+   
+   @media (max-width: 767.98px) { /* Mobile view */
+       .btn-group-wrapper {
+           justify-content: center; /* Center-align buttons in mobile view */
+       }
+   
+       .btn-group {
+           width: 40%; /* Allow the button group to fit content */
+       }
+   }
+   
    .product-description {
        font-size: 1.3rem;
        line-height: 1.5;
@@ -345,7 +364,7 @@
        white-space: normal;
        word-wrap: break-word;
    }
-
+   
    /* For screens smaller than 1200px */
    @media (max-width: 1199px) {
        .product-description {
@@ -353,7 +372,7 @@
            text-align: right;
        }
    }
-
+   
    /* For screens smaller than 992px (tablets) */
    @media (max-width: 991px) {
        .product-description {
@@ -361,7 +380,7 @@
            text-align: center;  /* Centering the text on smaller screens */
        }
    }
-
+   
    /* For screens smaller than 768px (mobile) */
    @media (max-width: 767px) {
        .product-description {
@@ -370,7 +389,7 @@
            padding: 0 10px;     /* Add some padding for mobile devices */
        }
    }
-
+   
    /* For screens smaller than 576px (small mobile) */
    @media (max-width: 575px) {
        .product-description {
@@ -379,26 +398,26 @@
            padding: 0 15px;
        }
    }
-
+   
    .extras-section {
        font-size: 16px;
    }
-
+   
    .radio-options label {
        display: block;
        font-size: 14px;
        margin-bottom: 5px;
    }
-
+   
    input[type="radio"] {
        margin-right: 10px;
    }
-
+   
    .btn-warning {
        background-color: #ed8705;
        color: white;
    }
-
+   
    .btn-dark {
        background-color: #4e3628;
        color: white;
@@ -424,11 +443,11 @@
        flex-direction: column; /* Stack labels vertically */
        margin: 20px 0; /* Optional: Add some margin */
    }
-
+   
    .radio-options input[type="radio"] {
        display: none; /* Hide the default radio button */
    }
-
+   
    .radio-options label {
        position: relative;
        padding-left: 30px; /* Space for custom radio */
@@ -436,7 +455,7 @@
        font-size: 16px; /* Adjust font size as needed */
        color: black; /* Change to your desired color */
    }
-
+   
    /* Custom radio button */
    .radio-options label:before {
        content: "";
@@ -451,7 +470,7 @@
        background: white; /* Background of the outer circle */
        transition: background 0.2s, border 0.2s; /* Smooth transition */
    }
-
+   
    /* Change background and border when radio is checked */
    .radio-options input[type="radio"]:checked + div:before {
        background: orange; /* Inner circle color when checked */
@@ -469,49 +488,49 @@
    .input-group label{
    font-size: 1.8rem;
    }
-
-
+   
+   
       .custom-input {
-           background-color: #a9734d;
-           border: 1px solid #ccc;
-           padding: 10px;
-           border-radius: 4px;
+           background-color: #a9734d; 
+           border: 1px solid #ccc;   
+           padding: 10px;            
+           border-radius: 4px;      
            color: white;
        }
-
+   
        .custom-input:focus {
-           background-color: #a9734d;
-           border-color: #4e3628;
-           outline: none;
+           background-color: #a9734d; 
+           border-color: #4e3628;        
+           outline: none;            
        }
         /* Custom table with no background */
        .custom-table {
-           background-color: transparent;
-           color: white;
+           background-color: transparent; 
+           color: white;   
        }
-
+   
        /* Transparent background for table headers */
        .custom-table thead th {
            background-color: transparent; /* No background color for headers */
            color: white;                   /* Default text color for headers */
        }
-
+   
        /* Transparent background for table rows */
        .custom-table tbody tr {
            background-color: transparent; /* No background color for table rows */
-           color: white;
+           color: white;   
        }
-
+   
        .custom-table tbody td {
            background-color: transparent; /* No background color for table rows */
-           color: white;
+           color: white;   
        }
-
+   
        /* Transparent hover effect (or you can set a slight color) */
        .custom-table tbody tr:hover {
            background-color: transparent; /* No background color on hover */
        }
-
+   
        /* Styling for the container inside table cells */
        .table-container {
            background-color: #f4ae78;
@@ -522,30 +541,30 @@
            margin: 0;             /* No margin inside the cell */
            text-align: center;     /* Center-align text */
        }
-
+   
        /* Ensure the table is responsive */
        .table-responsive {
            overflow-x: auto;      /* Allows horizontal scrolling on small screens */
        }
-
+   
        /* Adjustments for small screens */
        @media (max-width: 768px) {
            .custom-table thead th {
                font-size: 12px;   /* Smaller font size for headers */
            }
-
+   
            .custom-table tbody td {
                font-size: 12px;   /* Smaller font size for table content */
            }
-
+   
            .table-container {
                padding: 3px 5px;  /* Reduce padding on smaller screens */
            }
        }
-
+   
            .action-buttons .btn {
-
-
+    
+   
            background-color: #f4ae78;
        width: 100%;
        border-radius: 50px;
@@ -555,19 +574,19 @@
        text-align: center;
        }
        .action-buttons .btn .btn-brown{
-
+       
               background-color: #b86143;
        }
-
-
+       
+   
        /* Ensure buttons stay aligned next to each other */
        .action-buttons {
            display: flex;
            justify-content: center;
            align-items: center;
-
+           
        }
-
+   
      .container-payment {
        background-color: #ed8705;
        text-align: center;
@@ -593,7 +612,7 @@
        padding: 20px;
        text-align: center;
        height: 120%;
-       margin-left: auto;
+       margin-left: auto; 
        margin-right: auto;
    }
    .container-mop h3{
@@ -610,8 +629,8 @@
        padding: 20px;
        text-align: center;
        height: 120%;
-
-
+   
+    
    }
    .container-otc h3{
        color: #ed8705;
@@ -619,7 +638,7 @@
        margin-top:30px;
        font-size: 2.8rem
    }
-
+   
    /* Each section styling */
    .cup-count-section, .meals-section {
      background-color: #1f0d01b6;
@@ -630,17 +649,17 @@
      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
      width: 35%;
    }
-
+   
    .cup-count-section button:hover{
      background-color: #d9a26e;
    }
-
+   
    .meals-section button:hover{
      background-color: #d9a26e;
    }
    .sales-section{
      background-color: #1f0d01b6;
-
+   
      margin: 10px;
      border-radius: 10px;
      text-align: center;
@@ -650,7 +669,7 @@
    .sales-section h1{
        color:white
    }
-
+   
    /* Div that organizes buttons and labels */
    .item {
      display: flex;
@@ -659,7 +678,7 @@
      width: 100%;
      margin-bottom: 15px;
    }
-
+   
    .item button {
      background-color: #a9734d;
      border: none;
@@ -670,7 +689,7 @@
      cursor: pointer;
      flex-grow: 1;
    }
-
+   
    .item span {
      margin-left: 10px;
      font-weight: bold;
@@ -679,14 +698,14 @@
      font-size: 35px;
      font-weight: bold;
    }
-
+   
    /* Make buttons and labels vertical */
    .buttons {
      display: flex;
      flex-direction: column;
      align-items: center;
    }
-
+   
    .total-sales span{
      background-color: #a9734d;
      border: none;
@@ -699,12 +718,12 @@
      margin-bottom: 10px;
      font-size: 20px;
    }
-
+   
    .total-sales p{
      font-size: 25px;
      font-weight: bold;
    }
-
+   
    .total-quantity span{
      background-color: #a9734d;
      border: none;
@@ -717,7 +736,7 @@
      margin-bottom: 10px;
      font-size: 20px;
    }
-
+   
    .total-quantity p{
      font-size: 25px;
      font-weight: bold;
@@ -729,7 +748,7 @@
      align-items: center;
      margin-top: 20px;
    }
-
+   
    .hot-cold-buttons button {
      background-color: #d5a87a;
      color: white;
@@ -752,8 +771,8 @@
        color: white;
        font-weight: 700;
    }
-
-
+   
+   
    .order-container{
          background-color: #3f2314;
        border-radius: 50px;
@@ -764,27 +783,27 @@
    .order-container p{
        color: white;
        font-size: 1.8rem;
-
+   
    }
    .order-container h2{
        color: #ed8705;
        font-size: 3rem;
          margin-bottom: 100px;
-
+   
    }
    .order-container h3{
        color: #ed8705;
        font-size: 1.8rem;
        font-style: italic;
-
+       
          margin-bottom: 100px;
-
-
+     
+   
    }
    .order-container a{
        color: #ed8705;
        font-size: 1.8rem;
-
+    
        border-bottom: solid 2px #ed8705;
          margin-bottom: 100px;
    }
@@ -800,14 +819,14 @@
        justify-content: space-around;
        align-items: center;
    }
-
+   
    .btn-container {
        display: flex;
        align-items: center;
        justify-content: center;
        gap: 10px; /* Add spacing between buttons and count */
    }
-
+   
    .custom-btn {
        background-color: transparent; /* No background */
        border: none;
@@ -816,24 +835,24 @@
        cursor: pointer;
        border-radius: 5px;
    }
-
+   
    .minus-btn {
        color: red; /* Red color for minus button */
    }
-
+   
    .plus-btn {
        color: white; /* Default white color for plus button */
    }
-
+   
    .custom-btn i {
        font-size: 1.5em; /* Icon size */
    }
-
+   
    .custom-btn:active {
        transform: scale(0.95); /* Simple click effect */
    }
-
-
+   
+   
    .btn-dinein{
        background-color: #ed8705;
        width: 200px;
@@ -858,7 +877,7 @@
        color: #ed8705;
        font-weight: 700;
    }
-
+   
    .text-hero{
     color: white;
     text-align: center;
@@ -878,14 +897,14 @@
        width: 100%;
        margin-bottom: 20px;
    }
-
+   
    /* Placeholder text color */
    .login-input::placeholder {
        color: white; /* Make placeholder text white */
        opacity: 1; /* Ensure placeholder is fully opaque */
        font-size: 2em;
    }
-
+   
    .btn-login{
             background-color: #b86143;
        color: white;
@@ -902,21 +921,21 @@
        border: solid 2px;
        transition: transform 0.3s ease, box-shadow 0.3s ease;
    }
-
+   
    .card:hover {
-       transform: scale(1.05);
-       box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+       transform: scale(1.05); 
+       box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); 
    }
    .swap-right, .swap-left {
-       transition: transform 0.5s ease;
+       transition: transform 0.5s ease; 
    }
-
+   
    .swap-right {
-       transform: translateX(820px);
+       transform: translateX(820px); 
    }
-
+   
    .swap-left {
-       transform: translateX(-820px);
+       transform: translateX(-820px); 
    }
    .btn-dashboard {
        width: 100%;
@@ -924,27 +943,27 @@
        border-radius: 50px;
        border: solid 1px #3f2314;
        padding: 10px 20px;
-       margin: 20px;
+           margin: 20px 0;
        color: #ed8705;
        font-weight: 600;
        font-size: 1.5em;
        transition: background-color 0.3s, color 0.3s, border 0.3s;
    }
-
+   
    /* Retain color changes after button is clicked */
    .btn-dashboard.clicked {
        background-color: #ed8705;
        color: white;
        border: solid 1px #ed8705;
    }
-
+   
    .profile-view-input{
         width: 100%;
        background-color: #3f2314;
        border-radius: 50px;
        border: solid 1px #3f2314;
        padding: 10px 20px;
-       margin: 20px;
+         margin: 20px 0;
        color: white;
        font-weight: 600;
        font-size: 1.5em;
@@ -970,3 +989,527 @@
        width: 50%;
        font-weight: 700;
    }
+   /* Additional responsive improvements */
+   
+   /* For screens smaller than 992px */
+   @media (max-width: 992px) {
+       .menu-container, .login-container {
+           padding: 60px;
+           background-size: cover;
+       }
+   
+       .category-box {
+           font-size: 1.8em;
+           padding-top: 50px;
+           width: 150px;
+           height: 150px;
+       }
+   
+       .menu-items {
+           max-width: 100%;
+           margin: 10px 0;
+       }
+   
+       .product-details {
+           max-width: 100%;
+           margin: 10px 0;
+       }
+   
+       .product-description {
+           font-size: 1.1rem;
+       }
+       
+       .category-menu button, .category-menu a {
+           padding: 10px 30px;
+           font-size: 1em;
+       }
+   
+       .place-order {
+           font-size: 1em;
+       }
+   }
+   
+   /* For screens smaller than 768px */
+   @media (max-width: 768px) {
+       .menu-container, .login-container {
+           padding: 40px;
+           margin-top: 40px;
+       
+       }
+   
+       .category-box {
+           font-size: 1.5em;
+           padding-top: 40px;
+           width: 120px;
+           height: 120px;
+       }
+   
+       .category-menu button, .category-menu a {
+           padding: 10px 20px;
+           font-size: 0.9em;
+       }
+   
+       .customization-options h3 {
+           font-size: 18px;
+       }
+   
+       .place-order {
+           font-size: 0.9em;
+       }
+   
+       .product-details h2 {
+           font-size: 25px;
+       }
+   }
+   
+   /* For screens smaller than 480px */
+   @media (max-width: 480px) {
+       .menu-container, .login-container {
+           padding: 20px;
+       }
+   
+       .category-box {
+           font-size: 1.2em;
+           padding-top: 30px;
+           width: 100px;
+           height: 100px;
+       }
+   
+       .menu-items, .product-details {
+           padding: 10px;
+           margin: 10px 0;
+       }
+   
+       .product-description {
+           font-size: 0.9rem;
+       }
+   
+       .category-menu button, .category-menu a {
+           padding: 5px 15px;
+           font-size: 0.8em;
+       }
+   
+       .customization-options h3 {
+           font-size: 16px;
+       }
+   
+       .place-order {
+           font-size: 0.8em;
+       }
+   
+       .product-details h2 {
+           font-size: 20px;
+       }
+   }
+   @media (max-width: 768px) {
+        .category-menu {
+           flex-direction: column;
+           align-items: stretch; /* Make buttons full width */
+           padding: 0 10px;
+       }
+   
+         .category-menu button, .category-menu a {
+           width: 100%;
+           margin-bottom: 10px; /* Add space between buttons */
+       }
+       .menu-items, .product-details {
+           flex-direction: column;
+           align-items: center;
+           width: 100%;
+       }
+   
+       .menu-items {
+           margin-bottom: 20px;
+       }
+   
+       .product-details {
+           padding: 0 15px;
+       }
+   
+       .custom-btn {
+           width: 100%;
+           margin-bottom: 10px;
+       }
+   
+       .customization-options .row {
+           flex-direction: column;
+       }
+   
+       .customization-options .col-lg-6, 
+       .customization-options .col-md-6, 
+       .customization-options .col-sm-12 {
+           width: 100%;
+           text-align: center;
+           margin-bottom: 15px;
+       }
+   
+       #quantity-count, #shots-count {
+           display: inline-block;
+           margin: 0 10px;
+       }
+   
+       .total-price {
+           text-align: center;
+       }
+   }
+   @media (max-width: 1024px) {
+       .category-menu {
+           flex-direction: column;
+           align-items: stretch; /* Make buttons full width */
+           padding: 0 10px;
+       }
+   
+       .category-menu button, .category-menu a {
+           width: 100%;
+           margin-bottom: 10px; /* Add space between buttons */
+       }
+   
+       .menu-items, .product-details {
+           flex-direction: column;
+           align-items: center;
+           width: 100%;
+       }
+   
+       .menu-items {
+           margin-bottom: 20px;
+       }
+   
+       .product-details {
+           padding: 0 15px;
+       }
+   
+       .custom-btn {
+           width: 100%;
+           margin-bottom: 10px;
+       }
+   
+       .customization-options .row {
+           flex-direction: column;
+       }
+   
+       .customization-options .col-lg-6, 
+       .customization-options .col-md-6, 
+       .customization-options .col-sm-12 {
+           width: 100%;
+           text-align: center;
+           margin-bottom: 15px;
+       }
+   
+       #quantity-count, #shots-count {
+           display: inline-block;
+           margin: 0 10px;
+       }
+   
+       .total-price {
+           text-align: center;
+       }
+   }
+   /* Global media query for mobile and tablet devices */
+   @media (max-width: 768px) {
+       .menu-container, .login-container {
+           padding: 40px; /* Reduce padding for smaller screens */
+       }
+   
+       .menu-container-light, .menu-container-light-details {
+                padding : 60px 40px
+                
+       }
+   
+       .product-details h2, .customization-options h3 {
+           font-size: 1.5rem; /* Adjusted to be more readable on smaller screens */
+       }
+   
+       /* Buttons on mobile view should be full-width */
+       .category-menu button, .category-menu a {
+           width: 100%;
+           margin-bottom: 10px;
+       }
+   
+       .menu-items, .product-details {
+           flex-direction: column;
+           align-items: center;
+           width: 100%;
+       }
+   
+       /* Make containers adapt to small screen sizes */
+       .container-mop, .container-otc {
+           width: 100%;
+           padding: 15px;
+           height: auto; /* Set auto height for mobile */
+       }
+   
+       /* Dine-in buttons adjustments */
+       .btn-dinein, .btn-dineindark {
+           width: 100%; /* Full width on mobile */
+           margin-bottom: 15px;
+       }
+   
+       /* Product table adjustments */
+      .product-table {
+       display: flex;
+       flex-direction: row; /* Keep items in a row */
+       flex-wrap: nowrap; /* Prevent wrapping */
+       align-content: center;
+       justify-content: space-around;
+       align-items: center;
+       font-size: 0.8em; /* Reduce font size for the entire table */
+   }
+   
+   .product-table p, /* Targeting paragraph elements */
+   .product-table img { /* Targeting image elements */
+       font-size: inherit; /* Use the inherited font size from the parent */
+   }
+   
+   /* If you want to adjust the font size of specific elements separately */
+   .product-table .product-name {
+       font-size: 0.9em; /* Example of slightly larger font for product names */
+   }
+   
+   .product-table .product-price {
+       font-size: 0.8em; /* Specific size for product prices */
+   }
+   
+   .product-table .product-qty {
+       font-size: 0.8em; /* Specific size for quantities */
+   }
+   
+   }
+   
+   /* Mobile view (smaller than 480px) */
+   @media (max-width: 480px) {
+       .category-box {
+           font-size: 1.2em; /* Reduced font size */
+           padding: 20px; /* Adjust padding */
+           width: 100px;
+           height: 100px;
+       }
+   
+       /* Adjust text sizes for product details */
+       .product-details h2 {
+           font-size: 20px;
+       }
+   
+       /* Reduce button sizes */
+       .custom-btn {
+           font-size: 1.2em;
+       }
+       
+       /* Center-align total price */
+       .total-price {
+           text-align: center;
+           font-size: 1.2rem;
+       }
+   }
+   /* Hide carousel on screens larger than mobile */
+   @media (min-width: 768px) {
+       #categoryCarousel {
+           display: none;
+       }
+   }
+   
+   /* Show carousel on mobile only */
+   @media (max-width: 767px) {
+       #categoryCarousel {
+           display: block;
+       }
+   
+       /* Hide the regular menu on mobile */
+       .category-menu-products.d-none.d-md-flex {
+           display: none !important;
+       }
+   }
+   .total-text {
+       font-weight: 800;
+       color: #ed8705;
+       margin-left: 30px;
+       font-size: 2.5rem;
+   }
+   
+   .thank-you-text {
+       font-weight: 800;
+       color: #ed8705;
+       font-size: 3rem;
+       text-align: center;
+   }
+   
+   .waiting-time-text {
+       font-weight: 800;
+       color: #ed8705;
+       font-size: 1rem;
+       text-align: center;
+   }
+   .waiting-time-white {
+       font-weight: 800;
+       color: white;
+       font-size: 1rem;
+       text-align: center;
+   }
+   .otc-header {
+       font-size: 2.5rem;
+   }
+   .p-text{
+         color: #ed8705;
+       font-size: 1rem;
+   }
+   
+   .proceed-text {
+       font-weight: 800;
+       color: #ed8705;
+       margin-left: 30px;
+       font-size: 1.5rem;
+   }
+   
+   @media (max-width: 768px) {
+       .total-text {
+           font-size: 2rem;
+       }
+       
+       .thank-you-text {
+           font-size: 2.5rem;
+       }
+   
+       .waiting-time-text {
+           font-size: 0.9rem;
+       }
+   
+       .otc-header {
+           font-size: 2rem;
+       }
+   
+       .proceed-text {
+           font-size: 1.2rem;
+       }
+   }
+   
+   @media (max-width: 576px) {
+       .total-text {
+           font-size: 1.5rem;
+       }
+   
+       .thank-you-text {
+           font-size: 2rem;
+       }
+   
+       .waiting-time-text {
+           font-size: 0.8rem;
+       }
+   
+       .otc-header {
+           font-size: 1.5rem;
+       }
+   
+       .proceed-text {
+           font-size: 1rem;
+       }
+   }
+   @media (max-width: 768px) {
+       .login-input {
+           font-size: 0.9rem;
+           padding: 14px 18px;
+       }
+   
+       .login-input::placeholder {
+           font-size: 1.8em;
+       }
+   
+       .btn-login {
+           font-size: 1.8em;
+           width: 60%;
+       }
+   }
+   
+   @media (max-width: 576px) {
+       .login-input {
+           font-size: 0.8rem;
+           padding: 12px 16px;
+       }
+   
+       .login-input::placeholder {
+           font-size: 1.6em;
+       }
+   
+       .btn-login {
+           font-size: 1.5em;
+           width: 80%;
+       }
+   }
+
+   table.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* Table headers */
+table.dataTable thead th {
+    background-color: #c1865b;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Table rows */
+table.dataTable tbody td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+     background-color: #d9a26e;
+}
+
+/* Hover effect on rows */
+table.dataTable tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Styling pagination buttons */
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 6px 12px;
+    background-color: #c1865b;
+    color: white;  /* Text color white */
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #2b2151;
+}
+
+/* Search box and entries dropdown styling */
+.dataTables_filter label,  /* Search filter text */
+.dataTables_length label { /* Show entries text */
+    color: white; /* White text */
+}
+
+.dataTables_filter input {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    color: white;  /* Text inside the search input */
+    background-color: #c1865b;  /* Background for input */
+}
+
+.dataTables_length select {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    color: white;  /* Text inside dropdown */
+    background-color: #c1865b;  /* Background for dropdown */
+}
+
+/* Info section styling (e.g., Showing X to Y of Z entries) */
+.dataTables_info {
+    color: white; 
+}
+.table-brown{
+       
+gap: 10px;
+width: 100%;
+background-color: #1f0d01b6;
+padding: 20px;
+border-radius: 10px;
+margin: 20px;
+color: white;
+}

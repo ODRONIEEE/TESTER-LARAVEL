@@ -51,7 +51,7 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                   <li class="nav-item cafe-center">
-                    <h1 class="cafe-name">archive <span>cafe</span></h1>
+                  <h1 class="cafe-name"><strong>archive</strong> <span>cafe</span></h1>
                   </li>
                   <li><a href="{{route('admin.test')}}">POS</a></li>
                   <li><a href="{{route('admin.product')}}">PRODUCTS</a></li>
@@ -79,6 +79,7 @@
                     </ul>
                   </li>
                 </ul>
+                <h1 class="cafe-center cafe-name text-center d-md-none"><strong>archive</strong> <span>cafe</span></h1>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
               </nav>
 
@@ -149,7 +150,7 @@
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
           </nav>
-
+        
           @endauth
         </div>
       </header>
@@ -165,19 +166,17 @@
             <div class="container">
               <div class="row gy-4">
                 <!-- Text content section -->
-                <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
+                <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
                   <h1>Archive Cafe</h1>
                   <p>“Brewing Timeless Moments”</p>
-                  <div class="d-flex">
+                  <div class="d-flex justify-content-center justify-content-lg-start">
                     <a href="#menu" class="btn-get-started">Hot Drinks!</a>
                   </div>
                 </div>
 
                 <!-- Image section -->
-                <div class="col-lg-6 order-1 order-lg-2 hero-img position-relative" data-aos="zoom-out" data-aos-delay="200">
-                  <img src="{{asset('assets/img/cold cafe latte.png')}}" class="img-fluid cold-latte" alt="Cold Latte">
-                  <img src="{{asset('assets/img/hot cafe latte.png')}}" class="img-fluid hot-latte" alt="Hot Latte">
-                  <img src="{{asset('assets/img/products/splash-removebg-preview.png')}}" class="img-fluid splash" alt="Splash">
+                <div class="col-lg-6  order-1 order-lg-2">
+                  <img src="{{asset('assets/img/coffee.png')}}" class="img-fluid cold-latte" alt="Cold Latte">
                 </div>
               </div>
 
@@ -297,7 +296,7 @@
         <section id="cafe" class="team  section">
 
           <!-- Section Title -->
-          <div class="container section-title" data-aos="fade-up">
+          <div class="container section-title">
             <h2>How do we make our coffee?</h2>
 
           </div>
@@ -308,7 +307,7 @@
             <div class="row gy-4">
 
 
-              <div class="col-lg-4" data-aos="fade-up" data-aos-delay="10">
+              <div class="col-lg-4"  data-aos-delay="10">
                 <div class="team-member cafe d-flex align-items-start flex-column">
                   <p>A filipino inspired cafe that serves home made pasta and home blend drinks that compliments in every way</p>
 
@@ -321,7 +320,7 @@
               </div>
 
 
-              <div class="col-lg-8" data-aos="fade-up" data-aos-delay="400">
+              <div class="col-lg-8"  data-aos-delay="10">
                 <div class="team-member d-flex align-items-start">
                   <video controls autoplay loop muted width="700">
                     <source src="{{asset('assets/video/Archive Cafe - Video.mp4')}}" type="video/mp4">
@@ -341,7 +340,7 @@
     <section id="team" class="team section">
 
         <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
+        <div class="container section-title" ">
           <h2>Meet the Team</h2>
           <p>Behind the scnes</p>
         </div><!-- End Section Title -->
@@ -350,16 +349,16 @@
 
           <div class="row gy-4">
 
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-6"  data-aos-delay="10">
               <div class="team-member d-flex align-items-start">
-                <div class="pic"><img src="assets/img/team/me.png" class="img-fluid" alt=""></div>
+                <div class="pic"><img src="assets/img/team/quinn.png" class="img-fluid" alt=""></div>
                 <div class="member-info">
                   <h4>Quinn Vladimir Odron</h4>
                   <span>Project Manager</span>
 
                   <div class="social">
 
-                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.facebook.com/ODRON.JAMES"><i class="bi bi-facebook"></i></a>
                     <a href=""><i class="bi bi-instagram"></i></a>
 
                   </div>
@@ -367,7 +366,7 @@
               </div>
             </div><!-- End Team Member -->
 
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-6"  data-aos-delay="10">
               <div class="team-member d-flex align-items-start">
                 <div class="pic"><img src="assets/img/team/Christian Jay Demetria.jpg" class="img-fluid" alt=""></div>
                 <div class="member-info">
@@ -375,14 +374,14 @@
                   <span>Senior Developer</span>
 
                   <div class="social">
-                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.facebook.com/jydmtr/"><i class="bi bi-facebook"></i></a>
                     <a href=""><i class="bi bi-instagram"></i></a>
                   </div>
                 </div>
               </div>
             </div><!-- End Team Member -->
 
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="col-lg-6" data-aos-delay="10">
               <div class="team-member d-flex align-items-start">
                 <div class="pic"><img src="assets/img/team/Andrei Lopez.jpg" class="img-fluid" alt=""></div>
                 <div class="member-info">
@@ -390,14 +389,14 @@
                   <span>Frontend Developer</span>
 
                   <div class="social">
-                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=100009023709764"><i class="bi bi-facebook"></i></a>
                     <a href=""><i class="bi bi-instagram"></i></a>
                   </div>
                 </div>
               </div>
             </div><!-- End Team Member -->
 
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="col-lg-6"  data-aos-delay="10">
               <div class="team-member d-flex align-items-start">
                 <div class="pic"><img src="assets/img/team/Harold Pineda.jpg" class="img-fluid" alt=""></div>
                 <div class="member-info">
@@ -405,7 +404,7 @@
                   <span>Frontend Developer</span>
 
                   <div class="social">
-                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.facebook.com/mr.pinedaa20"><i class="bi bi-facebook"></i></a>
                     <a href=""><i class="bi bi-instagram"></i></a>
                   </div>
                 </div>

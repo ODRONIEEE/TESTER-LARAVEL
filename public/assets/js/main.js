@@ -227,4 +227,12 @@
     window.addEventListener('load', navmenuScrollspy);
     document.addEventListener('scroll', navmenuScrollspy);
 
+    /* nav bar burger option - profile and cart to show up */
+    document.querySelectorAll('.navmenu a').forEach(link => {
+      link.addEventListener('click', function() {
+        document.querySelectorAll('.navmenu a').forEach(item => item.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
   })();
