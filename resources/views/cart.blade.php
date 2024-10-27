@@ -153,6 +153,7 @@
             </ul>
           </li>
         </ul>
+        <h1 class="cafe-center cafe-name text-center d-md-none"><strong>archive</strong> <span>cafe</span></h1>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
@@ -167,7 +168,7 @@
 
     <div class="menu-container-light-details " style="padding-top: 150px;">
         <div class="row mb-5">
-            <div class="col-md-2">
+            <div class="col-md-2 mb-4">
                 <div class="order-history">
                     <h3>Cart</h3>
                 </div>

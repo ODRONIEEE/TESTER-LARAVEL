@@ -411,7 +411,7 @@
                   <span>Frontend Developer</span>
 
                   <div class="social">
-                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.facebook.com/mr.pinedaa20"><i class="bi bi-facebook"></i></a>
                     <a href=""><i class="bi bi-instagram"></i></a>
                   </div>
                 </div>
