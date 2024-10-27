@@ -157,9 +157,9 @@
     <main class="main">
 
 
-        <div class="menu-container-light-details " style="padding-top: 150px;">
+        <div class="menu-container-light-details " style="padding-top: 120px;">
             <div class="row mb-5">
-                <div class="col-md-3">
+                <div class="col-md-3 mb-4">
                     <div class="order-history">
                         <h3>Privacy</h3>
                     </div>
