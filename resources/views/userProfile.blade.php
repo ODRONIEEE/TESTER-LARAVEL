@@ -31,6 +31,66 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
+  <style>
+    /* Responsive layout for Profile Dashboard */
+    .menu-container-light-details {
+        padding-top: 150px;
+    }
+
+    .menu-container-light-details .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-dashboard {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Single row layout */
+    .dashboard-row {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dashboard-column {
+        padding: 0px 38px;
+    }
+
+    .dashboard-column img {
+        max-width: 100%;
+        height: auto;
+    }
+
+
+
+    @media (max-width: 768px) {
+        .dashboard-row {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard-column img {
+            margin-top: 20px;
+        }
+
+        .header-hero {
+            font-size: 3rem;
+        }
+    }
+
+    /* Adjust button layout for small screens */
+    @media (max-width: 576px) {
+        .btn-dashboard {
+            font-size: 14px;
+        }
+    }
+</style>
+
 </head>
 
 <body class="index-page">
@@ -151,6 +211,7 @@
             </ul>
           </li>
         </ul>
+        <h1 class="cafe-center cafe-name text-center d-md-none"><strong>archive</strong> <span>cafe</span></h1>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
@@ -161,58 +222,37 @@
 
   <main class="main">
 
-
-    <div class="menu-container-light-details " style="padding-top: 150px;">
+    <div class="menu-container-light-details">
         <div class="text-hero mb-5">
             <h1 class="text-hero header-hero" style="color : #ed8705"> Profile Dashboard</h1>
-
         </div>
 
-        <div class="row" style="display: flex;
-            flex-wrap: nowrap;
-            flex-direction: row;
-            align-content: center;
-            justify-content: center;
-            align-items: center;">
-
-            <div class="col-5 text-center">
-                <div class="row">
-                    <div class="col-6">
-                        <button class="btn-dashboard" onclick="window.location.href='{{route('Order_history')}}'">Order History</button>
-                        <button class="btn-dashboard"onclick="window.location.href='{{route('preferences')}}'">Preferences</button>
-                    </div>
-                    <div class="col-6">
-                        <button class="btn-dashboard"onclick="window.location.href='{{route('privacy')}}'">Privacy</button>
-                        <button class="btn-dashboard"onclick="window.location.href='{{route('terms')}}'">Terms and Conditions</button>
-                    </div>
-                </div>
+        <div class="row text-center">
+            <!-- Left Column: Buttons -->
+            <div class="col-lg-4 col-md-12">
+                <button class="btn-dashboard w-100 mb-2">Order History</button>
+                <button class="btn-dashboard w-100 mb-2">Preferences</button>
             </div>
-
-            <div class="col-2 text-center">
+            <div class="col-lg-4 col-md-12">
+                <button class="btn-dashboard w-100 mb-2">Privacy</button>
+                <button class="btn-dashboard w-100 mb-2">Terms and Conditions</button>
             </div>
-            <div class="col-5 text-center">
-                <img class="text-center mb-3" src="assets/img/logo/logo.png" alt="" height="270" width="270">
+            <!-- Right Column: Logo and Text -->
+            <div class="col-lg-4 col-md-12">
+                <img class="mb-3" src="assets/img/logo/logo.png" alt="Logo" height="270" width="270">
                 <br>
-                <img class="text-center mb-3" src="assets/img/logoarchive.png" alt="" height="100" width="auto">
-
+                <img class="mb-3" src="assets/img/logoarchive.png" alt="Logo Archive" height="100">
+                <h2 class="text-hero sub-hero mb-3">Already a member? <a href="#"
+                        style="color:white"><strong>Login</strong></a>
+                </h2>
             </div>
-
-
-
-
         </div>
-
     </div>
 
-
-
-
 </main>
-
-
-  <footer id="footer" class="footer dark-background text-center">
-    <h1>brewing timeless moments</h1>
-  </footer>
+<footer id="footer" class="footer-product text-center">
+    <h1>"brewing timeless moments"</h1>
+</footer>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
