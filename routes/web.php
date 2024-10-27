@@ -8,16 +8,17 @@ use App\Http\Controllers\Admin\AdminControl;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
 route::get('terms', function(){return view('terms'); })->name('terms');
 route::get('privacy', function(){return view('privacy'); })->name('privacy');
 route::get('welcome', function(){return view('welcome'); })->name('welcome');
 
 
 
-Route::get('welcome', function () {
-    return view('welcome');
-})->middleware(['auth', 'verified'])->name('welcome');
+// Route::get('welcome', function () {
+//     return view('welcome');
+// })->middleware(['auth', 'verified'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,7 +31,7 @@ require __DIR__.'/auth.php';
 
 //User Routes
 Route::middleware(['auth','UserMiddleware'])->group(function(){
-    Route::get('welcome',[UserControl::class, 'home'])->name('welcome');
+    Route::get('dashboard',[UserControl::class, 'home'])->name('dashboard');
     Route::get('menu',[UserControl::class, 'menu'])->name('menu');
     Route::get('cart',[UserControl::class, 'cart'])->name('cart');
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
@@ -41,7 +42,6 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
 
 //Admin Routes
 Route::middleware(['auth','AdminMiddleware'])->group(function(){
-    Route::get('welcome',[AdminControl::class, 'welcome'])->name('welcome');
     Route::get('/admin/dashboard',[AdminControl::class, 'home'])->name('admin.dashboard');
     Route::get('/admin/product',[AdminControl::class, 'product'])->name('admin.product');
     Route::get('/admin/pos/{category}',[AdminControl::class, 'pos'])->name('admin.pos');
@@ -61,5 +61,7 @@ Route::middleware(['auth', 'AdminMiddleware'])->group(function () {
     Route::get('/admin/add', [ProductControl::class, 'create'])->name('admin.add');
     Route::post('/admin/add', [ProductControl::class, 'store'])->name('admin.store');
     Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
+    Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
+
 });
 

@@ -35,54 +35,116 @@
 
 <body class="index-page">
 
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+    @if (Route::has('login'))
+        <header id="header" class="header d-flex align-items-center fixed-top">
+          <div class="container-fluid container-xl position-relative d-flex align-items-center">
             <a href="{{route('dashboard')}}" class="logo d-flex align-items-center me-auto">
-                <img src="assets/img/logo/logo.png" alt="">
+              <img src="{{ asset('assets/img/logo/logo2.png') }}" alt="">
             </a>
-
+            @auth
+            @if (Auth::user()->usertype === 'admin')
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li class="nav-item cafe-center">
-                        <h1 class="cafe-name"><strong>archive</strong> <span>cafe</span></h1>
-                    </li>
-                    <li><a href="{{route('dashboard')}}">Cafe</a></li>
-                    <li class="nav-item d-none d-md-block">
-                        <span class="navbar-divider"></span>
-                    </li>
+                  <li class="nav-item cafe-center">
+                    <h1 class="cafe-name">archive <span>cafe</span></h1>
+                  </li>
+                  <li><a href="{{route('admin.test')}}">POS</a></li>
+                  <li><a href="{{route('admin.product')}}">PRODUCTS</a></li>
+                  <li><a href="{{route('admin.orders')}}">ORDERS</a></li>
+                  <li class="nav-item d-none d-md-block">
+                    <span class="navbar-divider"></span>
+                  </li>
+                  <!-- Dropdown changed to button -->
 
-                    <li class="nav-item">
-                        @auth
-                        @if(Auth::user()->usertype === 'user')
-                            <!-- If the user is logged in, redirect to the cart page -->
-                            <a href="{{ route('cart') }}" class="btn-icon-only">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                            </a>
-                        @endif
-                        @endauth
-                        </li>
-                      <li class="dropdown">
-                        <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
-                          <i class="bi bi-person toggle-dropdown"></i>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <li><a href="{{route('userProfile')}}">{{Auth::user()->name}}</a></li>
+                  <li class="dropdown">
+                    <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                      <i class="bi bi-person toggle-dropdown"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li><a href="{{route('profile.edit')}}">{{Auth::user()->name}}</a></li>
 
-                          <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                            this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                        </ul>
-                      </li>
+                      <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-dropdown-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
+                    </ul>
+                  </li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+              </nav>
+
+            @elseif (Auth::user()->usertype === 'user')
+          <nav id="navmenu" class="navmenu">
+            <ul>
+              <li class="nav-item cafe-center">
+                <h1 class="cafe-name">archive <span>cafe</span></h1>
+              </li>
+              <li><a href="{{route('dashboard')}}">Cafe</a></li>
+              <li class="nav-item d-none d-md-block">
+                <span class="navbar-divider"></span>
+              </li>
+              <!-- CART LOGO -->
+              <a href="{{ route('cart') }}" class="btn-icon-only">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+              <!-- USER LOGO -->
+              <li class="dropdown">
+                <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                  <i class="bi bi-person toggle-dropdown"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a href="{{route('profile.edit')}}">{{Auth::user()->name}}</a></li>
+
+                  <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-dropdown-link :href="route('logout')"
+                        onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-dropdown-link>
+                </form>
+                </ul>
+              </li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
+          @endif
+          @else
+          <nav id="navmenu" class="navmenu">
+            <ul>
+              <li class="nav-item cafe-center">
+                <h1 class="cafe-name">archive <span>cafe</span></h1>
+              </li>
+              <li><a href="#cafe">Cafe</a></li>
+              <li><a href="{{route('login')}}">Menu</a></li>
+              <li><a href="#team">Meet The Team</a></li>
+              <li class="nav-item d-none d-md-block">
+                <span class="navbar-divider"></span>
+              </li>
+              <!-- Dropdown changed to button -->
+
+              <li class="dropdown">
+                <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                  <i class="bi bi-person toggle-dropdown"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a href="{{route('login')}}">Login</a></li>
+
+                  <li><a href="{{route('register')}}">Sign Up</a></li>
+                </ul>
+              </li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+          </nav>
+
+          @endauth
         </div>
-    </header>
+      </header>
+      @endif
 
 
     <main class="main">

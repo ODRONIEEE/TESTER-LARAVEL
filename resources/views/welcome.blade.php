@@ -31,6 +31,8 @@
     <link href="{{asset('assets/css/menu_landing.css')}}" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.8.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8KA4jHQsc1osGZb8sdmFic2S1wIldw18AJzAf" crossorigin="anonymous">
+
 
 
 </head>
@@ -81,7 +83,7 @@
                 </ul>
                 <h1 class="cafe-center cafe-name text-center d-md-none"><strong>archive</strong> <span>cafe</span></h1>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-              </nav>
+            </nav>
 
             @elseif (Auth::user()->usertype === 'user')
           <nav id="navmenu" class="navmenu">
@@ -96,10 +98,10 @@
                 <span class="navbar-divider"></span>
               </li>
               <!-- CART LOGO -->
-              <li class="dropdown">
-                <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
-                  <i class="fa-solid fa-cart-shopping"></i>
-                </button>
+              <li class="nav-item">
+                <a href="{{ route('cart') }}" class="btn-icon-only">
+                    CART
+                </a>
               </li>
               <!-- USER LOGO -->
               <li class="dropdown">
@@ -160,7 +162,6 @@
 
       <main class="main">
 
-        <!-- Hero Section -->
         <section id="hero" class="hero section light-background">
 
             <div class="container">
@@ -180,18 +181,26 @@
                 </div>
               </div>
 
+              <!-- Image section -->
+              <div class="col-lg-6  order-1 order-lg-2">
+                <img src="assets/img/coffee.png" class="img-fluid cold-latte" alt="Cold Latte">
+              </div>
             </div>
-            <div class="custom-shape-divider-bottom-1727186153">
-              <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path
-                  d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-                  class="shape-fill"></path>
-              </svg>
-            </div>
-          </section><!-- /Hero Section -->
+          </div>
+
+          <!-- SVG shape divider -->
+          <div class="custom-shape-divider-bottom-1727186153">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path
+                d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+                class="shape-fill"></path>
+            </svg>
+          </div>
+        </section>
 
 
-          <section id="menu" class="about section ">
+
+        <section id="menu" class="about section ">
           <!-- Section Title -->
           <div class="container section-title" data-aos="fade-up">
             <h2>Try Our Best Selling!</h2>
@@ -241,10 +250,10 @@
 
                   <div class="swiper-wrapper align-items-center">
 
-                    <div class="swiper-slide ">
+                    <div class="swiper-slide">
                       <h2 class="text-center">Hot Americano</h2>
                       <div class=" card card-slider">
-                        <img src="{{asset('assets/img/hot cafe latte.png')}}" class=" img-fluid" alt="">
+                        <img src="assets/img/products/hot caffe late.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
@@ -252,14 +261,14 @@
                     <div class="swiper-slide ">
                       <h2 class="text-center">Refresher Green Apple</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/refresher green apple.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
                     <div class="swiper-slide ">
                       <h2 class="text-center">Refresher kiwi</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/refresher kiwi.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
@@ -267,7 +276,7 @@
                     <div class="swiper-slide ">
                       <h2 class="text-center">Cold Americano</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/cold cafe latte.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
@@ -275,22 +284,27 @@
                     <div class="swiper-slide ">
                       <h2 class="text-center">Refreshers Passion Fruit</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/refreshers passion fruit.png" class=" img-fluid" alt="">
                       </div>
                     </div>
 
                     <div class="swiper-slide ">
                       <h2 class="text-center">Refresher Lychee</h2>
                       <div class=" card card-slider">
-                        <img src="" class=" img-fluid" alt="">
+                        <img src="assets/img/products/Refresher lychee.png" class=" img-fluid" alt="">
                       </div>
                     </div>
+
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
+
+
 
         <!-- Team Section -->
         <section id="cafe" class="team  section">
@@ -299,8 +313,7 @@
           <div class="container section-title">
             <h2>How do we make our coffee?</h2>
 
-          </div>
-          <!-- End Section Title -->
+          </div><!-- End Section Title -->
 
           <div class="container">
 
@@ -315,6 +328,7 @@
 
                   <p>It depicts how you can sit back, enoy a sip of cup creating memories whilst reminiscing past memories</p>
 
+
                   <p>Making yourself at home because that is what every filipino household holds.</p>
                 </div>
               </div>
@@ -322,8 +336,8 @@
 
               <div class="col-lg-8"  data-aos-delay="10">
                 <div class="team-member d-flex align-items-start">
-                  <video controls autoplay loop muted width="700">
-                    <source src="{{asset('assets/video/Archive Cafe - Video.mp4')}}" type="video/mp4">
+                  <video controls autoplay loop muted width="800">
+                    <source src="assets/video/Archive Cafe - Video.mp4" type="video/mp4">
                   </video>
                 </div>
               </div>
@@ -331,13 +345,11 @@
             </div>
 
           </div>
-
-        </section>
-
+        </section><!-- /Team Section -->
 
 
-     <!-- Team Section -->
-    <section id="team" class="team section">
+        <!-- Team Section -->
+        <section id="team" class="team section">
 
         <!-- Section Title -->
         <div class="container section-title" ">
@@ -345,9 +357,9 @@
           <p>Behind the scnes</p>
         </div><!-- End Section Title -->
 
-        <div class="container">
+          <div class="container" data-aos="fade-up">
 
-          <div class="row gy-4">
+            <div class="row gy-4">
 
             <div class="col-lg-6"  data-aos-delay="10">
               <div class="team-member d-flex align-items-start">
@@ -356,15 +368,15 @@
                   <h4>Quinn Vladimir Odron</h4>
                   <span>Project Manager</span>
 
-                  <div class="social">
+                    <div class="social">
 
                     <a href="https://www.facebook.com/ODRON.JAMES"><i class="bi bi-facebook"></i></a>
                     <a href=""><i class="bi bi-instagram"></i></a>
 
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div><!-- End Team Member -->
+              </div><!-- End Team Member -->
 
             <div class="col-lg-6"  data-aos-delay="10">
               <div class="team-member d-flex align-items-start">
@@ -411,13 +423,14 @@
               </div>
             </div><!-- End Team Member -->
 
+            </div>
+
           </div>
 
-        </div>
-
-      </section><!-- /Team Section -->
+        </section><!-- /Team Section -->
 
       </main>
+
       <footer id="footer" class="footer dark-background">
         <div class="container footer-top">
           <div class="row gy-4">

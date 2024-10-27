@@ -123,16 +123,16 @@
                         <a href="{{ route('admin.product_info', ['type' => 4]) }}" class="menu-system">
                             <span>Tea</span>
                         </a>
-                        <a href="{{ route('admin.product_info', ['type' => 5]) }}" class="menu-system">
+                        <a href="{{ route('admin.product_info', ['type' => 9]) }}" class="menu-system">
                             <span>Pastries</span>
                         </a>
-                        <a href="{{ route('admin.product_info', ['type' => 6]) }}" class="menu-system">
+                        <a href="{{ route('admin.product_info', ['type' => 8]) }}" class="menu-system">
                             <span>Rice Meal</span>
                         </a>
-                        <a href="{{ route('admin.product_info', ['type' => 7]) }}" class="menu-system">
+                        <a href="{{ route('admin.product_info', ['type' => 5]) }}" class="menu-system">
                             <span>Appetizer</span>
                         </a>
-                        <a href="{{ route('admin.product_info', ['type' => 8]) }}" class="menu-system">
+                        <a href="{{ route('admin.product_info', ['type' => 7]) }}" class="menu-system">
                             <span>Burger</span>
                         </a>
                     </div>
@@ -181,7 +181,7 @@
 
 </main>
 
-<footer id="footer" class="footer-menu text-center">
+<footer id="footer" class="footer-product text-center">
     <h1>"brewing timeless moments"</h1>
 </footer>
 

@@ -30,6 +30,8 @@
     <link href="{{url('assets/css/menu_landing.css')}}" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8KA4jHQsc1osGZb8sdmFic2S1wIldw18AJzAf" crossorigin="anonymous">
+
 
 </head>
 
@@ -39,7 +41,7 @@
     @if (Route::has('login'))
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
-        <a href="{{route('dashboard')}}" class="logo d-flex align-items-center me-auto">
+        <a href="{{route('welcome')}}" class="logo d-flex align-items-center me-auto">
           <img src="assets/img/logo/logo.png" alt="">
         </a>
         @auth
@@ -84,9 +86,9 @@
           <li class="nav-item cafe-center">
             <h1 class="cafe-name">archive <span>cafe</span></h1>
           </li>
-          <li><a href="{{route('dashboard')}}">Cafe</a></li>
+          <li><a href="{{route('welcome')}}">Cafe</a></li>
           <li><a href="{{route('menu')}}">Menu</a></li>
-          <li><a href="{{route('dashboard')}}">Meet The Team</a></li>
+          <li><a href="{{route('welcome')}}">Meet The Team</a></li>
           <li class="nav-item d-none d-md-block">
             <span class="navbar-divider"></span>
           </li>
@@ -217,7 +219,7 @@
    <!-- Main JS File -->
    <script src="{{url('assets/js/main.js')}}"></script>
    <script src="{{url('assets/js/drinks_menu.js')}}"></script>
-
+   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

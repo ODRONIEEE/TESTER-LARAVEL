@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 class UserControl extends Controller
 {
     public function home(){
-        return view('welcome');
+        return view('dashboard');
     }
     public function menu(){
 

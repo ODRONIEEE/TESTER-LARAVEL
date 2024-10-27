@@ -158,7 +158,6 @@
   @endif
 
 
-
   <main class="main">
 
     <!-- Hero Section -->
@@ -176,12 +175,9 @@
             </div>
 
             <!-- Image section -->
-            <div class="col-lg-6 order-1 order-lg-2 hero-img position-relative" data-aos="zoom-out" data-aos-delay="200">
-              <img src="assets/img/products/cold cafe latte.png" class="img-fluid cold-latte" alt="Cold Latte">
-              <img src="assets/img/products/hot caffe late.png" class="img-fluid hot-latte" alt="Hot Latte">
-              <img src="assets/img/products/splash-removebg-preview.png" class="img-fluid splash" alt="Splash">
-            </div>
-          </div>
+            <div class="col-lg-6  order-1 order-lg-2">
+                <img src="assets/img/coffee.png" class="img-fluid cold-latte" alt="Cold Latte">
+              </div>
 
         </div>
         <div class="custom-shape-divider-bottom-1727186153">

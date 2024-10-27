@@ -39,7 +39,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-        <a href="{{url()->previous()}}" class="logo d-flex align-items-center me-auto">
+        <a href="{{route('admin.product')}}" class="logo d-flex align-items-center me-auto">
           <img src="{{asset('assets/img/logo/logo.png')}}" alt="">
         </a>
         @auth
@@ -102,12 +102,19 @@
                     <tbody>
                         @forelse ($products as $index => $row)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
-                        <td>{{ $row->product_code}}</td>
-                        <td>{{ $row->name }}</td>
+                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td class="text-center">
+                            <div class="table-container">{{ $row->product_code}}</div>
+                        </td>
+                        <td class="text-center">{{ $row->name }}</td>
                         <td>{{ $row->description }}</td>
-                        <td>{{ $row->price }}</td>
-                        <td>{{ $row->stock }}</td>
+                        <td class="text-center">
+                            <div class="table-container">
+                                {{ $row->price }}</div>
+                        </td>
+                        <td class="text-center">
+                            <div class="table-container">{{ $row->stock }}</div>
+                        </td>
                         <td>
                             <div class="showPhoto">
                                 <div id="imagePreview" style="@if ($row->image) background-image: url('{{ asset('uploads/' . $row->image) }}'); @else background-image: url('{{ asset('assets/img/icon/Profile.png') }}'); @endif;">
@@ -118,13 +125,13 @@
 
                         <td class="text-center">
                             <div class="action-buttons">
-                                <button class="btn btn-brown " style="background-color: #e2e2e2;">Edit Product</button>
-                                <form action="" method="POST">
+                                <button class="btn btn-brown" style="background-color: #e2e2e2;">Edit Product</button>
+                                <form action="{{ route('admin.product.destroy', $row->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this product?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-brown " style="background-color: #e2e2e2;">Remove Product</button>
-                                </div>
+                                    <button type="submit" class="btn btn-gray" style="background-color: #b86143;">Remove Product</button>
                                 </form>
+                            </div>
                         </td>
                         @empty
                         <tr>
@@ -145,7 +152,7 @@
 </main>
 
 
-<footer id="footer" class="footer-menu text-center">
+<footer id="footer" class="footer-product text-center">
     <h1>"brewing timeless moments"</h1>
 </footer>
 
@@ -260,6 +267,20 @@
     }
 
 </script>
+<script>
+    // Show success message if it exists
+    @if(session('success'))
+        alert("{{ session('success') }}");
+    @endif
+
+    // Alternative confirmation dialog with more styling (optional)
+    function confirmDelete(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+            event.target.form.submit();
+        }
+    }
+    </script>
 <style>
 .showPhoto {
     width: 150px; /* Set a smaller fixed width for the circle */

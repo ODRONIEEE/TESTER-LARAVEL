@@ -1,4 +1,42 @@
+async function showCategory(category) {
+    // Hide both sections initially
+    document.getElementById("coffee-non").style.display = "none";
+    document.getElementById("refreshers-non").style.display = "none";
 
+    let itemsDiv;
+    if (category === 'coffee' || category === 'non-coffee') {
+      document.getElementById("coffee-non").style.display = "";
+      itemsDiv = document.getElementById("menu-items-coffee");
+    } else if (category === 'refreshers' || category === 'tea') {
+      document.getElementById("refreshers-non").style.display = "";
+      itemsDiv = document.getElementById("menu-items-refreshers");
+    }
+
+    // Clear previous items
+    itemsDiv.innerHTML = "";
+///api/menu/${category}
+    // Fetch items from the API
+    try {
+      const response = await fetch({{ url('api/menu/${category}') }});
+      console.log(response);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const menuItems = await response.json();
+
+      // Populate menu items
+      menuItems.forEach(item => {
+        let button = document.createElement("button");
+        button.innerText = item; // Use the item name directly since it’s a string
+        button.onclick = () => loadProduct(item); // Modify as needed for your loadProduct function
+        itemsDiv.appendChild(button);
+      });
+      itemsDiv.style.display = 'flex'; // Show the items
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+
+  }
 
 
 
@@ -84,8 +122,8 @@ function showCategoryFood(category) {
         'pastry': ['Ny Style Biscoff', 'Oreo', 'NY Levain', 'Matcha','Banana Bread', 'Oreo Cookie', 'Triple Choco'],
         'pasta': ['Chicken Alfredo', 'Chicken Pomodoro'],
         'rice':  ['Paella', 'Chicken Pops'],
-         'appetizers':  ['Nachos', 'French Fries', 'Parmesan Potato Chips'],
-          'burger':  ['Cheesy Burger', 'Classic Burger','Dynamite Burger','Chicken Popeyes','Tar']
+        'appetizers':  ['Nachos', 'French Fries', 'Parmesan Potato Chips'],
+        'burger':  ['Cheesy Burger', 'Classic Burger','Dynamite Burger','Chicken Popeyes']
     };
 
     // Hide both sections initially
