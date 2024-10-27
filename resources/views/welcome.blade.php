@@ -175,15 +175,10 @@
                   </div>
                 </div>
 
-                <!-- Image section -->
-                <div class="col-lg-6  order-1 order-lg-2">
-                  <img src="{{asset('assets/img/coffee.png')}}" class="img-fluid cold-latte" alt="Cold Latte">
-                </div>
-              </div>
-
+  
               <!-- Image section -->
               <div class="col-lg-6  order-1 order-lg-2">
-                <img src="assets/img/coffee.png" class="img-fluid cold-latte" alt="Cold Latte">
+                <img src="{{asset('assets/img/coffee.png')}}" class="img-fluid cold-latte" alt="Cold Latte">
               </div>
             </div>
           </div>
@@ -357,7 +352,7 @@
           <p>Behind the scnes</p>
         </div><!-- End Section Title -->
 
-          <div class="container" data-aos="fade-up">
+          <div class="container">
 
             <div class="row gy-4">
 
@@ -416,7 +411,7 @@
                   <span>Frontend Developer</span>
 
                   <div class="social">
-                    <a href="https://www.facebook.com/mr.pinedaa20"><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
                     <a href=""><i class="bi bi-instagram"></i></a>
                   </div>
                 </div>
