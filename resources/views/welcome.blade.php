@@ -109,7 +109,7 @@
                   <i class="bi bi-person toggle-dropdown"></i>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <li><a href="{{route('profile.edit')}}">{{Auth::user()->name}}</a></li>
+                  <li><a href="{{route('userProfile')}}">{{Auth::user()->name}}</a></li>
 
                   <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -152,7 +152,7 @@
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
           </nav>
-        
+
           @endauth
         </div>
       </header>
@@ -175,7 +175,7 @@
                   </div>
                 </div>
 
-  
+
               <!-- Image section -->
               <div class="col-lg-6  order-1 order-lg-2">
                 <img src="{{asset('assets/img/coffee.png')}}" class="img-fluid cold-latte" alt="Cold Latte">
