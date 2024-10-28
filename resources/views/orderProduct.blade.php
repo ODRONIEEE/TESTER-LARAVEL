@@ -9,8 +9,8 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/logo/logo2.png" rel="icon">
+  <link href="assets/img/logo/logo2.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -30,78 +30,20 @@
     <link href="{{url('assets/css/menu_landing.css')}}" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8KA4jHQsc1osGZb8sdmFic2S1wIldw18AJzAf" crossorigin="anonymous">
 
-  <style>
-    /* Responsive layout for Profile Dashboard */
-    .menu-container-light-details {
-        padding-top: 150px;
-    }
-
-    .menu-container-light-details .row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .btn-dashboard {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    /* Single row layout */
-    .dashboard-row {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .dashboard-column {
-        padding: 0px 38px;
-    }
-
-    .dashboard-column img {
-        max-width: 100%;
-        height: auto;
-    }
-
-
-
-    @media (max-width: 768px) {
-        .dashboard-row {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .dashboard-column img {
-            margin-top: 20px;
-        }
-
-        .header-hero {
-            font-size: 3rem;
-        }
-    }
-
-    /* Adjust button layout for small screens */
-    @media (max-width: 576px) {
-        .btn-dashboard {
-            font-size: 14px;
-        }
-    }
-</style>
 
 </head>
 
-<body class="index-page">
+<body>
 
 
-        @if (Route::has('login'))
-        <header id="header" class="header d-flex align-items-center fixed-top">
-            <div class="container-fluid container-xl position-relative d-flex align-items-center">
-              <a href="{{route('welcome')}}" class="logo d-flex align-items-center me-auto">
-                <img src="assets/img/logo/logo.png" alt="">
-              </a>
+    @if (Route::has('login'))
+    <header id="header" class="header d-flex align-items-center fixed-top">
+      <div class="container-fluid container-xl position-relative d-flex align-items-center">
+        <a href="{{route('welcome')}}" class="logo d-flex align-items-center me-auto">
+          <img src="assets/img/logo/logo.png" alt="">
+        </a>
         @auth
         @if (Auth::user()->usertype === 'admin')
         <nav id="navmenu" class="navmenu">
@@ -144,14 +86,14 @@
           <li class="nav-item cafe-center">
             <h1 class="cafe-name">archive <span>cafe</span></h1>
           </li>
-          <li><a href="#cafe">Cafe</a></li>
+          <li><a href="{{route('welcome')}}">Cafe</a></li>
           <li><a href="{{route('menu')}}">Menu</a></li>
-          <li><a href="#Team">Meet The Team</a></li>
+          <li><a href="{{route('welcome')}}">Meet The Team</a></li>
           <li class="nav-item d-none d-md-block">
             <span class="navbar-divider"></span>
           </li>
           <!-- Dropdown changed to button -->
-          <li class="nav-item">
+            <li class="nav-item">
             @auth
             @if(Auth::user()->usertype === 'user')
                 <!-- If the user is logged in, redirect to the cart page -->
@@ -160,13 +102,13 @@
                 </a>
             @endif
             @endauth
-        </li>
+            </li>
           <li class="dropdown">
             <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
               <i class="bi bi-person toggle-dropdown"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><a href="{{route('profile.edit')}}">Edit Account</a></li>
+              <li><a href="{{route('userProfile')}}">{{Auth::user()->name}}</a></li>
 
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -217,41 +159,128 @@
 
       @endauth
     </div>
-    </header>
+  </header>
+
   @endif
 
   <main class="main">
-
     <div class="menu-container-light-details">
-        <div class="text-hero mb-5">
-            <h1 class="text-hero header-hero" style="color : #ed8705"> Profile Dashboard</h1>
+        <a href="{{route('menu')}}" class-="btn btn-warning mt-3"> <button class="btn btn-warning mt-3">BACK</button></a>
+
+        <div class="row">
+            <!-- Left Section: Product Display -->
+
+            <div class="col-lg-5 col-md-6 col-sm-12 mb-4">
+                <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">Caramel Macchiato</h1>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <img class="img-fluid" src="assets/img/products/cold americano.png" alt="Card image cap">
+                    </div>
+                    <div class="col-lg-8 col-md-6 col-sm-12 mb-4" style="text-align: right;">
+                        <h1 class="page-header">₱ 150.00</h1>
+                        <div class="btn-group-wrapper">
+                            <div class="btn-group">
+                                <button class="btn btn-dark">H</button>
+                                <button class="btn btn-warning">C</button>
+                            </div>
+                        </div>
+
+
+                        <button class="btn btn-warning mt-3">Add to cart</button>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="product-description mt-3">
+                        Features bold espresso layered over creamy milk finished with a rich caramel drizzle.
+                        It's a perfectly balanced, sweet and refreshing treat for any time of day.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="col-lg-2 col-md-6 col-sm-12 mb-4 product-divider d-none d-md-block"></div>
+
+            <!-- Right Section: Extras -->
+            <div class="col-lg-5 col-md-5 col-sm-12 mb-4">
+                <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">Extras</h1>
+                <div class="extras-section">
+                    <h4>Espresso</h4>
+                    <div class="btn-group-wrapper justify-content-start">
+                        <div class="btn-group">
+                            <button class="btn btn-dark" style=" max-width: 70px;;">1</button>
+                            <button class="btn btn-warning" style=" max-width: 70px;">2</button>
+                        </div>
+                    </div>
+                    <h4 class="mt-4">Syrup</h4>
+                    <div class="radio-options">
+                        <label>
+                            <div class="extra-container">
+                                <input type="radio" name="syrup" value="roasted_almond">
+                                Roasted Almond
+                            </div>
+                        </label>
+                        <label>
+                            <div class="extra-container">
+                                <input type="radio" name="syrup" value="hazelnut" checked>
+                                Hazelnut
+                            </div>
+                        </label>
+                        <label>
+                            <div class="extra-container">
+                                <input type="radio" name="syrup" value="vanilla">
+                                Vanilla
+                            </div>
+                        </label>
+                    </div>
+
+                    <h4 class="mt-4">Sauce</h4>
+                    <div class="radio-options">
+                        <label>
+                            <div class="extra-container">
+                                <input type="radio" name="sauce" value="chocolate" checked>
+                                Chocolate
+                            </div>
+                        </label>
+                        <label>
+                            <div class="extra-container">
+                                <input type="radio" name="sauce" value="caramel">
+                                Caramel
+                            </div>
+                        </label>
+                        <label>
+                            <div class="extra-container">
+                                <input type="radio" name="sauce" value="white_choco">
+                                White Choco
+                            </div>
+                        </label>
+                        <label>
+                            <div class="extra-container">
+                                <input type="radio" name="sauce" value="butterscotch">
+                                Butterscotch
+                            </div>
+                        </label>
+                        <label>
+                            <div class="extra-container">
+                                <input type="radio" name="sauce" value="salted_caramel">
+                                Salted Caramel
+                            </div>
+                        </label>
+                    </div>
+
+
+
+                </div>
+            </div>
         </div>
 
-        <div class="row text-center">
-            <!-- Left Column: Buttons -->
-            <div class="col-lg-4 col-md-12">
-                <button class="btn-dashboard w-100 mb-2">Order History</button>
-                <button class="btn-dashboard w-100 mb-2">Preferences</button>
-            </div>
-            <div class="col-lg-4 col-md-12">
-                <button class="btn-dashboard w-100 mb-2" onclick="window.location.href='{{route('privacy')}}'">Privacy</button>
-                <button class="btn-dashboard w-100 mb-2" onclick="window.location.href='{{route('terms')}}'">Terms and Conditions</button>
-            </div>
-            <!-- Right Column: Logo and Text -->
-            <div class="col-lg-4 col-md-12">
-                <img class="mb-3" src="assets/img/logo/logo2.png" alt="Logo" height="270" width="270">
-                <br>
-                <img class="mb-3" src="assets/img/logoarchive.png" alt="Logo Archive" height="100">
-            </div>
-        </div>
     </div>
 
-</main>
-<footer id="footer" class="footer-product text-center">
-    <h1>"brewing timeless moments"</h1>
-</footer>
 
-  <!-- Scroll Top -->
+
+</main>
+
+ <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
 
@@ -271,7 +300,7 @@
    <!-- Main JS File -->
    <script src="{{url('assets/js/main.js')}}"></script>
    <script src="{{url('assets/js/drinks_menu.js')}}"></script>
-
+   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

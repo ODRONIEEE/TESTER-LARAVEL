@@ -117,11 +117,12 @@
                         </td>
                         <td>
                             <div class="showPhoto">
-                                <div id="imagePreview" style="@if ($row->image) background-image: url('{{ asset('uploads/' . $row->image) }}'); @else background-image: url('{{ asset('assets/img/icon/Profile.png') }}'); @endif;">
+                                <div id="imagePreview">
+                                    <img src="{{ asset($row->image) }}" alt="{{ $row->name }}" class="product-image">
                                 </div>
+
                             </div>
                         </td>
-
 
                         <td class="text-center">
                             <div class="action-buttons">
@@ -145,7 +146,7 @@
 
                     </tbody>
                 </table>
-                {{-- {{$products->links()}} --}}
+
             </div>
         </div>
 
@@ -338,21 +339,20 @@
     </script>
 <style>
 .showPhoto {
-    width: 150px; /* Set a smaller fixed width for the circle */
-    height: 150px; /* Set a smaller fixed height for the circle */
-    margin: auto; /* Center the circle horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Optional: Keep the circular shape */
 }
 
-.showPhoto > div {
-    width: 100%; /* Full width of the parent */
-    height: 100%; /* Full height of the parent */
-    border-radius: 50%; /* Makes it circular */
-    background-size: cover; /* Cover the entire div */
-    background-repeat: no-repeat; /* No repeating of the background */
-    background-position: center; /* Center the image */
-    border: 2px solid #ccc; /* Optional: Add a border for better visibility */
+.showPhoto img {
+    width: 100%; /* Make the image fill the container */
+    height: 100%; /* Make the image fill the container */
+    object-fit: cover; /* Ensure the image fills the container without distortion */
+    border-radius: 50%; /* Keep the circular shape */
 }
-
 
 
 

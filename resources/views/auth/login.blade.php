@@ -150,45 +150,29 @@
       </header>
 
 
-  <main class="main">
-    <form method="POST" action="{{route('login')}}">
-        @csrf
+      <main class="main">
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
             <div class="login-container">
-                <div class="text-hero mb-5">
+                <div class="text-center">
+                    <input type="email" id="email" name="email" placeholder="Email" class="login-input">
+                    @error('email')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
 
-                </div>
+                    <input type="password" id="password" name="password" placeholder="Password" class="login-input">
+                    @error('email')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
 
-                <div class="row" style="display: flex;
-                        flex-wrap: nowrap;
-                        flex-direction: row;
-                        align-content: center;
-                        justify-content: center;
-                        align-items: center;">
-                    <div class="col-5 text-center">
-                        <img class="text-center mb-3" src="assets/img/logo/logo2.png" alt="" height="250" width="250">
-                        <h2 class="text-hero sub-hero mb-3">New Here? Sign up for Free</h2>
-                        <a href="{{route('register')}}" class="btn-login">Sign Up</a>
-                    </div>
+                    <button class="btn-login">Login</button>
 
-                        <div class="col-5 text-center">
-                            <input type="email" id="email" name="email" placeholder="Email" class="login-input">
-                            @error('email')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-
-                            <input type="password" id="password" name="password" placeholder="Password" class="login-input">
-                            @error('email')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-
-                            <button class="btn-login">Login</button>
-                        </div>
-
+                    <h2 class="text-hero sub-hero mb-3">New Here? Sign up for Free</h2>
+                    <a href="{{ route('register') }}" class="btn-login">Sign Up</a>
                 </div>
             </div>
-    </form>
-
-</main>
+        </form>
+    </main>
 
     <footer id="footer" class="footer-product text-center">
 
@@ -243,6 +227,26 @@
         });
 
     </script>
+<style>
+   @media (min-width: 768px) {
+    .login-container {
+        /* Adjust layout for larger screens */
+        flex-direction: row;
+        text-align: center; /* Center the content within the container */
+    }
+
+    .login-container .text-center {
+        /* Reorder elements for desktop view */
+        flex-direction: column;
+        align-items: center;
+    }
+}
+.login-input {
+    /* ... other styles ... */
+    max-width: 1000px; /* Adjust the width as needed */
+}
+</style>
+
 </body>
 
 </html>

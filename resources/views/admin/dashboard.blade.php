@@ -141,6 +141,37 @@
 <!-- Main JS File -->
 <script src="{{url('assets/js/main.js')}}"></script>
 <script src="{{url('assets/js/drinks_menu.js')}}"></script>
+<style>
+    .menu-options {
+        display: flex;
+        justify-content: center; /* Align items to the center horizontally */
+        align-items: center; /* Align items to the center vertically */
+    }
+
+    .menu-option {
+        /* ... your existing styles ... */
+        flex: 1; /* Make each option take equal width */
+    }
+
+    /* Optional: To adjust the image position and size */
+    .cold-latte {
+        /* ... your existing styles ... */
+        position: absolute;
+        right: 0; /* Position the image to the right */
+        top: 50%;
+        transform: translateY(-50%); /* Vertically center the image */
+        width: 50%; /* Adjust the image width as needed */
+    }
+    @media (min-width: 768px) and (max-width: 1024px) {
+    .menu-options {
+        flex-direction: column; /* Stack options vertically */
+    }
+
+    .menu-option {
+        /* Adjust width and height as needed */
+        width: 100%;
+    }
+</style>
 </body>
 
 </html>

@@ -234,6 +234,32 @@
         });
 
     </script>
-</body>
+    <style>
+        main {
+  margin-bottom: 0;
+}
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px; /* Adjust padding as needed */
 
+    /* ... other styles ... */
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 100%; /* Ensure inputs take full width */
+
+    /* ... other styles ... */
+}
+
+.input-field {
+    /* ... other styles ... */
+    width: 100%; /* Ensure inputs take full width */
+}
+    </style>
+</body>
 </html>

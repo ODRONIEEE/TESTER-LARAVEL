@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
@@ -11,9 +12,9 @@ class ProductControl extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function order()
     {
-
+        return view('orderProduct');
     }
 
     /**
@@ -28,8 +29,8 @@ class ProductControl extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-{
+    public function store(Request $request){
+
     // Validation
     $fields = $request->validate([
         'name' => 'required|string',
@@ -51,12 +52,12 @@ class ProductControl extends Controller
         'prefix' => 'PRD_C'
     ]);
 
-    $filePath = public_path('uploads');
+    $filePath = 'uploads'; // Changed this to be relative to public directory
     if ($request->hasFile('image')) {
         $file = $request->file('image');
-        $file_name = time() . '_' . $file->getClientOriginalName(); // Unique filename
-        $file->move($filePath, $file_name);
-        $fields['image'] = $file_name; // Save with 'image' key
+        $file_name = $fields['name'] . '_' . time(); // Unique filename
+        $file->move(public_path($filePath), $file_name);
+        $fields['image'] = $filePath . '/' . $file_name; // Save relative path
     }
     $fields['product_code'] = $product_code;
 
@@ -66,7 +67,7 @@ class ProductControl extends Controller
 
     // Redirect with success message
     return redirect()->route('admin.product')->with('success', 'Product created successfully');
-}
+    }
 
     // Helper method for file upload
     private function handleFileUpload(Request $request)
@@ -109,18 +110,18 @@ class ProductControl extends Controller
     public function destroy(product $product)
     {
          // Delete the image file if it exists
-         if ($product->image) {
-            $imagePath = public_path('uploads/' . $product->image);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
-            }
+    if ($product->image) {
+        $imagePath = public_path($product->image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
         }
+    }
 
-        // Delete the product
-        $product->delete();
+    // Delete the product
+    $product->delete();
 
-        // Redirect back with success message
-        return redirect()->back()->with('success', 'Product deleted successfully');
+    // Redirect back with success message
+    return redirect()->back()->with('success', 'Product deleted successfully');
     }
 
 }

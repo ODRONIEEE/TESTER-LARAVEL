@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 
+use App\Models\Product;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class UserControl extends Controller
 {
@@ -12,7 +14,10 @@ class UserControl extends Controller
     }
     public function menu(){
 
-    return view('menu');
+        $products = Product::where('stock', '>', 0)->get();
+        Log::info('Products:', $products->toArray());
+        return view('menu', compact('products'));
+
     }
     public function userprofile(){
         return view('userProfile');

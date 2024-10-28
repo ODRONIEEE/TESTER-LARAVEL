@@ -149,82 +149,76 @@
 
     <main class="main">
 
-
         <div class="menu-container-light">
             <nav class="category-menu-products d-flex flex-wrap justify-content-center mb-3">
-                <button class="custom-category-btn btn mx-2 my-1" onclick="showProduct('signature')">Signature Coffee</button>
-                <button class="custom-category-btn btn mx-2 my-1" onclick="showProduct('non-coffee')">Non-Coffee</button>
-                <button class="custom-category-btn btn mx-2 my-1" onclick="showProduct('regreshers')">Refreshers</button>
-                <button class="custom-category-btn btn mx-2 my-1" onclick="showProduct('tea')">Tea</button>
-                <button class="custom-category-btn btn mx-2 my-1" onclick="showProduct('pastry')">Pastiers</button>
-                <button class="custom-category-btn btn mx-2 my-1" onclick="showProduct('pasta')">Pasta</button>
-                <button class="custom-category-btn btn mx-2 my-1" onclick="showProduct('rice')">Rice Meal</button>
-                <button class="custom-category-btn btn mx-2 my-1" onclick="showProduct('appetizers')">Appetizers</button>
-                <button class="custom-category-btn btn mx-2 my-1" onclick="showProduct('burger')">Burger</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type="all">All</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type=1>Coffee</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type=2>Non-Coffee</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type=3>Refreshers</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type=4>Tea</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type=5>Appetizers</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type=6>Pasta</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type=7>Burger</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type=8>Rice Meal</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type=9>Pastries</button>
+
+
+
             </nav>
 
-
-
             <div id="food" class="row">
-
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card text-center">
-                                <img class="card-img-top product-img" src="assets/img/products/cold americano.png"
-                                    alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">₱ 150 </h5>
-                                    <p class="card-text">Cafe Con Leche</p>
-                                    <div class="yellow-border"></div>
-                                    <a href="#" class="btn btn-primary btn-order">Order</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row" id="productContainer">
+                        @foreach($products as $product)
+                            @if ($product->stock>0)
 
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card text-center">
-                                <img class="card-img-top product-img" src="assets/img/products/cold americano.png"
-                                    alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">₱ 150 </h5>
-                                    <p class="card-text">Cafe Con Leche</p>
-                                    <div class="yellow-border"></div>
-                                    <a href="#" class="btn btn-primary btn-order">Order</a>
+                            <div class="col-lg-3 col-md-6 col-sm-12 mb-4 product-card" data-type="{{ $product->type_id }}" data-stock="{{ $product->stock > 0 ? 'true' : 'false' }}">
+                                <div class="card text-center">
+                                    <div class="card-img-top product-img" alt="Card image cap" style="display: flex; align-items: center; justify-content: center;">
+                                        <img src="{{asset($product->image)}}" alt="{{$product->name}}" style="max-width: 100%; height: auto;">
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h5 class="card-title">₱ {{ $product->price }} </h5>
+                                        <p class="card-text">{{ $product->name }}</p>
+                                        <p class="card-text">{{ $product->description }}</p>
+                                        <div class="yellow-border"></div>
+                                        <a href="{{route('orderProduct')}}" class="btn btn-primary btn-order">Order</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card text-center">
-                                <img class="card-img-top product-img" src="assets/img/products/cold americano.png"
-                                    alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">₱ 150 </h5>
-                                    <p class="card-text">Cafe Con Leche</p>
-                                    <div class="yellow-border"></div>
-                                    <a href="#" class="btn btn-primary btn-order">Order</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card text-center">
-                                <img class="card-img-top product-img" src="assets/img/products/cold americano.png"
-                                    alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">₱ 150 </h5>
-                                    <p class="card-text">Cafe Con Leche</p>
-                                    <div class="yellow-border"></div>
-                                    <a href="#" class="btn btn-primary btn-order">Order</a>
-                                </div>
-                            </div>
-                        </div>
+
+                                @else
+
+                                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4 product-card" data-type="{{ $product->type_id }}" data-stock="{{ $product->stock > 0 ? 'true' : 'false' }}">
+                                        <div class="card text-center">
+                                            <div class="card-img-top product-img" alt="Card image cap" style="display: flex; align-items: center; justify-content: center;">
+                                                <img src="{{asset($product->image)}}" alt="{{$product->name}}" style="max-width: 100%; height: auto;">
+                                            </div>
+
+                                            <div class="card-body">
+                                                <h5 class="card-title">SORRY</h5>
+                                                <p class="card-text">SORRY</p>
+                                                <p class="card-text">SORRY</p>
+                                                <div class="yellow-border"></div>
+                                                    <a href="{{route('orderProduct')}}" class="btn btn-primary btn-order">Order</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                @endif
+                       @endforeach
+
+
+
                     </div>
                 </div>
-
             </div>
         </div>
 
     </main>
+
+
     <footer id="footer" class="footer-product text-center">
 
         <h1>"brewing timeless moments"</h1>
@@ -250,6 +244,46 @@
     <!-- Main JS File -->
     <script src="{{url('assets/js/main.js')}}"></script>
     <script src="{{url('assets/js/drinks_menu.js')}}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.custom-category-btn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            console.log('Total product cards:', productCards.length);
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    console.log('Button clicked:', type);
+                    filterProducts(type);
+                });
+            });
+
+            function filterProducts(type) {
+                console.log('Filtering products for type:', type);
+                let visibleCount = 0;
+                productCards.forEach(card => {
+                    const cardType = card.getAttribute('data-type');
+                    const inStock = card.getAttribute('data-stock') === 'true';
+
+                    console.log('Card type:', cardType, 'In stock:', inStock);
+
+                    if ((type === 'all' || cardType === type) && inStock) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                console.log('Visible products after filtering:', visibleCount);
+            }
+
+            // Initially show all in-stock products
+            filterProducts('all');
+        });
+        </script>
+
 
 </body>
 

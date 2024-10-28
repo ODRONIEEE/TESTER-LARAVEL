@@ -37,6 +37,7 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
     Route::get('Order_history',[UserControl::class, 'history'])->name('Order_history');
     Route::get('preferences',[UserControl::class, 'preference'])->name('preferences');
+    Route::get('orderProduct',[ProductControl::class, 'order'])->name('orderProduct');
 });
 
 
@@ -62,6 +63,5 @@ Route::middleware(['auth', 'AdminMiddleware'])->group(function () {
     Route::post('/admin/add', [ProductControl::class, 'store'])->name('admin.store');
     Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
     Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
-
 });
 
