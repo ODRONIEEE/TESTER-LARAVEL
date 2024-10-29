@@ -127,13 +127,16 @@
                         <td class="text-center">
                             <div class="action-buttons">
                                 <button class="btn btn-brown" style="background-color: #e2e2e2;"
-                                data-bs-toggle="modal" data-bs-target="#editProductModal">Edit
-                                Product</button>
+                                onclick="openEditModal('{{ $row->id }}', '{{ $row->name }}', '{{ $row->price }}', '{{ $row->stock }}', '{{ $row->description }}', '{{ $row->image }}')">
+                                Edit Product
+                                </button>
+
                                 <form action="{{ route('admin.product.destroy', $row->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this product?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-gray" style="background-color: #b86143;">Remove Product</button>
                                 </form>
+
                             </div>
                         </td>
                         @empty
@@ -156,53 +159,84 @@
 
 
    <!-- Edit Product Modal -->
-   <div class="modal fade " id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+<div class="modal fade " id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
    aria-hidden="true">
    <div class="modal-dialog">
        <div class="modal-content product-details">
            <div class="modal-header">
                <h5 class="modal-title" id="editProductModalLabel" style="color:white">Edit Product</h5>
-               <button type="button" class="btn-close" style="color:white" data-bs-dismiss="modal"
-                   aria-label="Close"></button>
+               <button type="button" class="btn-close" style="color:white" data-bs-dismiss="modal" aria-label="Close"></button>
            </div>
-           <div class="modal-body ">
-               <div class="row mb-3">
-                   <div class="col-lg-12 col-md-12 col-sm-12">
-                       <!-- Product Name -->
-                       <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
-                           <label class="me-2 w-25 w-md-100">Product Name</label>
-                           <input type="text" class="form-control w-100 custom-input"
-                               placeholder="Enter Product Name" value="Americano" readonly />
-                       </div>
-                       <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
-                           <label class="me-2 w-25 w-md-100">Upload Photo</label>
-                           <input type="file" class="form-control w-100 custom-input" id="product-photo"
-                               accept="image/*" onchange="previewPhoto()">
-                       </div>
-                       <!-- Category Dropdown -->
-                       <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
-                           <label class="me-2 w-25 w-md-100">Price</label>
-                           <input type="text" class="form-control w-100 custom-input" value="100.00" />
-                       </div>
+           <form action="{{route('admin.product.update', $row->id)}}" method="POST" enctype="multipart/form-data">
+               @csrf
+               @method('PUT')
 
-                       <!-- Type Dropdown -->
-                       <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
-                           <label class="me-2 w-25 w-md-100">Quantity</label>
-                           <input type="text" class="form-control w-100 custom-input" value="2" />
-                       </div>
+                <div class="modal-body ">
+                    <div class="row mb-3">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+
+                            <!-- Product Name -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Product Name</label>
+                                <input type="text" name="name" class="form-control w-100 custom-input"
+                                    placeholder="Enter Product Name" value="{{$row->name}}"  />
+                            </div>
+
+                            <!-- Product price -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Product Price</label>
+                                <input type="number" name="price" step="0.01" class="form-control w-100 custom-input"
+                                    placeholder="Enter Product Price" value="{{$row->price}}"  />
+                            </div>
+
+                            <!-- Product Stock -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Product Quantity</label>
+                                <input type="number" name="stock" class="form-control w-100 custom-input"
+                                    placeholder="Enter Product Stock" value="{{$row->stock}}"  />
+                            </div>
+
+                            <!-- Product Photo -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Upload Photo</label>
+                                <input type="file" name="image" class="form-control w-100 custom-input" id="product-photo"accept="image/*" onchange="previewPhoto()">
+                            </div>
+
+                            <!-- Current Photo Preview -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Current Photo</label>
+                                <img id="current-photo" src="" alt="Current Product Photo" style="max-width: 100px; max-height: 100px;">
+                            </div>
+
+                            <!-- Product Description -->
+                            <div class="form-group" style="flex-grow: 1;">
+                                <h2 class="mb-2">Product Description</h2>
+                                <textarea name="description" class="form-control custom-input">{{$row->description}}</textarea>
+                            </div>
+
+                            {{-- <!-- Category Dropdown -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Price</label>
+                                <input type="text" name="cat_id" class="form-control w-100 custom-input" value="100.00" />
+                            </div>
+
+                            <!-- Type Dropdown -->
+                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
+                                <label class="me-2 w-25 w-md-100">Quantity</label>
+                                <input type="text" name="type_id" class="form-control w-100 custom-input" value="2" />
+                            </div> --}}
 
 
-                       <div class="form-group" style="flex-grow: 1;">
-                           <h2 class="mb-2">Product Description</h2>
-                           <textarea class="form-control custom-input">Description</textarea>
-                       </div>
 
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
 
-
-                   </div>
-
-               </div>
-           </div>
        </div>
    </div>
 </div>
@@ -230,7 +264,8 @@
 <script src="{{url('assets/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
 
 <!-- Main JS File -->
-<script src="{{url('assets/js/main.js')}}">
+<script src="{{url('assets/js/main.js')}}"></script>
+<script>
 
     function previewPhoto() {
         const file = document.getElementById('product-photo').files[0];
@@ -322,8 +357,28 @@
         }
     }
 
-</script>
-<script>
+    function openEditModal(productId, name, price, stock, description, imagePath) {
+    var modal = document.getElementById('editProductModal');
+    var form = modal.querySelector('form');
+
+    form.action = form.action.replace(/\/\d*$/, '/' + productId);
+
+    modal.querySelector('input[name="name"]').value = name;
+    modal.querySelector('input[name="price"]').value = price;
+    modal.querySelector('input[name="stock"]').value = stock;
+    modal.querySelector('textarea[name="description"]').value = description;
+
+    // Set the current image preview
+    var currentPhoto = modal.querySelector('#current-photo');
+    if (currentPhoto) {
+        currentPhoto.src = '/' + imagePath; // Add a leading slash
+    }
+
+    var bootstrapModal = new bootstrap.Modal(modal);
+    bootstrapModal.show();
+}
+
+
     // Show success message if it exists
     @if(session('success'))
         alert("{{ session('success') }}");
@@ -337,6 +392,7 @@
         }
     }
     </script>
+
 <style>
 .showPhoto {
     display: flex;

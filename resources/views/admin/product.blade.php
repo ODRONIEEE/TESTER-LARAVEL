@@ -160,16 +160,19 @@
                     <div class="row  mt-3">
                         <div class="menu-options d-flex">
                             <a href="{{ route('admin.product_info', ['type' => 5]) }}" class="menu-system">
-                                <span>Pastries</span>
+                                <span>Appetizers</span>
                             </a>
                             <a href="{{ route('admin.product_info', ['type' => 6]) }}" class="menu-system">
-                                <span>Rice Meal</span>
+                                <span>Pasta</span>
                             </a>
                             <a href="{{ route('admin.product_info', ['type' => 7]) }}" class="menu-system">
-                                <span>Appetizer</span>
+                                <span>Burger</span>
                             </a>
                             <a href="{{ route('admin.product_info', ['type' => 8]) }}" class="menu-system">
-                                <span>Burger</span>
+                                <span>Rice Meal</span>
+                            </a>
+                            <a href="{{ route('admin.product_info', ['type' => 9]) }}" class="menu-system">
+                                <span>Pastries</span>
                             </a>
                         </div>
                     </div>

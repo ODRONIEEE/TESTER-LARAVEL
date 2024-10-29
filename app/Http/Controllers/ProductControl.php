@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
 use App\Models\Product;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class ProductControl extends Controller
@@ -99,10 +100,46 @@ class ProductControl extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, $id){
+
+    // Validate the request data
+    $request->validate([
+        'name' => 'string|max:255',
+        'price' => 'numeric|min:0',
+        'stock' => 'integer|min:0',
+        'description' => 'string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $product = Product::findOrFail($id);
+
+    $product->name = $request->name;
+    $product->price = $request->price;
+    $product->stock = $request->stock;
+    $product->description = $request->description;
+
+    if ($request->hasFile('image')) {
+        // Delete old image
+        if ($product->image) {
+            $oldImagePath = public_path('uploads/' . $product->image);
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
+
+        // Store new image
+        $image = $request->file('image');
+        $imageName = $request['name'] . '_' . time();
+        $image->move(public_path('uploads'), $imageName);
+        $product->image = 'uploads/' . $imageName;
     }
+
+
+    $product->save();
+
+    return redirect()->route('admin.product')->with('success', 'Product updated successfully');
+}
+
 
     /**
      * Remove the specified resource from storage.
