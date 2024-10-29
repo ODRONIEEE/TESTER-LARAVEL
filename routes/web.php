@@ -33,11 +33,18 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::get('dashboard',[UserControl::class, 'home'])->name('dashboard');
     Route::get('menu',[UserControl::class, 'menu'])->name('menu');
+
     Route::get('cart',[UserControl::class, 'cart'])->name('cart');
+
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
     Route::get('Order_history',[UserControl::class, 'history'])->name('Order_history');
     Route::get('preferences',[UserControl::class, 'preference'])->name('preferences');
-    Route::get('orderProduct',[ProductControl::class, 'order'])->name('orderProduct');
+    Route::get('orderProduct/{id}',[ProductControl::class, 'order'])->name('orderProduct');
+
+
+    Route::post('/cart/add', [UserControl::class, 'addToCart'])->name('cart.add');
+    Route::get('/cart', [UserControl::class, 'viewCart'])->name('cart');
+    Route::post('/cart/remove', [UserControl::class, 'removeFromCart'])->name('cart.remove');
 });
 
 

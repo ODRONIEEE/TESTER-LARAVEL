@@ -97,12 +97,17 @@
               <li class="nav-item d-none d-md-block">
                 <span class="navbar-divider"></span>
               </li>
+
               <!-- CART LOGO -->
-              <li class="nav-item">
-                <a href="{{ route('cart') }}" class="btn-icon-only">
-                    CART
-                </a>
-              </li>
+                <li class="nav-item">
+                    <a href="{{ route('cart') }}" class="btn-icon-only">
+                        CART
+                        @if(isset($cartItemCount) && $cartItemCount > 0)
+                            <span class="cart-item-count">{{ $cartItemCount }}</span>
+                        @endif
+                    </a>
+                </li>
+
               <!-- USER LOGO -->
               <li class="dropdown">
                 <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
@@ -161,13 +166,16 @@
 
 
       <main class="main">
-
         <section id="hero" class="hero section light-background">
 
             <div class="container">
               <div class="row gy-4">
                 <!-- Text content section -->
                 <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
+                    @auth
+                    <h2>Welcome Back! {{Auth::user()->name}}</h2>
+                    @endauth
+
                   <h1>Archive Cafe</h1>
                   <p>“Brewing Timeless Moments”</p>
                   <div class="d-flex justify-content-center justify-content-lg-start">
@@ -484,7 +492,19 @@
    <!-- Main JS File -->
    <script src="{{asset('assets/js/main.js')}}"></script>
    <script src="{{asset('assets/js/drinks_menu.js')}}"></script>
+<style>
+.cart-item-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
 
+</style>
 </body>
 
 </html>

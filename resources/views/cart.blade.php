@@ -162,11 +162,8 @@
   </header>
 
   @endif
-
   <main class="main">
-
-
-    <div class="menu-container-light-details " style="padding-top: 150px;">
+    <div class="menu-container-light-details" style="padding-top: 150px;">
         <div class="row mb-5">
             <div class="col-md-2 mb-4">
                 <div class="order-history">
@@ -176,29 +173,41 @@
 
             <div class="col-md-5">
                 <div class="order-container">
-                    <h2>Uy! Kamusta</h2>
+                    @php
+                        $cart = session('cart', []);
+                        $totalItems = array_sum(array_column($cart, 'quantity'));
+                        $totalPrice = array_sum(array_map(function($item) {
+                            return $item['price'] * $item['quantity'];
+                        }, $cart));
+                    @endphp
 
-
-                    <h3>Check out our
-                        menu to find
-                        goodies there!</h3>
-
-                    <a class="menu" href="{{route('menu')}}">Menu</a>
-
-
+                    @if($totalItems > 0)
+                        <h2>Your Cart</h2>
+                        <p>You have {{ $totalItems }} item(s) in your cart.</p>
+                        <p>Total: ${{ number_format($totalPrice, 2) }}</p>
+                        <!-- Display cart items here -->
+                        @foreach($cart as $item)
+                            <div class="cart-item">
+                                <p>{{ $item['name'] }} - Quantity: {{ $item['quantity'] }} - Price: ${{ number_format($item['price'] * $item['quantity'], 2) }}</p>
+                                <form action="{{ route('cart.remove') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $item['id'] }}">
+                                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                                </form>
+                            </div>
+                        @endforeach
+                    @else
+                        <h2>Uy! Kamusta</h2>
+                        <h3>Your cart is empty. Check out our menu to find goodies there!</h3>
+                        <a class="menu" href="{{ route('menu') }}">Menu</a>
+                    @endif
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
-
-
-
-
 </main>
+
+
 
  <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i

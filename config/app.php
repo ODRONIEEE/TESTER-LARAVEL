@@ -123,4 +123,15 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+//     'providers' => [
+//     // Other providers...
+//     App\Providers\AppServiceProvider::class,
+//     ],
+
+//     'aliases' => [
+//     // ...
+//     'View' => Illuminate\Support\Facades\View::class,
+//     // ...
+// ],
+
 ];

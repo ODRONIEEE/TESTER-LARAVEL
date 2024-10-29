@@ -13,10 +13,12 @@ class ProductControl extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function order()
+    public function order($id)
     {
-        return view('orderProduct');
+        $product = Product::findOrFail($id);
+        return view('orderProduct', compact('product'));
     }
+
 
     /**
      * Show the form for creating a new resource.
