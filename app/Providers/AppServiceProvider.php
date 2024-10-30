@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // $this->app->singleton('cart_item_count', function ($app) {
+
         //     return $app->make(CartService::class)->getCartItemCount();
         // });
 

@@ -167,13 +167,13 @@
                 <!-- Left Section: Product Display -->
 
                 <div class="col-lg-5 col-md-6 col-sm-12 mb-4">
-                    <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">Caramel Macchiato</h1>
+                    <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">{{$product->name}}</h1>
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                            <img class="img-fluid" src="assets/img/products/cold americano.png" alt="Card image cap">
+                            <img class="img-fluid" src="{{ $product->image }}" alt="Card image cap">
                         </div>
                         <div class="col-lg-8 col-md-6 col-sm-12 mb-4" style="text-align: right;">
-                            <h1 class="page-header">₱ 150.00</h1>
+                            <h1 class="page-header">{{$product->price}}</h1>
                             <div class="btn-group-wrapper">
                                 <div class="btn-group">
                                     <button class="btn btn-dark">H</button>
@@ -193,8 +193,7 @@
                     </div>
                     <div class="row">
                         <p class="product-description mt-3">
-                            Features bold espresso layered over creamy milk finished with a rich caramel drizzle.
-                            It's a perfectly balanced, sweet and refreshing treat for any time of day.
+                            {{ $product->description }}
                         </p>
                     </div>
                 </div>
