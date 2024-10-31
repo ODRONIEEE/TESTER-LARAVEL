@@ -171,12 +171,13 @@
             <div class="container">
               <div class="row gy-4">
                 <!-- Text content section -->
-                <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
+                <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start"
+                style="margin-bottom: 34px;" data-aos="zoom-out">
                     @auth
                     <h2>Welcome Back! {{Auth::user()->name}}</h2>
                     @endauth
 
-                  <h1>Archive Cafe</h1>
+                <h1 class="archive-cafe-title">Archive Cafe</h1>
                   <p>“Brewing Timeless Moments”</p>
                   <div class="d-flex justify-content-center justify-content-lg-start">
                     <a href="#menu" class="btn-get-started">Hot Drinks!</a>
@@ -503,6 +504,8 @@
     padding: 2px 6px;
     font-size: 12px;
 }
+
+
 
 </style>
 </body>

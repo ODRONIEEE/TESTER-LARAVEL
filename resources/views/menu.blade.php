@@ -150,21 +150,83 @@
     <main class="main">
 
         <div class="menu-container-light">
-            <nav class="category-menu-products d-flex flex-wrap justify-content-center mb-3">
+            <!-- Navbar for larger screens -->
+            <nav class="category-menu-products d-none d-md-flex flex-wrap justify-content-center mb-3">
                 <button class="custom-category-btn btn mx-2 my-1" data-type="all">All</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type=1>Coffee</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type=2>Non-Coffee</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type=3>Refreshers</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type=4>Tea</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type=5>Appetizers</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type=6>Pasta</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type=7>Burger</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type=8>Rice Meal</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type=9>Pastries</button>
-
-
-
+                <button class="custom-category-btn btn mx-2 my-1" data-type="1">Coffee</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type="2">Non-Coffee</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type="3">Refreshers</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type="4">Tea</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type="5">Appetizers</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type="6">Pasta</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type="7">Burger</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type="8">Rice Meal</button>
+                <button class="custom-category-btn btn mx-2 my-1" data-type="9">Pastries</button>
             </nav>
+    <!-- Carousel for mobile screens -->
+    <div id="categoryCarousel" class="carousel slide category-menu-products d-md-none mt-4" data-bs-ride="carousel" style="margin-bottom:40px">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="all">All</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="1">Coffee</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="2">Non-Coffee</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Refreshers</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Tea</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Appetizers</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Pasta</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Burger</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Rice Meal</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Pastries</button>
+                </div>
+            </div>
+
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 
             <div id="food" class="row">
                 <div class="container">
@@ -283,6 +345,18 @@
             filterProducts('all');
         });
         </script>
+
+<style>
+    @media (max-width: 767px) {
+        #categoryCarousel .carousel-item {
+            text-align: center;
+        }
+        #categoryCarousel .custom-category-btn {
+            width: auto;
+            margin: 0 auto;
+        }
+    }
+</style>
 
 
 </body>
