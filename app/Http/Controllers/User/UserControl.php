@@ -44,6 +44,8 @@ class UserControl extends Controller
         return view('preferences');
     }
 
+
+
     protected $cartService;
 
     public function __construct(CartService $cartService)
@@ -54,8 +56,14 @@ class UserControl extends Controller
     public function addToCart(Request $request)
     {
         $product = Product::findOrFail($request->product_id);
-        $this->cartService->addToCart($product, $request->quantity ?? 1);
-        return redirect()->back()->with('success', 'Product added to cart');
+        $quantity = $request->quantity;
+        $extras = $request->extras;
+        $temperature = $request->temperature;
+        $price = $request->price;
+
+        $this->cartService->addToCart($product, $quantity, $extras, $temperature, $price);
+
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
     public function viewCart()
@@ -64,10 +72,19 @@ class UserControl extends Controller
         return view('cart', compact('cart'));
     }
 
-    public function removeFromCart(Request $request)
+    public function removeFromCart($itemId)
     {
-        $this->cartService->removeFromCart($request->product_id);
-        return redirect()->back()->with('success', 'Product removed from cart');
+        $this->cartService->removeFromCart($itemId);
+        return redirect()->route('cart')->with('success', 'Item removed from cart successfully');
     }
+
+    public function updateCart(Request $request)
+    {
+        $selectedItems = $request->input('selected_items', []);
+        $this->cartService->updateCartSelection($selectedItems);
+
+        return redirect()->route('cart')->with('success', 'Cart updated successfully');
+    }
+
 
 }

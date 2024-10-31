@@ -159,36 +159,34 @@
       @endif
 
       <main class="main">
-
-
         <div class="menu-container-light-details">
-
             <div class="row">
                 <!-- Left Section: Product Display -->
-
                 <div class="col-lg-5 col-md-6 col-sm-12 mb-4">
                     <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">{{$product->name}}</h1>
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                            <img class="img-fluid" src="{{ $product->image }}" alt="Card image cap">
+                            <img class="img-fluid" src="{{ asset($product->image) }}" alt="Card image cap">
                         </div>
                         <div class="col-lg-8 col-md-6 col-sm-12 mb-4" style="text-align: right;">
-                            <h1 class="page-header">{{$product->price}}</h1>
+                            <h1 class="page-header" id="display-price">{{$product->price}}</h1>
                             <div class="btn-group-wrapper">
                                 <div class="btn-group">
-                                    <button class="btn btn-dark">H</button>
-                                    <button class="btn btn-warning">C</button>
+                                    <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
+                                    <button type="button" class="btn btn-warning temperature-btn" data-temp="cold">C</button>
                                 </div>
                             </div>
-
 
                             <form action="{{ route('cart.add') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="product_name" value="{{ $product->name }}">
+                                <input type="hidden" name="temperature" id="temperature-input" value="hot">
+                                <input type="hidden" name="price" id="price-input" value="{{ $product->price }}">
                                 <input type="number" name="quantity" value="1" min="1">
-                                <button type="submit">Add to Cart</button>
+                                <input type="hidden" name="extras" id="extras-input">
+                                <button type="submit" class="btn btn-warning mt-3">Add to Cart</button>
                             </form>
-
                         </div>
                     </div>
                     <div class="row">
@@ -208,75 +206,88 @@
                         <h4>Espresso</h4>
                         <div class="btn-group-wrapper justify-content-start">
                             <div class="btn-group">
-                                <button class="btn btn-dark" style=" max-width: 70px;;">1</button>
-                                <button class="btn btn-warning" style=" max-width: 70px;">2</button>
+                                <button type="button" class="btn btn-outline-dark espresso-btn" data-value="1" data-price="30" style="max-width: 70px;">1</button>
+                                <button type="button" class="btn btn-outline-dark espresso-btn" data-value="2" data-price="60" style="max-width: 70px;">2</button>
                             </div>
                         </div>
+
                         <h4 class="mt-4">Syrup</h4>
                         <div class="radio-options">
-                            <label>
+                            <label class="extra-label">
+                                <input type="checkbox" name="extras[syrup][roasted_almond][selected]" value="1" data-price="30">
+                                <input type="hidden" name="extras[syrup][roasted_almond][price]" value="30">
+                                <span class="checkmark"></span>
                                 <div class="extra-container">
-                                    <input type="radio" name="syrup" value="roasted_almond">
                                     Roasted Almond
                                 </div>
                             </label>
-                            <label>
+                            <label class="extra-label">
+                                <input type="checkbox" name="extras[syrup][vanilla][selected]" value="1" data-price="30">
+                                <input type="hidden" name="extras[syrup][vanilla][price]" value="30">
+                                <span class="checkmark"></span>
                                 <div class="extra-container">
-                                    <input type="radio" name="syrup" value="hazelnut" checked>
-                                    Hazelnut
+                                    Vanilla
                                 </div>
                             </label>
-                            <label>
+                            <label class="extra-label">
+                                <input type="checkbox" name="extras[syrup][hazelnut][selected]" value="1" data-price="30">
+                                <input type="hidden" name="extras[syrup][hazelnut][price]" value="30">
+                                <span class="checkmark"></span>
                                 <div class="extra-container">
-                                    <input type="radio" name="syrup" value="vanilla">
-                                    Vanilla
+                                    Hazelnut
                                 </div>
                             </label>
                         </div>
 
                         <h4 class="mt-4">Sauce</h4>
                         <div class="radio-options">
-                            <label>
+                            <label class="extra-label">
+                                <input type="checkbox" name="extras[sauce][chocolate][selected]" value="1" data-price="30">
+                                <input type="hidden" name="extras[sauce][chocolate][price]" value="30">
+                                <span class="checkmark"></span>
                                 <div class="extra-container">
-                                    <input type="radio" name="sauce" value="chocolate" checked>
                                     Chocolate
                                 </div>
                             </label>
-                            <label>
+                            <label class="extra-label">
+                                <input type="checkbox" name="extras[sauce][caramel][selected]" value="1" data-price="30">
+                                <input type="hidden" name="extras[sauce][caramel][price]" value="30">
+                                <span class="checkmark"></span>
                                 <div class="extra-container">
-                                    <input type="radio" name="sauce" value="caramel">
                                     Caramel
                                 </div>
                             </label>
-                            <label>
+                            <label class="extra-label">
+                                <input type="checkbox" name="extras[sauce][white_choco][selected]" value="1" data-price="30">
+                                <input type="hidden" name="extras[sauce][white_choco][price]" value="30">
+                                <span class="checkmark"></span>
                                 <div class="extra-container">
-                                    <input type="radio" name="sauce" value="white_choco">
                                     White Choco
                                 </div>
                             </label>
-                            <label>
+                            <label class="extra-label">
+                                <input type="checkbox" name="extras[sauce][butterscotch][selected]" value="1" data-price="30">
+                                <input type="hidden" name="extras[sauce][butterscotch][price]" value="30">
+                                <span class="checkmark"></span>
                                 <div class="extra-container">
-                                    <input type="radio" name="sauce" value="butterscotch">
                                     Butterscotch
                                 </div>
                             </label>
-                            <label>
+                            <label class="extra-label">
+                                <input type="checkbox" name="extras[sauce][salted_caramel][selected]" value="1" data-price="30">
+                                <input type="hidden" name="extras[sauce][salted_caramel][price]" value="30">
+                                <span class="checkmark"></span>
                                 <div class="extra-container">
-                                    <input type="radio" name="sauce" value="salted_caramel">
                                     Salted Caramel
                                 </div>
                             </label>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
-
         </div>
-
     </main>
+
 
 
       <footer id="footer" class="footer dark-background text-center">
@@ -302,7 +313,180 @@
    <!-- Main JS File -->
    <script src="{{asset('assets/js/main.js')}}"></script>
    <script src="{{asset('assets/js/drinks_menu.js')}}"></script>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const displayPrice = document.getElementById('display-price');
+    const priceInput = document.getElementById('price-input');
+    const extrasInput = document.getElementById('extras-input');
+    const temperatureInput = document.getElementById('temperature-input');
+    const temperatureBtns = document.querySelectorAll('.temperature-btn');
+    const espressoBtns = document.querySelectorAll('.espresso-btn');
+    const syrupInputs = document.querySelectorAll('input[name^="extras[syrup]"]');
+    const sauceInputs = document.querySelectorAll('input[name^="extras[sauce]"]');
+
+    let basePrice = parseFloat(priceInput.value);
+    let originalBasePrice = basePrice; // Store the original base price
+    let extras = {
+        espresso: { selected: null, price: 0 },
+        syrup: {},
+        sauce: {}
+    };
+
+    function updateDisplayPrice() {
+        let totalPrice = basePrice;
+        let extrasTotal = 0;
+
+        // Calculate extras total
+        extrasTotal += extras.espresso.price;
+
+        Object.values(extras.syrup).forEach(syrup => {
+            if (syrup.selected) extrasTotal += syrup.price;
+        });
+
+        Object.values(extras.sauce).forEach(sauce => {
+            if (sauce.selected) extrasTotal += sauce.price;
+        });
+
+        totalPrice += extrasTotal;
+
+        // Update display
+        displayPrice.innerHTML = `Base: $${basePrice.toFixed(2)}<br>Total: $${totalPrice.toFixed(2)}`;
+        priceInput.value = totalPrice.toFixed(2);
+        extrasInput.value = JSON.stringify(extras);
+    }
+
+    // Temperature buttons
+    temperatureBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            temperatureBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            temperatureInput.value = this.dataset.temp;
+
+            // Adjust base price for hot/cold
+            if (this.dataset.temp === 'hot') {
+                basePrice = originalBasePrice - 10; // Assuming hot is $10 cheaper
+            } else {
+                basePrice = originalBasePrice; // Reset to original (cold) price
+            }
+            updateDisplayPrice();
+        });
+    });
+
+    // Espresso buttons
+    espressoBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            espressoBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            extras.espresso.selected = this.dataset.value;
+            extras.espresso.price = parseFloat(this.dataset.price);
+            updateDisplayPrice();
+        });
+    });
+
+    // Syrup checkboxes
+    syrupInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const syrupName = this.name.match(/\[syrup\]\[(.+?)\]/)[1];
+            if (this.checked) {
+                extras.syrup[syrupName] = {
+                    selected: true,
+                    price: parseFloat(this.dataset.price)
+                };
+            } else {
+                delete extras.syrup[syrupName];
+            }
+            updateDisplayPrice();
+        });
+    });
+
+    // Sauce checkboxes
+    sauceInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const sauceName = this.name.match(/\[sauce\]\[(.+?)\]/)[1];
+            if (this.checked) {
+                extras.sauce[sauceName] = {
+                    selected: true,
+                    price: parseFloat(this.dataset.price)
+                };
+            } else {
+                delete extras.sauce[sauceName];
+            }
+            updateDisplayPrice();
+        });
+    });
+
+    // Initialize
+    updateDisplayPrice();
+});
+
+</script>
 <style>
+.radio-options {
+    margin-top: 10px;
+}
+
+.extra-label {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    user-select: none;
+}
+
+.extra-label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.extra-label:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.extra-label input:checked ~ .checkmark {
+    background-color: #ed8705;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.extra-label input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.extra-label .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 7px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.extra-container {
+    margin-left: 10px;
+}
 
 
 </style>

@@ -40,128 +40,130 @@
 
     @if (Route::has('login'))
     <header id="header" class="header d-flex align-items-center fixed-top">
-      <div class="container-fluid container-xl position-relative d-flex align-items-center">
-        <a href="{{route('welcome')}}" class="logo d-flex align-items-center me-auto">
-          <img src="assets/img/logo/logo.png" alt="">
-        </a>
-        @auth
-        @if (Auth::user()->usertype === 'admin')
-        <nav id="navmenu" class="navmenu">
-            <ul>
-              <li class="nav-item cafe-center">
-                <h1 class="cafe-name">archive <span>cafe</span></h1>
-              </li>
-              <li><a href="{{route('admin.pos')}}">POS</a></li>
-              <li><a href="{{route('admin.product')}}">PRODUCTS</a></li>
-              <li><a href="{{route('admin.orders')}}">ORDERS</a></li>
-              <li class="nav-item d-none d-md-block">
-                <span class="navbar-divider"></span>
-              </li>
-              <!-- Dropdown changed to button -->
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+            <a href="{{route('welcome')}}" class="logo d-flex align-items-center me-auto">
+            <img src="assets/img/logo/logo.png" alt="">
+            </a>
+                @auth
+                    @if (Auth::user()->usertype === 'admin')
+                        <nav id="navmenu" class="navmenu">
+                            <ul>
+                                <li class="nav-item cafe-center">
+                                    <h1 class="cafe-name">archive <span>cafe</span></h1>
+                                </li>
+                                    <li><a href="{{route('admin.pos')}}">POS</a></li>
+                                    <li><a href="{{route('admin.product')}}">PRODUCTS</a></li>
+                                    <li><a href="{{route('admin.orders')}}">ORDERS</a></li>
+                                    <li class="nav-item d-none d-md-block">
+                                        <span class="navbar-divider"></span>
+                                    </li>
 
-              <li class="dropdown">
-                <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
-                  <i class="bi bi-person toggle-dropdown"></i>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <li><a href="{{route('profile.edit')}}">{{Auth::user()->name}}</a></li>
+                                    <!-- Dropdown changed to button -->
+                                    <li class="dropdown">
+                                        <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                                        <i class="bi bi-person toggle-dropdown"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li><a href="{{route('profile.edit')}}">{{Auth::user()->name}}</a></li>
 
-                  <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-dropdown-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                    this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-dropdown-link>
-                </form>
-                </ul>
-              </li>
-            </ul>
-            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-          </nav>
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <x-dropdown-link :href="route('logout')"
+                                                    onclick="event.preventDefault();
+                                                                this.closest('form').submit();">
+                                                    {{ __('Log Out') }}
+                                                </x-dropdown-link>
+                                            </form>
+                                        </ul>
+                                    </li>
+                            </ul>
+                                        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                        </nav>
 
-        @elseif (Auth::user()->usertype === 'user')
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li class="nav-item cafe-center">
-            <h1 class="cafe-name">archive <span>cafe</span></h1>
-          </li>
-          <li><a href="{{route('welcome')}}">Cafe</a></li>
-          <li><a href="{{route('menu')}}">Menu</a></li>
-          <li><a href="{{route('welcome')}}">Meet The Team</a></li>
-          <li class="nav-item d-none d-md-block">
-            <span class="navbar-divider"></span>
-          </li>
-          <!-- Dropdown changed to button -->
-            <li class="nav-item">
-            @auth
-            @if(Auth::user()->usertype === 'user')
-                <!-- If the user is logged in, redirect to the cart page -->
-                <a href="{{ route('cart') }}" class="btn-icon-only">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </a>
-            @endif
-            @endauth
-            </li>
-          <li class="dropdown">
-            <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
-              <i class="bi bi-person toggle-dropdown"></i>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><a href="{{route('userProfile')}}">{{Auth::user()->name}}</a></li>
+                    @elseif (Auth::user()->usertype === 'user')
+                        <nav id="navmenu" class="navmenu">
+                                <ul>
+                                    <li class="nav-item cafe-center">
+                                        <h1 class="cafe-name">archive <span>cafe</span></h1>
+                                    </li>
+                                    <li><a href="{{route('welcome')}}">Cafe</a></li>
+                                    <li><a href="{{route('menu')}}">Menu</a></li>
+                                    <li><a href="{{route('welcome')}}">Meet The Team</a></li>
+                                    <li class="nav-item d-none d-md-block">
+                                        <span class="navbar-divider"></span>
+                                    </li>
+                                    <!-- Dropdown changed to button -->
+                                        <li class="nav-item">
+                                        @auth
+                                        @if(Auth::user()->usertype === 'user')
+                                            <!-- If the user is logged in, redirect to the cart page -->
+                                            <a href="{{ route('cart') }}" class="btn-icon-only">
+                                                <i class="fa-solid fa-cart-shopping"></i>
+                                            </a>
+                                    @endif
+                                    @endauth
+                                        </li>
 
-              <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <x-dropdown-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                this.closest('form').submit();">
-                    {{ __('Log Out') }}
-                </x-dropdown-link>
-            </form>
-            </ul>
-          </li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-      @endif
-      @else
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li class="nav-item cafe-center">
-            <h1 class="cafe-name">archive <span>cafe</span></h1>
-          </li>
-          <li><a href="#cafe">Cafe</a></li>
-          <li><a href="{{route('login')}}">Menu</a></li>
-          <li><a href="#team">Meet The Team</a></li>
-          <li class="nav-item d-none d-md-block">
-            <span class="navbar-divider"></span>
-          </li>
-          <!-- Dropdown changed to button -->
-          <li class="dropdown">
-            <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
-              <i class="fa-solid fa-cart-shopping"></i>
-            </button>
-          </li>
-          <li class="dropdown">
-            <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
-              <i class="bi bi-person toggle-dropdown"></i>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><a href="{{route('login')}}">Login</a></li>
+                                    <li class="dropdown">
+                                        <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                                            <i class="bi bi-person toggle-dropdown"></i>
+                                        </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li><a href="{{route('userProfile')}}">{{Auth::user()->name}}</a></li>
 
-              <li><a href="{{route('register')}}">Sign Up</a></li>
-            </ul>
-          </li>
-        </ul>
-        <h1 class="cafe-center cafe-name text-center d-md-none"><strong>archive</strong> <span>cafe</span></h1>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
+                                                <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <x-dropdown-link :href="route('logout')"
+                                                    onclick="event.preventDefault();
+                                                                this.closest('form').submit();">
+                                                    {{ __('Log Out') }}
+                                                </x-dropdown-link>
+                                                </form>
+                                            </ul>
+                                    </li>
+                                </ul>
+                                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                        </nav>
+                @endif
+                @else
+                <nav id="navmenu" class="navmenu">
+                    <ul>
+                    <li class="nav-item cafe-center">
+                        <h1 class="cafe-name">archive <span>cafe</span></h1>
+                    </li>
+                    <li><a href="#cafe">Cafe</a></li>
+                    <li><a href="{{route('login')}}">Menu</a></li>
+                    <li><a href="#team">Meet The Team</a></li>
+                    <li class="nav-item d-none d-md-block">
+                        <span class="navbar-divider"></span>
+                    </li>
+                    <!-- Dropdown changed to button -->
+                    <li class="dropdown">
+                        <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        </button>
+                    </li>
+                    <li class="dropdown">
+                        <button class="btn-icon-only" id="dropdownMenuButton" aria-expanded="false">
+                        <i class="bi bi-person toggle-dropdown"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a href="{{route('login')}}">Login</a></li>
 
-      @endauth
-    </div>
-  </header>
+                        <li><a href="{{route('register')}}">Sign Up</a></li>
+                        </ul>
+                    </li>
+                    </ul>
+                    <h1 class="cafe-center cafe-name text-center d-md-none"><strong>archive</strong> <span>cafe</span></h1>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                </nav>
+                @endauth
+
+        </div>
+    </header>
 
   @endif
+
   <main class="main">
     <div class="menu-container-light-details" style="padding-top: 150px;">
         <div class="row mb-5">
@@ -176,26 +178,85 @@
                     @php
                         $cart = session('cart', []);
                         $totalItems = array_sum(array_column($cart, 'quantity'));
-                        $totalPrice = array_sum(array_map(function($item) {
-                            return $item['price'] * $item['quantity'];
-                        }, $cart));
+                        $totalPrice = 0;
                     @endphp
 
                     @if($totalItems > 0)
                         <h2>Your Cart</h2>
                         <p>You have {{ $totalItems }} item(s) in your cart.</p>
-                        <p>Total: ${{ number_format($totalPrice, 2) }}</p>
+
                         <!-- Display cart items here -->
-                        @foreach($cart as $item)
-                            <div class="cart-item">
-                                <p>{{ $item['name'] }} - Quantity: {{ $item['quantity'] }} - Price: ${{ number_format($item['price'] * $item['quantity'], 2) }}</p>
-                                <form action="{{ route('cart.remove') }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <input type="hidden" name="product_id" value="{{ $item['id'] }}">
-                                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-                                </form>
+                        <form id="cart-form" action="{{ route('cart.update') }}" method="POST">
+                            @csrf
+                            @foreach($cart as $item)
+                            @php
+                                $basePrice = $originalBasePrice = $item['price'] * $item['quantity'];
+                                $extrasTotal = 0;
+                            @endphp
+                            <div class="cart-item" id="cart-item-{{ $item['id'] }}">
+                                <div class="item-details">
+                                    <input type="checkbox" name="selected_items[]" value="{{ $item['id'] }}" id="item_{{ $item['id'] }}" checked>
+                                    <label for="item_{{ $item['id'] }}">
+                                        <strong>{{ $item['name'] }}</strong><br>
+                                        Quantity: {{ $item['quantity'] }} - Base Price: ${{ number_format($basePrice, 2) }}
+                                        @if(isset($item['temperature']))
+                                            ({{ ucfirst($item['temperature']) }})
+                                        @endif
+                                    </label>
+                                </div>
+
+                                @if(isset($item['extras']) && !empty($item['extras']))
+                                    <div class="extras-details">
+                                        <strong>Extras:</strong>
+                                        <ul>
+                                            @foreach($item['extras'] as $extra => $value)
+                                                @if(is_bool($value) && $value || !is_bool($value) && !empty($value))
+                                                    @php
+                                                        $extraPrice = is_array($value) && isset($value['price']) ? $value['price'] : 0;
+                                                        $extrasTotal += $extraPrice;
+                                                    @endphp
+                                                    <li>
+                                                        {{ ucfirst($extra) }}:
+                                                        @if(is_bool($value))
+                                                            Yes
+                                                        @elseif(is_array($value))
+                                                            @php
+                                                                $displayValue = array_map(function($v) {
+                                                                    return is_array($v) ? implode(', ', array_filter($v)) : $v;
+                                                                }, array_filter($value));
+                                                                echo implode(', ', $displayValue);
+                                                            @endphp
+                                                        @else
+                                                            {{ $value }}
+                                                        @endif
+                                                        @if($extraPrice > 0)
+                                                            (+${{ number_format($extraPrice, 2) }})
+                                                        @endif
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                                @php
+                                    $itemTotal = ($basePrice * $item['quantity']) + ($extrasTotal * $item['quantity']);
+                                    $totalPrice += $itemTotal;
+                                @endphp
+
+                                <div class="item-total">
+                                    Item Total: ${{ number_format($itemTotal, 2) }}
+                                </div>
+
+                                <button type="button" class="btn btn-sm btn-danger remove-item" data-id="{{ $item['id'] }}">Remove</button>
                             </div>
                         @endforeach
+
+
+                            <button type="submit" class="btn btn-primary mt-3">Update Cart</button>
+                        </form>
+
+                        <p>Total: ${{ number_format($totalPrice, 2) }}</p>
                     @else
                         <h2>Uy! Kamusta</h2>
                         <h3>Your cart is empty. Check out our menu to find goodies there!</h3>
@@ -206,6 +267,11 @@
         </div>
     </div>
 </main>
+
+
+
+
+
 
 
 
@@ -230,6 +296,72 @@
    <script src="{{url('assets/js/main.js')}}"></script>
    <script src="{{url('assets/js/drinks_menu.js')}}"></script>
    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const removeButtons = document.querySelectorAll('.remove-item');
+        removeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.getAttribute('data-id');
+                removeItem(itemId);
+            });
+        });
+
+        function removeItem(itemId) {
+            fetch('{{ route('cart.remove') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ product_id: itemId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const itemElement = document.getElementById(`cart-item-${itemId}`);
+                    if (itemElement) {
+                        itemElement.remove();
+                    }
+                    updateCartSummary();
+                }
+            });
+        }
+
+        function updateCartSummary() {
+            const cartItems = document.querySelectorAll('.cart-item');
+            const totalItemsElement = document.querySelector('p:contains("You have")');
+            const totalPriceElement = document.querySelector('p:contains("Total:")');
+
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            cartItems.forEach(item => {
+                const quantityMatch = item.textContent.match(/Quantity: (\d+)/);
+                const priceMatch = item.textContent.match(/Price: \$(\d+\.\d+)/);
+
+                if (quantityMatch && priceMatch) {
+                    const quantity = parseInt(quantityMatch[1]);
+                    const price = parseFloat(priceMatch[1]);
+                    totalItems += quantity;
+                    totalPrice += quantity * price;
+                }
+            });
+
+            if (totalItemsElement) {
+                totalItemsElement.textContent = `You have ${totalItems} item(s) in your cart.`;
+            }
+            if (totalPriceElement) {
+                totalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
+            }
+
+            if (totalItems === 0) {
+                location.reload(); // Reload the page if cart is empty
+            }
+        }
+    });
+    </script>
+
 </body>
 
 </html>

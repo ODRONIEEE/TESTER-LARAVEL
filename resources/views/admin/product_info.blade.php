@@ -84,7 +84,8 @@
 
     <div class="menu-container ">
         <div class="col-lg-12 col-md-12 col-lg-12  product-details">
-            <h1 class=" text-center" style="color:white;font-weight: 700;"><strong>Coffee</strong></h1>
+            <h1 class=" text-center" style="color:white;font-weight: 700;"><strong>Products
+            </strong></h1>
             <div class="table-responsive">
                 <table class="table table-borderless custom-table">
                     <thead>
@@ -127,7 +128,7 @@
                         <td class="text-center">
                             <div class="action-buttons">
                                 <button class="btn btn-brown" style="background-color: #e2e2e2;"
-                                onclick="openEditModal('{{ $row->id }}', '{{ $row->name }}', '{{ $row->price }}', '{{ $row->stock }}', '{{ $row->description }}', '{{ $row->image }}')">
+                                onclick="openEditProductModal('{{ $product->id }}', '{{ $product->name }}', '{{ $product->price }}', '{{ $product->stock }}', '{{ $product->description }}', '{{ $product->image }}')">
                                 Edit Product
                                 </button>
 
@@ -158,48 +159,42 @@
 </main>
 
 
-   <!-- Edit Product Modal -->
-<div class="modal fade " id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
-   aria-hidden="true">
-   <div class="modal-dialog">
-       <div class="modal-content product-details">
-           <div class="modal-header">
-               <h5 class="modal-title" id="editProductModalLabel" style="color:white">Edit Product</h5>
-               <button type="button" class="btn-close" style="color:white" data-bs-dismiss="modal" aria-label="Close"></button>
-           </div>
-           <form action="{{route('admin.product.update', $row->id)}}" method="POST" enctype="multipart/form-data">
-               @csrf
-               @method('PUT')
-
-                <div class="modal-body ">
+<!-- Edit Product Modal -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content product-details">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProductModalLabel" style="color:white">Edit Product</h5>
+                <button type="button" class="btn-close" style="color:white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editProductForm" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-lg-12 col-md-12 col-sm-12">
-
                             <!-- Product Name -->
                             <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                 <label class="me-2 w-25 w-md-100">Product Name</label>
-                                <input type="text" name="name" class="form-control w-100 custom-input"
-                                    placeholder="Enter Product Name" value="{{$row->name}}"  />
+                                <input type="text" name="name" id="edit-product-name" class="form-control w-100 custom-input" placeholder="Enter Product Name">
                             </div>
 
                             <!-- Product price -->
                             <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                 <label class="me-2 w-25 w-md-100">Product Price</label>
-                                <input type="number" name="price" step="0.01" class="form-control w-100 custom-input"
-                                    placeholder="Enter Product Price" value="{{$row->price}}"  />
+                                <input type="number" name="price" id="edit-product-price" step="0.01" class="form-control w-100 custom-input" placeholder="Enter Product Price">
                             </div>
 
                             <!-- Product Stock -->
                             <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                 <label class="me-2 w-25 w-md-100">Product Quantity</label>
-                                <input type="number" name="stock" class="form-control w-100 custom-input"
-                                    placeholder="Enter Product Stock" value="{{$row->stock}}"  />
+                                <input type="number" name="stock" id="edit-product-stock" class="form-control w-100 custom-input" placeholder="Enter Product Stock">
                             </div>
 
                             <!-- Product Photo -->
                             <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
                                 <label class="me-2 w-25 w-md-100">Upload Photo</label>
-                                <input type="file" name="image" class="form-control w-100 custom-input" id="product-photo"accept="image/*" onchange="previewPhoto()">
+                                <input type="file" name="image" class="form-control w-100 custom-input" id="product-photo" accept="image/*" onchange="previewPhoto()">
                             </div>
 
                             <!-- Current Photo Preview -->
@@ -211,23 +206,8 @@
                             <!-- Product Description -->
                             <div class="form-group" style="flex-grow: 1;">
                                 <h2 class="mb-2">Product Description</h2>
-                                <textarea name="description" class="form-control custom-input">{{$row->description}}</textarea>
+                                <textarea name="description" id="edit-product-description" class="form-control custom-input"></textarea>
                             </div>
-
-                            {{-- <!-- Category Dropdown -->
-                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
-                                <label class="me-2 w-25 w-md-100">Price</label>
-                                <input type="text" name="cat_id" class="form-control w-100 custom-input" value="100.00" />
-                            </div>
-
-                            <!-- Type Dropdown -->
-                            <div class="form-group d-flex align-items-center mb-3 flex-md-row flex-column">
-                                <label class="me-2 w-25 w-md-100">Quantity</label>
-                                <input type="text" name="type_id" class="form-control w-100 custom-input" value="2" />
-                            </div> --}}
-
-
-
                         </div>
                     </div>
                 </div>
@@ -236,10 +216,10 @@
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
-
-       </div>
-   </div>
+        </div>
+    </div>
 </div>
+
 
 
 <footer id="footer" class="footer-product text-center">
@@ -357,25 +337,27 @@
         }
     }
 
-    function openEditModal(productId, name, price, stock, description, imagePath) {
+    function openEditProductModal(id, name, price, stock, description, imagePath) {
     var modal = document.getElementById('editProductModal');
-    var form = modal.querySelector('form');
+    var form = document.getElementById('editProductForm');
 
-    form.action = form.action.replace(/\/\d*$/, '/' + productId);
+    // Set the form action
+    form.action = "{{ route('admin.product.update', '') }}/" + id;
 
-    modal.querySelector('input[name="name"]').value = name;
-    modal.querySelector('input[name="price"]').value = price;
-    modal.querySelector('input[name="stock"]').value = stock;
-    modal.querySelector('textarea[name="description"]').value = description;
+    // Populate the form fields
+    document.getElementById('edit-product-name').value = name;
+    document.getElementById('edit-product-price').value = price;
+    document.getElementById('edit-product-stock').value = stock;
+    document.getElementById('edit-product-description').value = description;
 
-    // Set the current image preview
-    var currentPhoto = modal.querySelector('#current-photo');
-    if (currentPhoto) {
-        currentPhoto.src = '/' + imagePath; // Add a leading slash
-    }
+    // Set the current photo
+    var currentPhoto = document.getElementById('current-photo');
+    currentPhoto.src = imagePath ? '/' + imagePath : '';
 
-    var bootstrapModal = new bootstrap.Modal(modal);
-    bootstrapModal.show();
+    // Show the modal
+    var bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+
 }
 
 

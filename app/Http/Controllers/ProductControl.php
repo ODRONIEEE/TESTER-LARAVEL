@@ -160,7 +160,7 @@ class ProductControl extends Controller
     $product->delete();
 
     // Redirect back with success message
-    return redirect()->back()->with('success', 'Product deleted successfully');
+    return redirect()->route('admin.product')->with('success', 'Product deleted successfully');
     }
 
 }

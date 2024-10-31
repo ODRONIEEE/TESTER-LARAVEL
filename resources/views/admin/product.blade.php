@@ -48,9 +48,9 @@
             <li class="nav-item cafe-center">
               <h1 class="cafe-name">archive <span>cafe</span></h1>
             </li>
-            <li><a href="#cafe">Cafe</a></li>
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="index.html">Meet the Team</a></li>
+
+            <li><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+
             <li class="nav-item d-none d-md-block">
               <span class="navbar-divider"></span>
             </li>
@@ -106,37 +106,10 @@
                     <a href="{{route('admin.add')}}" class="menu-system ">
                         <span>Add Products</span>
                     </a>
+                    <a href="{{route('admin.extras')}}" class="menu-system ">
+                        <span>Add Extras</span>
+                    </a>
                 </div>
-
-                  <!-- IWAN KO LANG MUNA PARA JUST IN CASE -->
-                <!-- <div class="row">
-                    <div class="menu-options d-flex">
-                        <a href="{{ route('admin.product_info', ['type' => 1]) }}" class="menu-system">
-                            <span>Coffee</span>
-                        </a>
-                        <a href="{{ route('admin.product_info', ['type' => 2]) }}" class="menu-system">
-                            <span>Non Coffee</span>
-                        </a>
-                        <a href="{{ route('admin.product_info', ['type' => 3]) }}" class="menu-system">
-                            <span>Refreshers</span>
-                        </a>
-                        <a href="{{ route('admin.product_info', ['type' => 4]) }}" class="menu-system">
-                            <span>Tea</span>
-                        </a>
-                        <a href="{{ route('admin.product_info', ['type' => 9]) }}" class="menu-system">
-                            <span>Pastries</span>
-                        </a>
-                        <a href="{{ route('admin.product_info', ['type' => 8]) }}" class="menu-system">
-                            <span>Rice Meal</span>
-                        </a>
-                        <a href="{{ route('admin.product_info', ['type' => 5]) }}" class="menu-system">
-                            <span>Appetizer</span>
-                        </a>
-                        <a href="{{ route('admin.product_info', ['type' => 7]) }}" class="menu-system">
-                            <span>Burger</span>
-                        </a>
-                    </div>
-                </div> -->
 
 
                 <div class="row ">
@@ -153,6 +126,7 @@
                             <a href="{{ route('admin.product_info', ['type' => 4]) }}" class="menu-system">
                                 <span>Tea</span>
                             </a>
+
                         </div>
                     </div>
 
@@ -176,6 +150,8 @@
                             </a>
                         </div>
                     </div>
+
+
 
 
 
