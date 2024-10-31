@@ -29,7 +29,6 @@ class ProductControl extends Controller
      */
     public function create()
     {
-
         return view('admin.add');
     }
 
@@ -80,13 +79,18 @@ class ProductControl extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($type)
+{
+    $products = Product::where('type_id', $type)->get();
+    return view('admin.product_info', compact('products'));
+}
+
+    public function index($type)
     {
-        $product = Product::findOrFail($id);
-        $cat_id = $product->category_id; // or however you retrieve the category ID
-        $extras = Extras::where('cat_id', $cat_id)->get();
-        return view('orderProduct', compact('product', 'extras'));
+        $products = Product::where('type', $type)->get();
+        return view('admin.product_info', compact('products'));
     }
+
 
 
     /**

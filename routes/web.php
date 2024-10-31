@@ -50,9 +50,6 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::post('/cart/remove', [UserControl::class, 'removeFromCart'])->name('cart.remove');
     Route::post('/cart/update', [UserControl::class, 'updateCart'])->name('cart.update');
 
-
-
-
 });
 
 
@@ -70,7 +67,9 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
 
     Route::get('/admin/orders',[AdminControl::class, 'orders'])->name('admin.orders');
 
-    Route::get('/admin/product_info/{type}/{id?}', [ProductControl::class, 'show'])->name('admin.product_info');
+    Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
+    Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
+    Route::put('/admin/product/{id}', [ProductControl::class, 'update'])->name('admin.product.update');
 
     Route::get('/admin/extras', [ExtrasController::class, 'index'])->name('admin.extras');
     Route::post('/admin.extras', [ExtrasController::class, 'store'])->name('admin.extras.store');
@@ -78,8 +77,8 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::put('/admin/extras/{id}', [ExtrasController::class, 'update'])->name('admin.extras.update');
 
 
-    Route::get('/admin/product_info/{cat_id}', [ExtrasController::class, 'show'])->name('admin.product_info');
-    Route::get('/admin/product_info/{cat_id}', [InfoControl::class, 'show'])->name('admin.product_info');
+    // Route::get('/admin/product_info/{cat_id}', [ExtrasController::class, 'show'])->name('admin.product_info');
+    // Route::get('/admin/product_info/{cat_id}', [InfoControl::class, 'show'])->name('admin.product_info');
 
 
 });
@@ -88,10 +87,5 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
 Route::middleware(['auth', 'AdminMiddleware'])->group(function () {
     Route::get('/admin/add', [ProductControl::class, 'create'])->name('admin.add');
     Route::post('/admin/add', [ProductControl::class, 'store'])->name('admin.store');
-
-
-    Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
-    Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
-    Route::put('/admin/product/{id}', [ProductControl::class, 'update'])->name('admin.product.update');
 });
 

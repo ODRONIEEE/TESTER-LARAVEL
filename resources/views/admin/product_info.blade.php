@@ -101,54 +101,51 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($products as $index => $row)
+                        @forelse ($products as $index => $product)
                         <tr>
-                        <td class="text-center">{{ $index + 1 }}</td>
-                        <td class="text-center">
-                            <div class="table-container">{{ $row->product_code}}</div>
-                        </td>
-                        <td class="text-center">{{ $row->name }}</td>
-                        <td>{{ $row->description }}</td>
-                        <td class="text-center">
-                            <div class="table-container">
-                                {{ $row->price }}</div>
-                        </td>
-                        <td class="text-center">
-                            <div class="table-container">{{ $row->stock }}</div>
-                        </td>
-                        <td>
-                            <div class="showPhoto">
-                                <div id="imagePreview">
-                                    <img src="{{ asset($row->image) }}" alt="{{ $row->name }}" class="product-image">
+                            <td class="text-center">{{ $index + 1 }}</td>
+                            <td class="text-center">
+                                <div class="table-container">{{ $product->product_code }}</div>
+                            </td>
+                            <td class="text-center">{{ $product->name }}</td>
+                            <td>{{ $product->description }}</td>
+                            <td class="text-center">
+                                <div class="table-container">
+                                    {{ $product->price }}
                                 </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="table-container">{{ $product->stock }}</div>
+                            </td>
+                            <td>
+                                <div class="showPhoto">
+                                    <div id="imagePreview">
+                                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="product-image">
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="action-buttons">
+                                    <button class="btn btn-brown" style="background-color: #e2e2e2;"
+                                        onclick="openEditProductModal('{{ $product->id }}', '{{ $product->name }}', '{{ $product->price }}', '{{ $product->stock }}', '{{ $product->description }}', '{{ $product->image }}')">
+                                        Edit Product
+                                    </button>
 
-                            </div>
-                        </td>
-
-                        <td class="text-center">
-                            <div class="action-buttons">
-                                <button class="btn btn-brown" style="background-color: #e2e2e2;"
-                                onclick="openEditProductModal('{{ $product->id }}', '{{ $product->name }}', '{{ $product->price }}', '{{ $product->stock }}', '{{ $product->description }}', '{{ $product->image }}')">
-                                Edit Product
-                                </button>
-
-                                <form action="{{ route('admin.product.destroy', $row->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this product?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-gray" style="background-color: #b86143;">Remove Product</button>
-                                </form>
-
-                            </div>
-                        </td>
+                                    <form action="{{ route('admin.product.destroy', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-gray" style="background-color: #b86143;">Remove Product</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
                         @empty
                         <tr>
                             <td colspan="9" class="text-center">No Data Found</td>
                         </tr>
-
                         @endforelse
-                        </tr>
-
                     </tbody>
+
                 </table>
 
             </div>
