@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('cat_id');
             $table->string('name');
+            $table->enum('type', ['coffee', 'nonCoffee', 'refreshers', 'tea'])->nullable();
             $table->integer('quantity');
             $table->integer('price');
             $table->timestamps();

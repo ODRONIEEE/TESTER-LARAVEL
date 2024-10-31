@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Extras;
 use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\ExtrasController;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class ProductControl extends Controller
@@ -73,22 +77,25 @@ class ProductControl extends Controller
     }
 
     // Helper method for file upload
-    private function handleFileUpload(Request $request)
-    {
-        if ($request->hasFile('image')) {
-            return basename($request->file('image')->store('products', 'public'));
-        }
-        return null;
-    }
+    // private function handleFileUpload(Request $request)
+    // {
+    //     if ($request->hasFile('image')) {
+    //         return basename($request->file('image')->store('products', 'public'));
+    //     }
+    //     return null;
+    // }
 
 
     /**
      * Display the specified resource.
      */
-    public function show($type)
+    public function show($id)
     {
-        $products = Product::where('type_id', $type)->get();
-        return view('admin.product_info', compact('products', 'type'));
+        $product = Product::findOrFail($id);
+        $cat_id = $product->category_id; // or however you retrieve the category ID
+        $extras = Extras::where('cat_id', $cat_id)->get();
+
+        return view('orderProduct', compact('product', 'extras'));
     }
 
     /**

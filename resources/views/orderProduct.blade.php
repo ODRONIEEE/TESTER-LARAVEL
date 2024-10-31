@@ -161,6 +161,7 @@
       <main class="main">
         <div class="menu-container-light-details">
             <div class="row">
+
                 <!-- Left Section: Product Display -->
                 <div class="col-lg-5 col-md-6 col-sm-12 mb-4">
                     <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">{{$product->name}}</h1>
@@ -199,91 +200,44 @@
                 <!-- Divider -->
                 <div class="col-lg-2 col-md-6 col-sm-12 mb-4 product-divider d-none d-md-block"></div>
 
-                <!-- Right Section: Extras -->
-                <div class="col-lg-5 col-md-5 col-sm-12 mb-4">
-                    <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">Extras</h1>
-                    <div class="extras-section">
-                        <h4>Espresso</h4>
-                        <div class="btn-group-wrapper justify-content-start">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-outline-dark espresso-btn" data-value="1" data-price="30" style="max-width: 70px;">1</button>
-                                <button type="button" class="btn btn-outline-dark espresso-btn" data-value="2" data-price="60" style="max-width: 70px;">2</button>
+
+
+<!-- Right Section: Extras -->
+<div class="col-lg-5 col-md-5 col-sm-12 mb-4">
+    <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">Extras</h1>
+    <div class="extras-section">
+        @if(isset($extras) && $extras->isNotEmpty())
+            @foreach($extras as $cat_id => $items)
+                <h4 class="mt-4">{{ $cat_id == 1 ? 'Coffee Extras' : 'Food Extras' }}</h4>
+                <div class="radio-options">
+                    @foreach($items as $extra)
+                        <label class="extra-label">
+                            <input type="checkbox" name="extras[{{ $cat_id }}][{{ $extra->name }}][selected]" value="1" data-price="{{ $extra->price }}">
+                            <input type="hidden" name="extras[{{ $cat_id }}][{{ $extra->name }}][price]" value="{{ $extra->price }}">
+                            <span class="checkmark"></span>
+                            <div class="extra-container">
+                                {{ $extra->name }} ({{ $extra->quantity }} available)
                             </div>
-                        </div>
-
-                        <h4 class="mt-4">Syrup</h4>
-                        <div class="radio-options">
-                            <label class="extra-label">
-                                <input type="checkbox" name="extras[syrup][roasted_almond][selected]" value="1" data-price="30">
-                                <input type="hidden" name="extras[syrup][roasted_almond][price]" value="30">
-                                <span class="checkmark"></span>
-                                <div class="extra-container">
-                                    Roasted Almond
-                                </div>
-                            </label>
-                            <label class="extra-label">
-                                <input type="checkbox" name="extras[syrup][vanilla][selected]" value="1" data-price="30">
-                                <input type="hidden" name="extras[syrup][vanilla][price]" value="30">
-                                <span class="checkmark"></span>
-                                <div class="extra-container">
-                                    Vanilla
-                                </div>
-                            </label>
-                            <label class="extra-label">
-                                <input type="checkbox" name="extras[syrup][hazelnut][selected]" value="1" data-price="30">
-                                <input type="hidden" name="extras[syrup][hazelnut][price]" value="30">
-                                <span class="checkmark"></span>
-                                <div class="extra-container">
-                                    Hazelnut
-                                </div>
-                            </label>
-                        </div>
-
-                        <h4 class="mt-4">Sauce</h4>
-                        <div class="radio-options">
-                            <label class="extra-label">
-                                <input type="checkbox" name="extras[sauce][chocolate][selected]" value="1" data-price="30">
-                                <input type="hidden" name="extras[sauce][chocolate][price]" value="30">
-                                <span class="checkmark"></span>
-                                <div class="extra-container">
-                                    Chocolate
-                                </div>
-                            </label>
-                            <label class="extra-label">
-                                <input type="checkbox" name="extras[sauce][caramel][selected]" value="1" data-price="30">
-                                <input type="hidden" name="extras[sauce][caramel][price]" value="30">
-                                <span class="checkmark"></span>
-                                <div class="extra-container">
-                                    Caramel
-                                </div>
-                            </label>
-                            <label class="extra-label">
-                                <input type="checkbox" name="extras[sauce][white_choco][selected]" value="1" data-price="30">
-                                <input type="hidden" name="extras[sauce][white_choco][price]" value="30">
-                                <span class="checkmark"></span>
-                                <div class="extra-container">
-                                    White Choco
-                                </div>
-                            </label>
-                            <label class="extra-label">
-                                <input type="checkbox" name="extras[sauce][butterscotch][selected]" value="1" data-price="30">
-                                <input type="hidden" name="extras[sauce][butterscotch][price]" value="30">
-                                <span class="checkmark"></span>
-                                <div class="extra-container">
-                                    Butterscotch
-                                </div>
-                            </label>
-                            <label class="extra-label">
-                                <input type="checkbox" name="extras[sauce][salted_caramel][selected]" value="1" data-price="30">
-                                <input type="hidden" name="extras[sauce][salted_caramel][price]" value="30">
-                                <span class="checkmark"></span>
-                                <div class="extra-container">
-                                    Salted Caramel
-                                </div>
-                            </label>
-                        </div>
-                    </div>
+                        </label>
+                    @endforeach
                 </div>
+            @endforeach
+        @else
+            <p>No extras available.</p>
+        @endif
+
+        <!-- Debug information -->
+        <div style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;">
+            <h5>Debug Info:</h5>
+            <p>Extras count: {{ isset($extras) ? $extras->count() : 'Not set' }}</p>
+            <pre>{{ var_export(isset($extras) ? $extras->toArray() : 'Extras not set', true) }}</pre>
+        </div>
+    </div>
+</div>
+
+
+
+
             </div>
         </div>
     </main>
