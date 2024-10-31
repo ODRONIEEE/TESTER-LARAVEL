@@ -55,11 +55,11 @@ class UserControl extends Controller
 
     public function addToCart(Request $request)
     {
-        $product = Product::findOrFail($request->product_id);
-        $quantity = $request->quantity;
-        $extras = $request->extras;
-        $temperature = $request->temperature;
-        $price = $request->price;
+        $product = Product::findOrFail($request->input('product_id'));
+        $quantity = $request->input('quantity', 1);
+        $extras = json_decode($request->input('extras'), true);
+        $temperature = $request->input('temperature');
+        $price = $request->input('price');
 
         $this->cartService->addToCart($product, $quantity, $extras, $temperature, $price);
 

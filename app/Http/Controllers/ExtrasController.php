@@ -18,10 +18,17 @@ class ExtrasController extends Controller
     }
 
 
-public function show($cat_id)
+public function show()
 {
-    $products = Product::where('category_id', $cat_id)->get();
-    $extras = Extras::where('category_id', $cat_id)->get(); // Assuming you have an Extra model
+    $products = Product::get();
+    $extras = Extras::get();
+    return view('admin.product_info', compact('products', 'extras', 'cat_id'));
+}
+
+public function showExtrasByCategory()
+{
+
+    // $extras = Extras::where('category_id', $cat_id)->get(); // Assuming you have an Extra model
 
     return view('admin.product_info', compact('products', 'extras', 'cat_id'));
 }

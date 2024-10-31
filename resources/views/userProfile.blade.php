@@ -230,8 +230,7 @@
         <div class="row text-center">
             <!-- Left Column: Buttons -->
             <div class="col-lg-4 col-md-12">
-                <button class="btn-dashboard w-100 mb-2">Order History</button>
-                <button class="btn-dashboard w-100 mb-2">Preferences</button>
+                <button class="btn-dashboard w-100 mb-2" onclick="window.location.href='{{route('Order_history')}}'">Order History</button>
             </div>
             <div class="col-lg-4 col-md-12">
                 <button class="btn-dashboard w-100 mb-2" onclick="window.location.href='{{route('privacy')}}'">Privacy</button>

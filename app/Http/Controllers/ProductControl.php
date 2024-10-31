@@ -76,15 +76,6 @@ class ProductControl extends Controller
     return redirect()->route('admin.product')->with('success', 'Product created successfully');
     }
 
-    // Helper method for file upload
-    // private function handleFileUpload(Request $request)
-    // {
-    //     if ($request->hasFile('image')) {
-    //         return basename($request->file('image')->store('products', 'public'));
-    //     }
-    //     return null;
-    // }
-
 
     /**
      * Display the specified resource.
@@ -94,17 +85,9 @@ class ProductControl extends Controller
         $product = Product::findOrFail($id);
         $cat_id = $product->category_id; // or however you retrieve the category ID
         $extras = Extras::where('cat_id', $cat_id)->get();
-
         return view('orderProduct', compact('product', 'extras'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

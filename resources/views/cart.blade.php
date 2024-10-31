@@ -36,8 +36,6 @@
 </head>
 
 <body>
-
-
     @if (Route::has('login'))
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center">
@@ -167,101 +165,93 @@
   <main class="main">
     <div class="menu-container-light-details" style="padding-top: 150px;">
         <div class="row mb-5">
-            <div class="col-md-2 mb-4">
-                <div class="order-history">
-                    <h3>Cart</h3>
+            <div class="col-md-8">
+                <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
+                    <div class="order-history" style="width: 200px;">
+                        <h3>Cart</h3>
+                    </div>
+                    <div class="order-history" style="width: 200px;">
+                        <h3>{{Auth::user()->name}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-8">
+                <div class="order-container">
+                    <p># Cart</p>
+
+                    <div class="product-table mb-3">
+                        <p></p>
+                        <p>Name</p>
+                        <p>Price</p>
+                        <p>QTY</p>
+                        <p>Action</p>
+                    </div>
+
+                    <!-- Cart items will be dynamically populated here -->
+                    <div id="cart-items-container">
+                        @php
+                            $cart = session('cart', []);
+                            $totalPrice = 0;
+                        @endphp
+
+                        @foreach($cart as $item)
+                            @php
+                                $basePrice = $item['price'] * $item['quantity'];
+                                $extrasTotal = 0;
+                                $itemTotal = $basePrice;
+                                $totalPrice += $itemTotal;
+                            @endphp
+
+                            <div class="product-table mb-3" id="cart-item-{{ $item['id'] }}">
+                                <img src="assets/img/products/{{ $item['image'] ?? 'default.png' }}" alt="{{ $item['name'] }}" width="auto" height="60">
+
+                                <p>{{ $item['name'] }}
+                                    @if(isset($item['temperature']))
+                                        ({{ ucfirst($item['temperature']) }})
+                                    @endif
+                                </p>
+
+                                <p>${{ number_format($basePrice, 2) }}</p>
+
+                                <div class="btn-container">
+                                    <button class="custom-btn minus-btn" onclick="adjustQuantity('{{ $item['id'] }}', -1)">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span id="quantity-count-{{ $item['id'] }}" style="color:white;font-size: 1em;">{{ $item['quantity'] }}</span>
+                                    <button class="custom-btn plus-btn" onclick="adjustQuantity('{{ $item['id'] }}', 1)">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+
+                                <div class="btn-container">
+                                    <button class="custom-btn remove-item" data-id="{{ $item['id'] }}">
+                                        <i class="fa-solid fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-5">
-                <div class="order-container">
-                    @php
-                        $cart = session('cart', []);
-                        $totalItems = array_sum(array_column($cart, 'quantity'));
-                        $totalPrice = 0;
-                    @endphp
+            <div class="col-md-4">
+                <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
+                    <button class="btn-dinein">Dine In</button>
+                    <button class="btn-dineindark">Take Out</button>
+                </div>
 
-                    @if($totalItems > 0)
-                        <h2>Your Cart</h2>
-                        <p>You have {{ $totalItems }} item(s) in your cart.</p>
+                <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: stretch; justify-content: space-evenly; align-items: center;">
+                    <h2 class="text-yellow">Total:</h2>
+                    <div class="order-history" style="width: 200px;">
+                        <h3 id="cart-total-price">${{ number_format($totalPrice, 2) }}</h3>
+                    </div>
+                </div>
 
-                        <!-- Display cart items here -->
-                        <form id="cart-form" action="{{ route('cart.update') }}" method="POST">
-                            @csrf
-                            @foreach($cart as $item)
-                            @php
-                                $basePrice = $originalBasePrice = $item['price'] * $item['quantity'];
-                                $extrasTotal = 0;
-                            @endphp
-                            <div class="cart-item" id="cart-item-{{ $item['id'] }}">
-                                <div class="item-details">
-                                    <input type="checkbox" name="selected_items[]" value="{{ $item['id'] }}" id="item_{{ $item['id'] }}" checked>
-                                    <label for="item_{{ $item['id'] }}">
-                                        <strong>{{ $item['name'] }}</strong><br>
-                                        Quantity: {{ $item['quantity'] }} - Base Price: ${{ number_format($basePrice, 2) }}
-                                        @if(isset($item['temperature']))
-                                            ({{ ucfirst($item['temperature']) }})
-                                        @endif
-                                    </label>
-                                </div>
-
-                                @if(isset($item['extras']) && !empty($item['extras']))
-                                    <div class="extras-details">
-                                        <strong>Extras:</strong>
-                                        <ul>
-                                            @foreach($item['extras'] as $extra => $value)
-                                                @if(is_bool($value) && $value || !is_bool($value) && !empty($value))
-                                                    @php
-                                                        $extraPrice = is_array($value) && isset($value['price']) ? $value['price'] : 0;
-                                                        $extrasTotal += $extraPrice;
-                                                    @endphp
-                                                    <li>
-                                                        {{ ucfirst($extra) }}:
-                                                        @if(is_bool($value))
-                                                            Yes
-                                                        @elseif(is_array($value))
-                                                            @php
-                                                                $displayValue = array_map(function($v) {
-                                                                    return is_array($v) ? implode(', ', array_filter($v)) : $v;
-                                                                }, array_filter($value));
-                                                                echo implode(', ', $displayValue);
-                                                            @endphp
-                                                        @else
-                                                            {{ $value }}
-                                                        @endif
-                                                        @if($extraPrice > 0)
-                                                            (+${{ number_format($extraPrice, 2) }})
-                                                        @endif
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-
-                                @php
-                                    $itemTotal = ($basePrice * $item['quantity']) + ($extrasTotal * $item['quantity']);
-                                    $totalPrice += $itemTotal;
-                                @endphp
-
-                                <div class="item-total">
-                                    Item Total: ${{ number_format($itemTotal, 2) }}
-                                </div>
-
-                                <button type="button" class="btn btn-sm btn-danger remove-item" data-id="{{ $item['id'] }}">Remove</button>
-                            </div>
-                        @endforeach
-
-
-                            <button type="submit" class="btn btn-primary mt-3">Update Cart</button>
-                        </form>
-
-                        <p>Total: ${{ number_format($totalPrice, 2) }}</p>
-                    @else
-                        <h2>Uy! Kamusta</h2>
-                        <h3>Your cart is empty. Check out our menu to find goodies there!</h3>
-                        <a class="menu" href="{{ route('menu') }}">Menu</a>
-                    @endif
+                <div class="text-center">
+                    <button class="btn-dinein text-center">Place Order</button>
                 </div>
             </div>
         </div>
@@ -307,6 +297,17 @@
             });
         });
 
+        window.adjustQuantity = function(itemId, change) {
+            const quantityElement = document.getElementById(`quantity-count-${itemId}`);
+            let currentQuantity = parseInt(quantityElement.textContent);
+            const newQuantity = currentQuantity + change;
+
+            if (newQuantity >= 0) {
+                quantityElement.textContent = newQuantity;
+                updateItemQuantity(itemId, newQuantity);
+            }
+        };
+
         function removeItem(itemId) {
             fetch('{{ route('cart.remove') }}', {
                 method: 'POST',
@@ -323,44 +324,58 @@
                     if (itemElement) {
                         itemElement.remove();
                     }
-                    updateCartSummary();
+                    updateCartTotal();
                 }
             });
         }
 
-        function updateCartSummary() {
-            const cartItems = document.querySelectorAll('.cart-item');
-            const totalItemsElement = document.querySelector('p:contains("You have")');
-            const totalPriceElement = document.querySelector('p:contains("Total:")');
+        function updateItemQuantity(itemId, quantity) {
+            fetch('{{ route('cart.update') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    product_id: itemId,
+                    quantity: quantity
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateCartTotal();
+                }
+            });
+        }
 
-            let totalItems = 0;
+        function updateCartTotal() {
+            const cartItems = document.querySelectorAll('.product-table[id^="cart-item-"]');
             let totalPrice = 0;
 
             cartItems.forEach(item => {
-                const quantityMatch = item.textContent.match(/Quantity: (\d+)/);
-                const priceMatch = item.textContent.match(/Price: \$(\d+\.\d+)/);
+                const priceElement = item.querySelector('p:nth-child(3)');
+                const quantityElement = item.querySelector('[id^="quantity-count-"]');
 
-                if (quantityMatch && priceMatch) {
-                    const quantity = parseInt(quantityMatch[1]);
-                    const price = parseFloat(priceMatch[1]);
-                    totalItems += quantity;
-                    totalPrice += quantity * price;
+                if (priceElement && quantityElement) {
+                    const price = parseFloat(priceElement.textContent.replace('$', ''));
+                    const quantity = parseInt(quantityElement.textContent);
+                    totalPrice += price * quantity;
                 }
             });
 
-            if (totalItemsElement) {
-                totalItemsElement.textContent = `You have ${totalItems} item(s) in your cart.`;
-            }
+            const totalPriceElement = document.getElementById('cart-total-price');
             if (totalPriceElement) {
-                totalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
+                totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
             }
 
-            if (totalItems === 0) {
+            if (cartItems.length === 0) {
                 location.reload(); // Reload the page if cart is empty
             }
         }
     });
     </script>
+
 
 </body>
 

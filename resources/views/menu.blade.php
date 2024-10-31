@@ -246,9 +246,6 @@
                                         <p class="card-text">{{ $product->description }}</p>
                                         <div class="yellow-border"></div>
                                         <a href="{{ route('orderProduct', ['id' => $product->id]) }}" class="btn btn-primary btn-order">Order</a>
-
-
-
                                     </div>
                                 </div>
                             </div>

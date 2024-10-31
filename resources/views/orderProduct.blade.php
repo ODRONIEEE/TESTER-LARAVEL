@@ -178,7 +178,8 @@
                                 </div>
                             </div>
 
-                            <form action="{{ route('cart.add') }}" method="POST">
+
+                            <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <input type="hidden" name="product_name" value="{{ $product->name }}">
@@ -278,9 +279,11 @@
     const espressoBtns = document.querySelectorAll('.espresso-btn');
     const syrupInputs = document.querySelectorAll('input[name^="extras[syrup]"]');
     const sauceInputs = document.querySelectorAll('input[name^="extras[sauce]"]');
+    const addToCartForm = document.getElementById('addToCartForm');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-    let basePrice = parseFloat(priceInput.value);
-    let originalBasePrice = basePrice; // Store the original base price
+    const originalBasePrice = parseFloat('{{ $product->price }}');
+    let basePrice = originalBasePrice;
     let extras = {
         espresso: { selected: null, price: 0 },
         syrup: {},
@@ -291,7 +294,6 @@
         let totalPrice = basePrice;
         let extrasTotal = 0;
 
-        // Calculate extras total
         extrasTotal += extras.espresso.price;
 
         Object.values(extras.syrup).forEach(syrup => {
@@ -304,30 +306,26 @@
 
         totalPrice += extrasTotal;
 
-        // Update display
         displayPrice.innerHTML = `Base: $${basePrice.toFixed(2)}<br>Total: $${totalPrice.toFixed(2)}`;
         priceInput.value = totalPrice.toFixed(2);
         extrasInput.value = JSON.stringify(extras);
     }
 
-    // Temperature buttons
     temperatureBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             temperatureBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             temperatureInput.value = this.dataset.temp;
 
-            // Adjust base price for hot/cold
             if (this.dataset.temp === 'hot') {
-                basePrice = originalBasePrice - 10; // Assuming hot is $10 cheaper
+                basePrice = originalBasePrice - 10;
             } else {
-                basePrice = originalBasePrice; // Reset to original (cold) price
+                basePrice = originalBasePrice;
             }
             updateDisplayPrice();
         });
     });
 
-    // Espresso buttons
     espressoBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             espressoBtns.forEach(b => b.classList.remove('active'));
@@ -338,7 +336,6 @@
         });
     });
 
-    // Syrup checkboxes
     syrupInputs.forEach(input => {
         input.addEventListener('change', function() {
             const syrupName = this.name.match(/\[syrup\]\[(.+?)\]/)[1];
@@ -354,7 +351,6 @@
         });
     });
 
-    // Sauce checkboxes
     sauceInputs.forEach(input => {
         input.addEventListener('change', function() {
             const sauceName = this.name.match(/\[sauce\]\[(.+?)\]/)[1];
@@ -370,11 +366,47 @@
         });
     });
 
-    // Initialize
     updateDisplayPrice();
+
+    addToCartForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log('Form submission intercepted');
+
+    const formData = new FormData(this);
+
+    // Ensure extras are properly formatted
+    const extrasJson = JSON.stringify(extras);
+    formData.set('extras', extrasJson);
+
+    fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Item added to cart successfully!');
+            // Optionally redirect to cart page
+            window.location.href = '{{ route("cart") }}';
+        } else {
+            alert('Error adding item to cart: ' + (data.message || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while adding the item to cart.');
+    });
 });
 
+
+   });
+
 </script>
+
 <style>
 .radio-options {
     margin-top: 10px;
