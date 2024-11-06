@@ -16,7 +16,11 @@ class ExtrasController extends Controller
         $extras = Extras::all()->groupBy('cat_id'); 
         return view('admin.extras', compact('extras'));
     }
-
+    public function showall()
+    {
+        $extras = Extras::all();
+        return view('admin.extras', compact('extras'));
+    }
     /**
      * Show products with extras.
      */
