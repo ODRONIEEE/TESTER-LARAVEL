@@ -35,56 +35,41 @@ public function store(Request $request)
         'p_method' => 'required|string',
     ]);
 
- 
     $products = json_decode($request->products, true);
-
-
-
-  
     $allExtras = [];
     foreach ($products as $product) {
         if (isset($product['extras']) && !empty($product['extras'])) {
-    
-            foreach ($product['extras'] as $key => $extra) {
+            foreach ($product['extras'] as $extra) {
                 if (is_array($extra)) {
-       
                     $allExtras[] = $extra;
                 } elseif (is_string($extra)) {
-              
                     $allExtras[] = [
                         'id' => $extra,
                         'name' => 'Unknown',
                         'price' => 0, 
                     ];
-                } else {
-          
-     
                 }
             }
         }
     }
-
 
     $transactionData = [
         'customer_name' => $request->customer_name,
         'total_price' => $request->total_price,
         'p_method' => $request->p_method,
         'dateCreated' => now(),
-        'products' => json_encode($products), 
-        'extras' => json_encode($allExtras),   
+        'products' => json_encode($products),
+        'extras' => json_encode($allExtras),
     ];
 
     try {
-
         $transaction = Transaction::create($transactionData);
-
-  
-        // return redirect()->route('cart')->with('success', 'Transaction added successfully!');
+        return response()->json(['success' => true, 'message' => 'Order placed successfully!']);
     } catch (\Exception $e) {
-
-
+        return response()->json(['success' => false, 'message' => 'An error occurred.']);
     }
 }
+
   public function showOrders()
     {
         // Fetch all orders

@@ -143,15 +143,16 @@
                 </div>
             </div>
                  <div class="row text-center">
-        <form action="{{ route('order.store') }}" method="POST" id="orderForm">
-            @csrf
-            <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
-            <input type="hidden" name="total_price" value="{{ $totalPrice }}">
-            <input type="hidden" name="p_method" value="{{ session('payment_method') }}">
-          <input type="hidden" name="products" value="{{ json_encode($orderData) }}">
-        
-            <button class="btn btn-primary" type="submit">Proceed to Payment</button>
-        </form>
+ <form action="{{ route('order.store') }}" method="POST" id="orderForm">
+    @csrf
+    <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
+    <input type="hidden" name="total_price" value="{{ $totalPrice }}">
+    <input type="hidden" name="p_method" value="{{ session('payment_method') }}">
+    <input type="hidden" name="products" value="{{ json_encode($orderData) }}">
+    
+    <button class="btn btn-primary" type="button" id="proceedToPaymentButton">Proceed to Payment</button>
+</form>
+
                 </div>
         </div>
         </div>
@@ -194,6 +195,37 @@
 
     <!-- Main JS File -->
     <script src="{{url('assets/js/main.js')}}"></script>
+<script>
+    document.getElementById('proceedToPaymentButton').addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        let formData = new FormData(document.getElementById('orderForm'));
+
+        fetch("{{ route('order.store') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token for security
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (confirm('Order placed successfully! ')) {
+                    window.location.href = "{{ route('welcome') }}"; // Redirect to the welcome page
+                }
+            } else {
+                alert('Failed to place the order.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    });
+</script>
+
+
     <script>
         document.querySelectorAll('.radio-options input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', function () {
