@@ -18,17 +18,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Dosis:wght@200;300;400;500;600;700;800&family=Aver&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/aos/aos.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
 
-  <!-- Main CSS File -->
-    <link href="{{url('assets/css/main.css')}}" rel="stylesheet">
-    <link href="{{url('assets/css/drinks_menu.css')}}" rel="stylesheet">
-    <link href="{{url('assets/css/menu_landing.css')}}" rel="stylesheet">
-  <!-- Font Awesome -->
+    <!-- Main CSS File -->
+      <link href="{{asset('assets/css/main.css')}}" rel="stylesheet">
+      <link href="{{asset('assets/css/drinks_menu.css')}}" rel="stylesheet">
+      <link href="{{asset('assets/css/menu_landing.css')}}" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 </head>
@@ -147,124 +146,69 @@
       @endif
 
 
-    <main class="main">
-
-        <div class="menu-container-light">
-            <!-- Navbar for larger screens -->
-            <nav class="category-menu-products d-none d-md-flex flex-wrap justify-content-center mb-3">
-                <button class="custom-category-btn btn mx-2 my-1" data-type="all">All</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type="1">Coffee</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type="2">Non-Coffee</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type="3">Refreshers</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type="4">Tea</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type="5">Appetizers</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type="6">Pasta</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type="7">Burger</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type="8">Rice Meal</button>
-                <button class="custom-category-btn btn mx-2 my-1" data-type="9">Pastries</button>
-            </nav>
-    <!-- Carousel for mobile screens -->
-    <div id="categoryCarousel" class="carousel slide category-menu-products d-md-none mt-4" data-bs-ride="carousel" style="margin-bottom:40px">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="all">All</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="1">Coffee</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="2">Non-Coffee</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Refreshers</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Tea</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Appetizers</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Pasta</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Burger</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Rice Meal</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Pastries</button>
-                </div>
-            </div>
-
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-            <div id="food" class="row">
-                <div class="container">
-                 <div class="row" id="productContainer">
-                        @foreach($products as $product)
-                            <div class="col-lg-3 col-md-6 col-sm-12 mb-4 product-card" data-type="{{ $product->type_id }}" data-stock="{{ $product->stock > 0 ? 'true' : 'false' }}">
-                                <div class="card text-center">
-                                    <div class="card-img-top product-img" style="display: flex; align-items: center; justify-content: center;">
-                                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" style="max-width: 100%; height: auto;">
-                                    </div>
-
-                                    <div class="card-body">
-                                        <h5 class="card-title">₱ {{ $product->price }}</h5>
-                                        <p class="card-text">{{ $product->name }}</p>
-                                        <p class="card-text">{{ $product->description }}</p>
-                                        <div class="yellow-border"></div>
-
-                                        @if ($product->stock > 0)
-                                            @if (isset($product->cat_id))
-                                                <a href="{{ route('orderProduct', ['id' => $product->id, 'cat_id' => $product->cat_id]) }}" class="btn btn-primary btn-order">Order</a>
-                                            @else
-                                                <span class="text-danger">Category not available</span>
-                                            @endif
-                                        @else
-                                            <h5 class="card-title">SORRY</h5>
-                                            <p class="card-text">SORRY</p>
-                                            <p class="card-text">SORRY</p>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+       <main class="main">
+        <div class="menu-container-light-details" style="padding-top: 150px;">
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-6">
+                    <div class="row mb-2">
+                        <div class="col-sm-4 mb-3">
+                            <div class="container-payment">   {{ Auth::user()->name }}</div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="container-payment">Payment Method</div>
+                        </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-sm-4 p-2 mr-4">
+                            <p class="total-text">Total</p>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="container-payment">{{ $totalPrice }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="thank-you-text">
+                        “Thank you for Dining with us”
+                    </h3>
+                    <p class="waiting-time-text">
+                        Expect a waiting time of 5-10 minutes on your order
+                    </p>
                 </div>
             </div>
+            <div class="row text-center">
+                <div class="col-sm-6 mb-3">
+                  <a href="{{ route('payment.page') }}">
+                        <div class="container-otc">
+    
+                            <h3 class="otc-header">
+                                Over the Counter
+                            </h3>
+    
+    
+                            <p class="waiting-time-white">Payment over the cashier</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6">
+                    <h3 class="proceed-text">
+                        Please Proceed to the counter to proceed with your order
+                    </h3>
+                </div>
+            </div>
+            <div class="row text-center">
+        <form action="{{ route('order.store') }}" method="POST" id="orderForm">
+            @csrf
+            <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
+            <input type="hidden" name="total_price" value="{{ $totalPrice }}">
+            <input type="hidden" name="p_method" value="{{ session('payment_method') }}">
+          <input type="hidden" name="products" value="{{ json_encode($orderData) }}">
+        
+            <button class="btn btn-primary" type="submit">Proceed to Payment</button>
+        </form>
+                </div>
         </div>
-
+    
     </main>
 
 

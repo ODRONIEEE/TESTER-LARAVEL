@@ -163,99 +163,127 @@
   @endif
 
   <main class="main">
-    <div class="menu-container-light-details" style="padding-top: 150px;">
-        <div class="row mb-5">
-            <div class="col-md-8">
-                <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
-                    <div class="order-history" style="width: 200px;">
-                        <h3>Cart</h3>
-                    </div>
-                    <div class="order-history" style="width: 200px;">
-                        <h3>{{Auth::user()->name}}</h3>
-                    </div>
+   <div class="menu-container-light-details" style="padding-top: 150px;">
+    <div class="row mb-5">
+        <div class="col-md-8">
+            <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
+                <div class="order-history" style="width: 200px;">
+                    <h3>Cart</h3>
                 </div>
-            </div>
-        </div>
-
-        <div class="row mb-5">
-            <div class="col-md-8">
-                <div class="order-container">
-                    <p># Cart</p>
-
-                    <div class="product-table mb-3">
-                        <p></p>
-                        <p>Name</p>
-                        <p>Price</p>
-                        <p>QTY</p>
-                        <p>Action</p>
-                    </div>
-
-                    <!-- Cart items will be dynamically populated here -->
-                    <div id="cart-items-container">
-                        @php
-                            $cart = session('cart', []);
-                            $totalPrice = 0;
-                        @endphp
-
-                        @foreach($cart as $item)
-                            @php
-                                $basePrice = $item['price'] * $item['quantity'];
-                                $extrasTotal = 0;
-                                $itemTotal = $basePrice;
-                                $totalPrice += $itemTotal;
-                            @endphp
-
-                            <div class="product-table mb-3" id="cart-item-{{ $item['id'] }}">
-                                <img src="assets/img/products/{{ $item['image'] ?? 'default.png' }}" alt="{{ $item['name'] }}" width="auto" height="60">
-
-                                <p>{{ $item['name'] }}
-                                    @if(isset($item['temperature']))
-                                        ({{ ucfirst($item['temperature']) }})
-                                    @endif
-                                </p>
-
-                                <p>${{ number_format($basePrice, 2) }}</p>
-
-                                <div class="btn-container">
-                                    <button class="custom-btn minus-btn" onclick="adjustQuantity('{{ $item['id'] }}', -1)">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <span id="quantity-count-{{ $item['id'] }}" style="color:white;font-size: 1em;">{{ $item['quantity'] }}</span>
-                                    <button class="custom-btn plus-btn" onclick="adjustQuantity('{{ $item['id'] }}', 1)">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-
-                                <div class="btn-container">
-                                    <button class="custom-btn remove-item" data-id="{{ $item['id'] }}">
-                                        <i class="fa-solid fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
-                    <button class="btn-dinein">Dine In</button>
-                    <button class="btn-dineindark">Take Out</button>
-                </div>
-
-                <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: stretch; justify-content: space-evenly; align-items: center;">
-                    <h2 class="text-yellow">Total:</h2>
-                    <div class="order-history" style="width: 200px;">
-                        <h3 id="cart-total-price">${{ number_format($totalPrice, 2) }}</h3>
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <button class="btn-dinein text-center">Place Order</button>
+                <div class="order-history" style="width: 200px;">
+                    <h3>{{ Auth::user()->name }}</h3>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row mb-5">
+        <div class="col-md-8">
+            <div class="order-container">
+                <p># Cart</p>
+
+                <div class="product-table mb-3">
+                    <p></p>
+                    <p>Name</p>
+                    <p>Price</p>
+                    <p>QTY</p>
+                    <p>Action</p>
+                </div>
+
+                <!-- Cart items -->
+<div id="cart-items-container">
+    @php
+        $cart = session('cart', []);
+        $totalPrice = 0;
+    @endphp
+
+    @foreach($cart as $item)
+        @php
+            $basePrice = $item['price'] * $item['quantity'];
+            $extrasTotal = 0; // Initialize for each item
+
+      
+            $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
+        @endphp
+
+        <div class="product-table mb-3" id="cart-item-{{ $item['id'] }}">
+            <img src="assets/img/products/{{ $item['image'] ?? 'default.png' }}" alt="{{ $item['name'] }}" width="auto" height="60">
+
+            <p>{{ $item['name'] }}
+                @if(isset($item['temperature']))
+                    ({{ ucfirst($item['temperature']) }})
+                @endif
+            </p>
+
+            <p>₱{{ number_format($basePrice, 2) }}</p>
+
+            <div class="btn-container">
+                <button class="custom-btn minus-btn" onclick="adjustQuantity('{{ $item['id'] }}', -1)">
+                    <i class="fa-solid fa-minus"></i>
+                </button>
+                <span id="quantity-count-{{ $item['id'] }}" style="color:white;font-size: 1em;">{{ $item['quantity'] }}</span>
+                <button class="custom-btn plus-btn" onclick="adjustQuantity('{{ $item['id'] }}', 1)">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+
+            <div class="btn-container">
+                <button class="custom-btn remove-item" data-id="{{ $item['id'] }}">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        @if(!empty($extras))
+            <div class="extras-list" style="padding-left: 20px; margin-top: -15px;">
+          
+                @foreach($extras as $extra)
+                    @if (is_array($extra) && isset($extra['price'], $extra['name']))
+                        @php
+                       
+                            $extrasTotal += $extra['price'] * $item['quantity'];
+                        @endphp
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <p>{{ $extra['name'] }}</p>
+                            <p>+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</p>
+                        </div>
+                    @else
+                        <p>Invalid extra data</p>
+                    @endif
+                @endforeach
+            </div>
+        @endif
+
+        @php
+            $itemTotal = $basePrice + $extrasTotal; 
+            $totalPrice += $itemTotal;
+        @endphp
+    @endforeach
+</div>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
+                <button class="btn-dinein">Dine In</button>
+                <button class="btn-dineindark">Take Out</button>
+            </div>
+
+            <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: stretch; justify-content: space-evenly; align-items: center;">
+                <h2 class="text-yellow">Total:</h2>
+                <div class="order-history" style="width: 200px;">
+                    <h3 id="cart-total-price">₱{{ number_format($totalPrice, 2) }}</h3>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn-dinein text-center" onclick="placeOrder()" >Place Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </main>
 
 
@@ -375,8 +403,86 @@
         }
     });
     </script>
+  <script>
+function placeOrder() {
+    // Get the cart data from Laravel Blade
+    const cartData = @json($cart);  // This assumes $cart is the cart data from Laravel
+
+    // Calculate the total price for each item and its extras
+    const orderData = Object.values(cartData).map(item => {
+        // Ensure base price is a number
+        const basePrice = parseFloat(item.price) * parseInt(item.quantity, 10) || 0;  // Fallback to 0 if NaN
+        let extrasTotal = 0;
+        let extras = [];
+
+        // Determine if extras is an array or needs parsing
+        if (Array.isArray(item.extras)) {
+            extras = item.extras;  // Already an array
+        } else if (typeof item.extras === 'string') {
+            try {
+                extras = JSON.parse(item.extras);  // Parse the stringified JSON into an array
+            } catch (e) {
+                console.error('Error parsing extras:', e);
+            }
+        }
+
+        // Log extras for debugging
+        console.log('Item:', item);
+        console.log('Parsed Extras:', extras);
+
+        // Calculate extras total
+        extrasTotal = extras.reduce((total, extra) => {
+            const extraPrice = parseFloat(extra.price) || 0; // Fallback to 0 if NaN
+            return total + (extraPrice * parseInt(item.quantity, 10)); // Ensure quantity is a number
+        }, 0);
+
+        const itemTotal = basePrice + extrasTotal;
+
+        // Log item totals for debugging
+        console.log('Base Price:', basePrice);
+        console.log('Extras Total:', extrasTotal);
+        console.log('Item Total:', itemTotal);
+
+        return {
+            id: item.id,
+            name: item.name,
+            price: basePrice, // Use calculated base price
+            quantity: parseInt(item.quantity, 10),
+            extras: extras,  // Store the parsed extras
+            totalPrice: itemTotal  // Total for this item (base price + extras)
+        };
+    });
+
+    // Calculate the total price for all items
+    const totalPrice = orderData.reduce((sum, item) => sum + (item.totalPrice || 0), 0);  // Ensure each item total is treated safely
+
+    // Log the total price
+    console.log('Order Data:', orderData);
+    console.log('Total Price:', totalPrice);
+
+    // Now, send the order data to the server using fetch
+    fetch("{{ route('place.order') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"  // Include CSRF token for security
+        },
+        body: JSON.stringify({
+            order: orderData,  // The order details
+            totalPrice: totalPrice  // The total price for the order
+        })
+    })
+    .then(response => response.json())  // Assuming the server responds with JSON
+    .then(data => {
+        // Redirect to the payment page after a successful response
+        window.location.href = "{{ route('payment.page') }}";  // Redirect to payment page
+    })
+    .catch(error => console.error('Error placing order:', error));  // Handle any errors
+}
 
 
+
+ </script>
 </body>
 
 </html>

@@ -119,308 +119,111 @@
     <main class="main">
 
 
-        <div class="menu-container">
-            <nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
-                <a class="custom-category-btn" href="{{ url()->previous() }}">Back</a>
-                <button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
-                <button class="custom-category-btn" onclick="showOrder('complete')">Completed</button>
-                <button class="custom-category-btn" onclick="showOrder('history')">Order History</button>
-            </nav>
+      <div class="menu-container">
+    <nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
+        <a class="custom-category-btn" href="{{ url()->previous() }}">Back</a>
+        <button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
+        <button class="custom-category-btn" onclick="showOrder('complete')">Completed</button>
+        <button class="custom-category-btn" onclick="showOrder('history')">Order History</button>
+    </nav>
 
-            <div id="order" class="row menu-content" style="display:none">
-                <div id="menu-items-order" class="col-lg-3 col-md-4 col-sm-12 menu-items" style="display:none">
-
-                </div>
-
-                <!-- Product Selection and Customization -->
-
-
+    <div id="pending-orders" class="order-tab row menu-content" style="display:none">
+        <!-- Loop through pending orders -->
+        @foreach($orders as $order)
+            @if($order->status == 'Pending')
                 <div class="col-lg-3 col-md-8 col-sm-12 product-details">
-                    <h2 id="product-name" class="text-center mb-4"></h2>
+                    <h2 class="text-center mb-4">{{ $order->product_name }}</h2>
                     <div class="customization-options">
-
-                        <!-- Quantity Only -->
                         <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                                <h3>#0001</h3>
-
+                            <div class="col-lg-6 text-center">
+                                <h3>#{{ $order->order_id }}</h3>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dine-in</h3>
+                            <div class="col-lg-6 text-center">
+                                <h3>{{ $order->dine_type }}</h3>
                             </div>
                         </div>
-
                         <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                            <div class="col-lg-4 text-center">
                                 <h3>QTY</h3>
-
+                                <h3>{{ $order->quantity }}</h3>
                             </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
+                            <div class="col-lg-4 text-center">
                                 <h3>Price</h3>
+                                <h3>{{ $order->price }}</h3>
                             </div>
                         </div>
-
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dulce De Leche</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dulce De Leche</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dulce De Leche</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dulce De Leche</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-
-
                         <div class="text-center">
-                            <button class="custom-btn place-order w-50">Complete</button>
+                            <button class="custom-btn place-order w-50" onclick="completeOrder({{ $order->order_id }})">Complete</button>
                         </div>
                     </div>
                 </div>
+            @endif
+        @endforeach
+    </div>
 
+    <div id="completed-orders" class="order-tab row menu-content" style="display:none">
+        <!-- Loop through completed orders -->
+        @foreach($orders as $order)
+            @if($order->status == 'Completed')
                 <div class="col-lg-3 col-md-8 col-sm-12 product-details">
-                    <h2 id="product-name" class="text-center mb-4"></h2>
+                    <h2 class="text-center mb-4">{{ $order->product_name }}</h2>
                     <div class="customization-options">
-
-                        <!-- Quantity Only -->
                         <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                                <h3>#0001</h3>
-
+                            <div class="col-lg-6 text-center">
+                                <h3>#{{ $order->order_id }}</h3>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dine-in</h3>
+                            <div class="col-lg-6 text-center">
+                                <h3>{{ $order->dine_type }}</h3>
                             </div>
                         </div>
-
                         <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                            <div class="col-lg-4 text-center">
                                 <h3>QTY</h3>
-
+                                <h3>{{ $order->quantity }}</h3>
                             </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
+                            <div class="col-lg-4 text-center">
                                 <h3>Price</h3>
+                                <h3>{{ $order->price }}</h3>
                             </div>
-                        </div>
-
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dulce De Leche</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Caramel Machiato</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Sea Salt Matcha</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dynamite Burger</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-
-
-                        <div class="text-center">
-                            <button class="custom-btn place-order w-50">Complete</button>
                         </div>
                     </div>
                 </div>
+            @endif
+        @endforeach
+    </div>
 
+    <div id="order-history" class="order-tab row menu-content" style="display:none">
+        <!-- Loop through order history -->
+        @foreach($orders as $order)
+            @if($order->status == 'history')
                 <div class="col-lg-3 col-md-8 col-sm-12 product-details">
-                    <h2 id="product-name" class="text-center mb-4"></h2>
+                    <h2 class="text-center mb-4">{{ $order->product_name }}</h2>
                     <div class="customization-options">
-
-                        <!-- Quantity Only -->
                         <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                                <h3>#0002</h3>
-
+                            <div class="col-lg-6 text-center">
+                                <h3>#{{ $order->order_id }}</h3>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dine-in</h3>
+                            <div class="col-lg-6 text-center">
+                                <h3>{{ $order->dine_type }}</h3>
                             </div>
                         </div>
-
                         <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                            <div class="col-lg-4 text-center">
                                 <h3>QTY</h3>
-
+                                <h3>{{ $order->quantity }}</h3>
                             </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
+                            <div class="col-lg-4 text-center">
                                 <h3>Price</h3>
+                                <h3>{{ $order->price }}</h3>
                             </div>
-                        </div>
-
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dulce De Leche</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dulce De Leche</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dulce De Leche</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>Dulce De Leche</h3>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                <h3>2</h3>
-
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-
-                                <h3>135.00</h3>
-                            </div>
-                        </div>
-
-
-                        <div class="text-center">
-                            <button class="custom-btn place-order w-50">Complete</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
+    </div>
+</div>
+
 
 
 
@@ -451,6 +254,37 @@
 <!-- Main JS File -->
 <script src="{{url('assets/js/main.js')}}"></script>
 <script src="{{url('assets/js/drinks_menu.js')}}"></script>
+
+<script>
+    function showOrder(status) {
+    // Hide all tabs
+    document.querySelectorAll('.order-tab').forEach(function(tab) {
+        tab.style.display = 'none';
+    });
+
+    // Show the selected tab
+    document.getElementById(status + '-orders').style.display = 'block';
+}
+
+function completeOrder(orderId) {
+    // Make a request to update the order status to 'completed'
+    fetch(`/update-order-status/${orderId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ status: 'complete' })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Refresh the page or re-fetch orders to reflect the status update
+        showOrder('pending');  // or any other suitable update action
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+</script>
 </body>
 
 </html>

@@ -1304,7 +1304,7 @@
                     ]
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Haruncpi\\LaravelIdGenerator\\": "src/"

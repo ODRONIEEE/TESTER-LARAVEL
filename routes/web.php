@@ -8,7 +8,9 @@ use App\Http\Controllers\User\UserControl;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InfoControl;
 use App\Http\Controllers\Admin\AdminControl;
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -42,13 +44,26 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
     Route::get('Order_history',[UserControl::class, 'history'])->name('Order_history');
     Route::get('preferences',[UserControl::class, 'preference'])->name('preferences');
-    Route::get('orderProduct/{id}',[ProductControl::class, 'order'])->name('orderProduct');
+   Route::get('orderProduct/{id}/{cat_id}', [ProductControl::class, 'order'])->name('orderProduct');
+
+
 
 
     Route::post('/cart/add', [UserControl::class, 'addToCart'])->name('cart.add');
     Route::get('/cart', [UserControl::class, 'viewCart'])->name('cart');
     Route::post('/cart/remove', [UserControl::class, 'removeFromCart'])->name('cart.remove');
     Route::post('/cart/update', [UserControl::class, 'updateCart'])->name('cart.update');
+    // Route::post('cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+    // Route::get('payment', [CartController::class, 'showPayment'])->name('payment.show');
+    // Route::get('payment/online', [CartController::class, 'showOnlinePayment'])->name('payment.online');
+    // Route::get('payment/otc', [CartController::class, 'showOTCPayment'])->name('payment.otc');
+
+Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('payment.page');
+Route::get('/payment/online', [PaymentController::class, 'handleOnlinePayment'])->name('payment.online');
+Route::get('/payment/otc', [PaymentController::class, 'handleOtcPayment'])->name('payment.otc');
+
+Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+
 
 });
 
@@ -66,7 +81,7 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/food-menu/{category}',[AdminControl::class, 'food'])->name('admin.food-menu');
 
     Route::get('/admin/orders',[AdminControl::class, 'orders'])->name('admin.orders');
-
+Route::get('/admin/orders', [OrderController::class, 'showOrders']);
     Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
     Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
     Route::put('/admin/product/{id}', [ProductControl::class, 'update'])->name('admin.product.update');

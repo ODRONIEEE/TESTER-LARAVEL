@@ -17,11 +17,16 @@ class ProductControl extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function order($id)
-    {
-        $product = Product::findOrFail($id);
-        return view('orderProduct', compact('product'));
-    }
+public function order($id, $cat_id)
+{
+    $product = Product::findOrFail($id);
+    
+    // Fetch extras based on the cat_id
+    $extras = Extras::where('cat_id', $cat_id)->get()->groupBy('cat_id');
+
+    return view('orderproduct', compact('product', 'extras'));
+}
+
 
 
     /**

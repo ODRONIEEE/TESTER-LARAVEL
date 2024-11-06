@@ -150,6 +150,7 @@
                 </ul>
               </li>
             </ul>
+                  <h1 class="cafe-center cafe-name text-center d-md-none"><strong>archive</strong> <span>cafe</span></h1>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
           </nav>
 
@@ -158,90 +159,76 @@
       </header>
       @endif
 
-      <main class="main">
-        <div class="menu-container-light-details">
-            <div class="row">
+<main class="main">
+    <div class="menu-container-light-details">
+        <div class="row">
 
-                <!-- Left Section: Product Display -->
-                <div class="col-lg-5 col-md-6 col-sm-12 mb-4">
-                    <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">{{$product->name}}</h1>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                            <img class="img-fluid" src="{{ asset($product->image) }}" alt="Card image cap">
-                        </div>
-                        <div class="col-lg-8 col-md-6 col-sm-12 mb-4" style="text-align: right;">
-                            <h1 class="page-header" id="display-price">{{$product->price}}</h1>
-                            <div class="btn-group-wrapper">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
-                                    <button type="button" class="btn btn-warning temperature-btn" data-temp="cold">C</button>
-                                </div>
-                            </div>
-
-
-                            <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="product_name" value="{{ $product->name }}">
-                                <input type="hidden" name="temperature" id="temperature-input" value="hot">
-                                <input type="hidden" name="price" id="price-input" value="{{ $product->price }}">
-                                <input type="number" name="quantity" value="1" min="1">
-                                <input type="hidden" name="extras" id="extras-input">
-                                <button type="submit" class="btn btn-warning mt-3">Add to Cart</button>
-                            </form>
-                        </div>
+            <!-- Left Section: Product Display -->
+            <div class="col-lg-5 col-md-6 col-sm-12 mb-4">
+                <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">{{$product->name}}</h1>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <img class="img-fluid" src="{{ asset($product->image) }}" alt="Card image cap">
                     </div>
-                    <div class="row">
-                        <p class="product-description mt-3">
-                            {{ $product->description }}
-                        </p>
+                    <div class="col-lg-8 col-md-6 col-sm-12 mb-4" style="text-align: right;">
+                        <h1 class="page-header" id="display-price">{{$product->price}}</h1>
+                        <div class="btn-group-wrapper">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
+                                <button type="button" class="btn btn-warning temperature-btn" data-temp="cold">C</button>
+                            </div>
+                        </div>
+
+                   <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="product_name" value="{{ $product->name }}">
+                        <input type="hidden" name="temperature" id="temperature-input" value="hot">
+                        <input type="hidden" name="price" id="price-input" value="{{ $product->price }}">
+                        <input type="number" name="quantity" value="1" min="1">
+                        <input type="hidden" name="extras" id="extras-input" value="">
+                        <button type="submit" class="btn btn-warning mt-3">Add to Cart</button>
+                    </form>
+
                     </div>
                 </div>
-
-                <!-- Divider -->
-                <div class="col-lg-2 col-md-6 col-sm-12 mb-4 product-divider d-none d-md-block"></div>
-
-
-
-<!-- Right Section: Extras -->
-<div class="col-lg-5 col-md-5 col-sm-12 mb-4">
-    <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">Extras</h1>
-    <div class="extras-section">
-        @if(isset($extras) && $extras->isNotEmpty())
-            @foreach($extras as $cat_id => $items)
-                <h4 class="mt-4">{{ $cat_id == 1 ? 'Coffee Extras' : 'Food Extras' }}</h4>
-                <div class="radio-options">
-                    @foreach($items as $extra)
-                        <label class="extra-label">
-                            <input type="checkbox" name="extras[{{ $cat_id }}][{{ $extra->name }}][selected]" value="1" data-price="{{ $extra->price }}">
-                            <input type="hidden" name="extras[{{ $cat_id }}][{{ $extra->name }}][price]" value="{{ $extra->price }}">
-                            <span class="checkmark"></span>
-                            <div class="extra-container">
-                                {{ $extra->name }} ({{ $extra->quantity }} available)
-                            </div>
-                        </label>
-                    @endforeach
+                <div class="row">
+                    <p class="product-description mt-3">
+                        {{ $product->description }}
+                    </p>
                 </div>
-            @endforeach
-        @else
-            <p>No extras available.</p>
-        @endif
+            </div>
 
-        <!-- Debug information -->
-        <div style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;">
-            <h5>Debug Info:</h5>
-            <p>Extras count: {{ isset($extras) ? $extras->count() : 'Not set' }}</p>
-            <pre>{{ var_export(isset($extras) ? $extras->toArray() : 'Extras not set', true) }}</pre>
-        </div>
-    </div>
-</div>
+            <!-- Divider -->
+            <div class="col-lg-2 col-md-6 col-sm-12 mb-4 product-divider d-none d-md-block"></div>
 
-
-
-
+            <!-- Right Section: Extras -->
+            <div class="col-lg-5 col-md-5 col-sm-12 mb-4">
+                <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">Extras</h1>
+                <div class="extras-section">
+                    @if($extras->isNotEmpty())
+                        @foreach($extras as $cat_id => $items)
+                            <h4 class="mt-4">{{ $cat_id == 1 ? 'Coffee Extras' : 'Food Extras' }}</h4>
+                            <div class="radio-options">
+                                @foreach($items as $extra)
+                                    <label class="extra-label">
+                                        <input type="checkbox" class="extra-checkbox" data-price="{{ $extra->price }}" value="{{ $extra->id }}" onchange="updateExtras()">
+                                        <span class="checkmark"></span>
+                                        <div class="extra-container">
+                                            {{ $extra->name }}
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
+                        @endforeach
+                    @else
+                        <p>No extras available.</p>
+                    @endif
+                </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
 
 
@@ -406,7 +393,23 @@
    });
 
 </script>
+<script>
+ function updateExtras() {
+    const extras = [];
+    document.querySelectorAll('.extra-checkbox:checked').forEach(checkbox => {
+        extras.push(checkbox.value);
+    });
+    document.getElementById('extras-input').value = JSON.stringify(extras);
+}
 
+// Update the temperature based on button click
+document.querySelectorAll('.temperature-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        document.getElementById('temperature-input').value = this.dataset.temp;
+    });
+});
+
+</script>
 <style>
 .radio-options {
     margin-top: 10px;
