@@ -79,7 +79,7 @@ public function store(Request $request)
         $transaction = Transaction::create($transactionData);
 
   
-        return redirect()->route('cart')->with('success', 'Transaction added successfully!');
+        // return redirect()->route('cart')->with('success', 'Transaction added successfully!');
     } catch (\Exception $e) {
 
 

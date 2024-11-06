@@ -53,7 +53,8 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::get('/cart', [UserControl::class, 'viewCart'])->name('cart');
     Route::post('/cart/remove', [UserControl::class, 'removeFromCart'])->name('cart.remove');
     Route::post('/cart/update', [UserControl::class, 'updateCart'])->name('cart.update');
-    // Route::post('cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+   Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('place.order');
+
     // Route::get('payment', [CartController::class, 'showPayment'])->name('payment.show');
     // Route::get('payment/online', [CartController::class, 'showOnlinePayment'])->name('payment.online');
     // Route::get('payment/otc', [CartController::class, 'showOTCPayment'])->name('payment.otc');
@@ -81,7 +82,7 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/food-menu/{category}',[AdminControl::class, 'food'])->name('admin.food-menu');
 
     Route::get('/admin/orders',[AdminControl::class, 'orders'])->name('admin.orders');
-Route::get('/admin/orders', [OrderController::class, 'showOrders']);
+    Route::get('/admin/orders', [OrderController::class, 'showOrders']);
     Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
     Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
     Route::put('/admin/product/{id}', [ProductControl::class, 'update'])->name('admin.product.update');
