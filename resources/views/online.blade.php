@@ -148,7 +148,7 @@
             <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
             <input type="hidden" name="total_price" value="{{ $totalPrice }}">
             <input type="hidden" name="p_method" value="{{ session('payment_method') }}">
-          <input type="text" name="products" value="{{ json_encode($orderData) }}">
+          <input type="hidden" name="products" value="{{ json_encode($orderData) }}">
         
             <button class="btn btn-primary" type="submit">Proceed to Payment</button>
         </form>
