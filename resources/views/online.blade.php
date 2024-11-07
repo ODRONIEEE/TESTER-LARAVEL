@@ -147,6 +147,7 @@
     @csrf
     <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
     <input type="hidden" name="total_price" value="{{ $totalPrice }}">
+    <input type="hidden" name="order_type" value="{{ $orderType }}">
     <input type="hidden" name="p_method" value="{{ session('payment_method') }}">
     <input type="hidden" name="products" value="{{ json_encode($orderData) }}">
     

@@ -78,6 +78,9 @@ public function addToCart(Request $request)
     // Encode extras as JSON instead of an array
     $encodedExtras = json_encode($extrasDetails);
 
+    // Make sure the price is a valid number
+    $price = is_numeric($price) ? floatval($price) : 0;
+
     // Add the product to cart with encoded extras
     $cartItem = [
         'id' => $product->id,
@@ -100,25 +103,58 @@ public function addToCart(Request $request)
 
 
 
+
+
     public function viewCart()
     {
         $cart = $this->cartService->getCart();
         return view('cart', compact('cart'));
     }
+public function removeFromCart(Request $request)
+{
+    $productId = $request->input('product_id');
 
-    public function removeFromCart($itemId)
-    {
-        $this->cartService->removeFromCart($itemId);
-        return redirect()->route('cart')->with('success', 'Item removed from cart successfully');
+    // Get current cart from session
+    $cart = session()->get('cart', []);
+
+    // Remove the item with the matching product ID
+    foreach ($cart as $key => $item) {
+        if ($item['id'] == $productId) {
+            unset($cart[$key]);
+            break;
+        }
     }
 
-    public function updateCart(Request $request)
-    {
-        $selectedItems = $request->input('selected_items', []);
-        $this->cartService->updateCartSelection($selectedItems);
+    // Re-index the array to avoid gaps in the array keys
+    $cart = array_values($cart);
 
-        return redirect()->route('cart')->with('success', 'Cart updated successfully');
+    // Save the updated cart to the session
+    session(['cart' => $cart]);
+
+    return redirect()->route('cart')->with('success', 'Product removed from cart!');
+}
+
+public function updateCart(Request $request)
+{
+    $productId = $request->input('product_id');
+    $quantity = $request->input('quantity');
+
+    // Get current cart from session
+    $cart = session()->get('cart', []);
+
+    // Find the product in the cart and update its quantity
+    foreach ($cart as &$item) {
+        if ($item['id'] == $productId) {
+            $item['quantity'] = $quantity;
+            break;
+        }
     }
+
+    // Save the updated cart to the session
+    session(['cart' => $cart]);
+
+    return response()->json(['success' => true]);
+}
 
 
 }

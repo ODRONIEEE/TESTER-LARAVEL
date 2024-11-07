@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('p_method'); 
             $table->timestamp('dateCreated')->useCurrent(); 
             $table->timestamps(); 
+                 $table->string('order_type'); 
         });
     }
 

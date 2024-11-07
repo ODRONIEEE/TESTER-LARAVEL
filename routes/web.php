@@ -53,6 +53,10 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::get('/cart', [UserControl::class, 'viewCart'])->name('cart');
     Route::post('/cart/remove', [UserControl::class, 'removeFromCart'])->name('cart.remove');
     Route::post('/cart/update', [UserControl::class, 'updateCart'])->name('cart.update');
+    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
+Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
+Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
+
    Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('place.order');
 
     // Route::get('payment', [CartController::class, 'showPayment'])->name('payment.show');
@@ -86,7 +90,8 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
     Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
     Route::put('/admin/product/{id}', [ProductControl::class, 'update'])->name('admin.product.update');
-
+Route::get('/admin/orders/filter', [OrderController::class, 'filterOrders'])->name('orders.filter');
+Route::post('/update-order-status/{id}', [OrderController::class, 'updateStatus']);
     Route::get('/admin/extras', [ExtrasController::class, 'showall'])->name('admin.extras');
     Route::post('/admin.extras', [ExtrasController::class, 'store'])->name('admin.extras.store');
     Route::delete('/admin/extras/{id}', [ExtrasController::class, 'destroy'])->name('admin.extras.destroy');

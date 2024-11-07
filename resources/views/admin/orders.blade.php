@@ -7,7 +7,7 @@
     <title>Archive Cafe</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicons -->
     <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
     <link href="{{asset('assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
@@ -120,108 +120,242 @@
 
 
       <div class="menu-container">
-    <nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
-        <a class="custom-category-btn" href="{{ url()->previous() }}">Back</a>
-        <button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
-        <button class="custom-category-btn" onclick="showOrder('complete')">Completed</button>
-        <button class="custom-category-btn" onclick="showOrder('history')">Order History</button>
-    </nav>
 
-    <div id="pending-orders" class="order-tab row menu-content" style="display:none">
-        <!-- Loop through pending orders -->
-        @foreach($orders as $order)
-            @if($order->status == 'Pending')
-                <div class="col-lg-3 col-md-8 col-sm-12 product-details">
-                    <h2 class="text-center mb-4">{{ $order->product_name }}</h2>
-                    <div class="customization-options">
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-6 text-center">
-                                <h3>#{{ $order->order_id }}</h3>
-                            </div>
-                            <div class="col-lg-6 text-center">
-                                <h3>{{ $order->dine_type }}</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 text-center">
-                                <h3>QTY</h3>
-                                <h3>{{ $order->quantity }}</h3>
-                            </div>
-                            <div class="col-lg-4 text-center">
-                                <h3>Price</h3>
-                                <h3>{{ $order->price }}</h3>
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <button class="custom-btn place-order w-50" onclick="completeOrder({{ $order->order_id }})">Complete</button>
-                        </div>
-                    </div>
-                </div>
-            @endif
-        @endforeach
-    </div>
 
-    <div id="completed-orders" class="order-tab row menu-content" style="display:none">
-        <!-- Loop through completed orders -->
-        @foreach($orders as $order)
-            @if($order->status == 'Completed')
-                <div class="col-lg-3 col-md-8 col-sm-12 product-details">
-                    <h2 class="text-center mb-4">{{ $order->product_name }}</h2>
-                    <div class="customization-options">
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-6 text-center">
-                                <h3>#{{ $order->order_id }}</h3>
-                            </div>
-                            <div class="col-lg-6 text-center">
-                                <h3>{{ $order->dine_type }}</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 text-center">
-                                <h3>QTY</h3>
-                                <h3>{{ $order->quantity }}</h3>
-                            </div>
-                            <div class="col-lg-4 text-center">
-                                <h3>Price</h3>
-                                <h3>{{ $order->price }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-        @endforeach
-    </div>
+<nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
+    <a class="custom-category-btn" href="{{ url()->previous() }}">Back</a>
+    <button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
+    <button class="custom-category-btn" onclick="showOrder('complete')">Completed</button>
+    <button class="custom-category-btn" onclick="showOrder('history')">Order History</button>
+</nav>
 
-    <div id="order-history" class="order-tab row menu-content" style="display:none">
-        <!-- Loop through order history -->
-        @foreach($orders as $order)
-            @if($order->status == 'history')
-                <div class="col-lg-3 col-md-8 col-sm-12 product-details">
-                    <h2 class="text-center mb-4">{{ $order->product_name }}</h2>
-                    <div class="customization-options">
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-6 text-center">
-                                <h3>#{{ $order->order_id }}</h3>
+<div class="row">
+    <div class="container" data-aos="zoom-in">
+
+        <!-- Swiper for Pending Orders -->
+        <div id="pending-orders" class="swiper-container order-tab init-swiper" style="display: none;">
+            <div class="swiper-wrapper align-items-center">
+              @foreach($orders as $order)
+                   @if($order->status == 'Pending')
+                   <div class="col-lg-3 col-md-8 col-sm-12 product-details swiper-slide">
+                        <h2 id="product-name" class="text-center mb-4">{{ $order->customer_name }}</h2>
+                        <div class="customization-options">
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                    <h3>Order #{{ $order->id }}</h3>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                    <h3>{{ $order->order_type }}</h3>
+                                </div>
                             </div>
-                            <div class="col-lg-6 text-center">
-                                <h3>{{ $order->dine_type }}</h3>
+
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                    <h3>Product</h3>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                    <h3>QTY</h3>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                    <h3>Price</h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-3 justify-content-center">
-                            <div class="col-lg-4 text-center">
-                                <h3>QTY</h3>
-                                <h3>{{ $order->quantity }}</h3>
+
+                            <!-- Products Section -->
+                            @foreach ($order->products as $product)
+                                <div class="row mb-3 justify-content-center">
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $product['name'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $product['quantity'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $product['price'] ?? 'N/A' }}</h3>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <!-- Extras Section -->
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-12 text-center">
+                                    <h3>Extras</h3>
+                                </div>
                             </div>
-                            <div class="col-lg-4 text-center">
-                                <h3>Price</h3>
-                                <h3>{{ $order->price }}</h3>
+                            @foreach ($order->extras as $extra)
+                                <div class="row mb-3 justify-content-center">
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $extra['name'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $extra['quantity'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $extra['price'] ?? 'N/A' }}</h3>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <div class="text-center">
+                           <button class="custom-btn place-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'completed')">Complete</button>
+                            <button class="custom-btn void-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'void')">Void</button>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
-        @endforeach
+                      @endif
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Swiper for Completed Orders -->
+        <div id="complete-orders" class="swiper-container order-tab init-swiper" style="display: none;">
+            <div class="swiper-wrapper align-items-center">
+               @foreach($orders as $order)
+                   @if($order->status == 'Completed')
+                    <div class="col-lg-3 col-md-8 col-sm-12 product-details swiper-slide">
+                        <h2 id="product-name" class="text-center mb-4">{{ $order->customer_name }}</h2>
+                        <div class="customization-options">
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                    <h3>Order #{{ $order->id }}</h3>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                    <h3>{{ $order->order_type }}</h3>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                    <h3>Product</h3>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                    <h3>QTY</h3>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                    <h3>Price</h3>
+                                </div>
+                            </div>
+
+                            <!-- Products Section -->
+                            @foreach ($order->products as $product)
+                                <div class="row mb-3 justify-content-center">
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $product['name'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $product['quantity'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $product['price'] ?? 'N/A' }}</h3>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <!-- Extras Section -->
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-12 text-center">
+                                    <h3>Extras</h3>
+                                </div>
+                            </div>
+                            @foreach ($order->extras as $extra)
+                                <div class="row mb-3 justify-content-center">
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $extra['name'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $extra['quantity'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $extra['price'] ?? 'N/A' }}</h3>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            
+                        </div>
+                    </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Swiper for Order History -->
+        <div id="history-orders" class="swiper-container order-tab init-swiper" style="display: none;">
+            <div class="swiper-wrapper align-items-center">
+              @foreach($orders as $order)
+            
+                     <div class="col-lg-3 col-md-8 col-sm-12 product-details swiper-slide">
+                        <h2 id="product-name" class="text-center mb-4">{{ $order->customer_name }}</h2>
+                        <div class="customization-options">
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                    <h3>Order #{{ $order->id }}</h3>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                                    <h3>{{ $order->order_type }}</h3>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                    <h3>Product</h3>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                    <h3>QTY</h3>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                    <h3>Price</h3>
+                                </div>
+                            </div>
+
+                            <!-- Products Section -->
+                            @foreach ($order->products as $product)
+                                <div class="row mb-3 justify-content-center">
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $product['name'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $product['quantity'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $product['price'] ?? 'N/A' }}</h3>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <!-- Extras Section -->
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-12 text-center">
+                                    <h3>Extras</h3>
+                                </div>
+                            </div>
+                            @foreach ($order->extras as $extra)
+                                <div class="row mb-3 justify-content-center">
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $extra['name'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $extra['quantity'] ?? 'N/A' }}</h3>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                                        <h3>{{ $extra['price'] ?? 'N/A' }}</h3>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            
+                        </div>
+                    </div>
+                 
+                @endforeach
+            </div>
+        </div>
     </div>
+</div>
+
+
+
+
 </div>
 
 
@@ -256,33 +390,71 @@
 <script src="{{url('assets/js/drinks_menu.js')}}"></script>
 
 <script>
-    function showOrder(status) {
-    // Hide all tabs
-    document.querySelectorAll('.order-tab').forEach(function(tab) {
+function showOrder(status) {
+    // Hide all order tabs
+    document.querySelectorAll('.order-tab').forEach(tab => {
         tab.style.display = 'none';
     });
 
-    // Show the selected tab
-    document.getElementById(status + '-orders').style.display = 'block';
+    // Show the selected order tab
+    const selectedTab = document.getElementById(`${status}-orders`);
+    selectedTab.style.display = 'block';
+
+    // Initialize Swiper for the displayed tab if not already initialized
+    if (!selectedTab.classList.contains('swiper-initialized')) {
+        new Swiper(`#${status}-orders`, {
+            loop: true,
+            speed: 600,
+            autoplay: {
+                delay: 5000
+            },
+            slidesPerView: 3,
+            pagination: {
+                el: ".swiper-pagination",
+                type: "bullets",
+                clickable: true
+            },
+            breakpoints: {
+                320: { slidesPerView: 1, spaceBetween: 20 },
+                480: { slidesPerView: 2, spaceBetween: 40 },
+                768: { slidesPerView: 3, spaceBetween: 60 },
+                992: { slidesPerView: 3, spaceBetween: 80 },
+                1200: { slidesPerView: 3, spaceBetween: 100 }
+            }
+        });
+        selectedTab.classList.add('swiper-initialized');
+    }
 }
 
-function completeOrder(orderId) {
-    // Make a request to update the order status to 'completed'
-    fetch(`/update-order-status/${orderId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({ status: 'complete' })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Refresh the page or re-fetch orders to reflect the status update
-        showOrder('pending');  // or any other suitable update action
-    })
-    .catch(error => console.error('Error:', error));
-}
+
+
+    // Your code goes here
+    function updateOrderStatus(orderId, status) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error("CSRF token not found.");
+            return;
+        }
+        fetch(`/update-order-status/${orderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({ status: status })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(`Order ${status} successfully.`);
+                showOrder(status === 'completed' ? 'complete' : 'history');
+            } else {
+                alert('Failed to update order status.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
 
 </script>
 </body>

@@ -266,8 +266,8 @@
 
         <div class="col-md-4">
             <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
-                <button class="btn-dinein">Dine In</button>
-                <button class="btn-dineindark">Take Out</button>
+                 <button class="btn-dinein" onclick="setOrderType('Dine In')">Dine In</button>
+        <button class="btn-dineindark" onclick="setOrderType('Take Out')">Take Out</button>
             </div>
 
             <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: stretch; justify-content: space-evenly; align-items: center;">
@@ -404,6 +404,13 @@
     });
     </script>
   <script>
+
+    let orderType = 'Dine In'; // Default to "Dine In"
+
+function setOrderType(type) {
+    orderType = type;
+    console.log('Order Type:', orderType); // Log for debugging
+}
 function placeOrder() {
     // Get the cart data from Laravel Blade
     const cartData = @json($cart);  // This assumes $cart is the cart data from Laravel
@@ -467,9 +474,10 @@ function placeOrder() {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": "{{ csrf_token() }}"  // Include CSRF token for security
         },
-        body: JSON.stringify({
-            order: orderData,  // The order details
-            totalPrice: totalPrice  // The total price for the order
+      body: JSON.stringify({
+            order: orderData,
+            totalPrice: totalPrice,
+            orderType: orderType  
         })
     })
     .then(response => response.json())  // Assuming the server responds with JSON
@@ -478,6 +486,53 @@ function placeOrder() {
         window.location.href = "{{ route('payment.page') }}";  // Redirect to payment page
     })
     .catch(error => console.error('Error placing order:', error));  // Handle any errors
+}
+
+function adjustQuantity(productId, change) {
+    const quantitySpan = document.getElementById('quantity-count-' + productId);
+    let currentQuantity = parseInt(quantitySpan.textContent);
+    const newQuantity = currentQuantity + change;
+
+    if (newQuantity > 0) {
+        // Update the quantity in the cart via AJAX
+        fetch('/cart/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: newQuantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Check for the updated quantity and total price
+            if (data.success) {
+                // Update the quantity in the UI
+                quantitySpan.textContent = newQuantity;
+
+                // Assuming data contains the updated total price for this product
+                const productTotalPrice = data.updated_price; // Example key, modify as necessary
+
+                // Update the total price on the page
+                const totalPriceSpan = document.getElementById('total-price-' + productId);
+                if (totalPriceSpan) {
+                    totalPriceSpan.textContent = 'P' + productTotalPrice.toFixed(2);
+                }
+
+                // Optionally, update the grand total in the cart (if needed)
+                const grandTotalSpan = document.getElementById('grand-total');
+                if (grandTotalSpan) {
+                    grandTotalSpan.textContent = 'P' + data.grand_total.toFixed(2);
+                }
+            } else {
+                console.error('Error updating quantity:', data.message);
+            }
+        })
+        .catch(error => console.error('Error adjusting quantity:', error));
+    }
 }
 
 

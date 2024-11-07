@@ -20,6 +20,7 @@ class Transaction extends Model
         'total_price',
         'p_method',
         'dateCreated',
+            'order_type',
     ];
 
   

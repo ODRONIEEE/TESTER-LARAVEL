@@ -14,9 +14,9 @@ class PaymentController extends Controller
     
         $orderData = session('orderData');
         $totalPrice = session('totalPrice');
-        
+           $orderType = session('orderType'); 
  
-        return view('payment', compact('orderData', 'totalPrice'));
+        return view('payment', compact('orderData', 'totalPrice','orderType'));
     }
 
 
@@ -24,16 +24,18 @@ class PaymentController extends Controller
     {
        $orderData = session('orderData');
         $totalPrice = session('totalPrice');
+            $orderType = session('orderType'); 
         session(['payment_method' => 'online']);
         
-       return view('online', compact('orderData', 'totalPrice'));
+       return view('online', compact('orderData', 'totalPrice','orderType'));
     }
 
     public function handleOtcPayment()
     {
         $orderData = session('orderData');
         $totalPrice = session('totalPrice');
+             $orderType = session('orderType'); 
          session(['payment_method' => 'Over the Counter']);
-        return view('otc', compact('orderData', 'totalPrice'));
+        return view('otc', compact('orderData', 'totalPrice','orderType'));
     }
 }

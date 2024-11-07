@@ -14,9 +14,10 @@ class OrderController extends Controller
       
             $orderData = $request->input('order');
             $totalPrice = $request->input('totalPrice');
-
+     $orderType = $request->input('orderType');
            session()->put('orderData', $orderData);
            session()->put('totalPrice', $totalPrice);
+        session()->put('orderType', $orderType);
       
 
             return response()->json(['message' => 'Order data received successfully']);
@@ -33,6 +34,7 @@ public function store(Request $request)
         'products' => 'required|json', // Expect products as a JSON string
         'total_price' => 'required|numeric',
         'p_method' => 'required|string',
+        'order_type' => 'required|string', // Added validation for order_type
     ]);
 
     $products = json_decode($request->products, true);
@@ -57,6 +59,7 @@ public function store(Request $request)
         'customer_name' => $request->customer_name,
         'total_price' => $request->total_price,
         'p_method' => $request->p_method,
+        'order_type' => $request->order_type,  // Store the order_type
         'dateCreated' => now(),
         'products' => json_encode($products),
         'extras' => json_encode($allExtras),
@@ -64,20 +67,84 @@ public function store(Request $request)
 
     try {
         $transaction = Transaction::create($transactionData);
+        session()->forget('cart'); 
         return response()->json(['success' => true, 'message' => 'Order placed successfully!']);
     } catch (\Exception $e) {
         return response()->json(['success' => false, 'message' => 'An error occurred.']);
     }
 }
 
-  public function showOrders()
-    {
-        // Fetch all orders
-        $orders = Order::all();
+public function showOrders()
+{
+    // Fetch all orders
+    $orders = Order::all();
 
-        // Return orders in JSON format
-      return view('admin/orders', compact('orders'));
+    // Manually decode the products and extras fields if they are stored as JSON strings
+    foreach ($orders as $order) {
+        $order->products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
+        $order->extras = is_string($order->extras) ? json_decode($order->extras, true) : $order->extras;
     }
+
+    // Return orders to the view
+    return view('admin.orders', compact('orders'));
+}
+
+public function showsales()
+{
+    // Fetch all orders
+    $orders = Order::all();
+
+    // Initialize counters for each category
+    $totalSales = 0;
+    $categorySales = [
+        'Coffee' => 0,
+        'Non-Coffee' => 0,
+        'Refreshers' => 0,
+        'Tea' => 0,
+        'Pastries' => 0,
+        'Pasta' => 0,
+        'Rice Meal' => 0,
+        'Appetizer' => 0
+    ];
+
+    // Loop through each order and accumulate sales per category
+    foreach ($orders as $order) {
+        // Manually decode the products if they are stored as JSON strings
+        $order->products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
+        
+        // Iterate through the products in the order
+        foreach ($order->products as $product) {
+            // Assuming $product['category'] is the category of the product and $product['price'] is its price
+            $category = $product['category'];
+            $price = $product['price'];
+            
+            // Add the price to the respective category sales total
+            if (array_key_exists($category, $categorySales)) {
+                $categorySales[$category] += $price;
+            }
+            // Add to total sales
+            $totalSales += $price;
+        }
+    }
+
+    // Return the sales data to the view
+    return view('admin.orders', compact('orders', 'totalSales', 'categorySales'));
+}
+
+public function updateStatus(Request $request, $id)
+{
+    $order = Order::find($id);
+    if ($order) {
+        $order->status = $request->status;
+        $order->save();
+
+        return response()->json(['success' => true]);
+    }
+    return response()->json(['success' => false], 400);
+}
+
+
+
 
 
 }

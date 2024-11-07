@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-   protected $table = 'transaction';
+
+    protected $table = 'transaction';
     protected $fillable = [
         'customer_name',
         'products',
@@ -16,11 +17,11 @@ class Order extends Model
         'total_price',
         'p_method',
         'dateCreated',
+        'order_type',
     ];
 
-    // If products and extras are stored as JSON, you can cast them to arrays
     protected $casts = [
-        'products' => 'array',
-        'extras' => 'array',
+        'products' => 'array',  // Ensure products is cast to an array
+        'extras' => 'array',    // Ensure extras is cast to an array
     ];
 }
