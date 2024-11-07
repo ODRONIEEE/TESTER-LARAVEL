@@ -126,10 +126,13 @@ public function showsales()
         
         // Iterate through the products in the order
         foreach ($order->products as $product) {
-            // Assuming $product['category'] is the category of the product and $product['price'] is its price
-            $category = $product['category'];
-            $price = $product['price'];
+            // Fetch the type_id from the product
+            $typeId = $product['id'];  // Assuming 'id' refers to the product ID
             
+            // Fetch the product category based on the type_id
+            $category = $this->getCategoryByTypeId($typeId);
+            $price = $product['price'];
+
             // Add the price to the respective category sales total
             if (array_key_exists($category, $categorySales)) {
                 $categorySales[$category] += $price;
@@ -141,10 +144,29 @@ public function showsales()
         }
     }
 
+    // Define $sales (if needed) - e.g., set it as the total sales
+    $sales = $totalSales;
+
     // Return the sales data to the view
     return view('admin.sales', compact('sales', 'totalSales', 'categorySales', 'categoryCounts'));
 }
 
+public function getCategoryByTypeId($typeId)
+{
+    $categoryMap = [
+        1 => 'Coffee',        // Type ID 1 => Coffee
+        2 => 'Non-Coffee',    // Type ID 2 => Non-Coffee
+        3 => 'Refreshers',    // Type ID 3 => Refreshers
+        4 => 'Tea',           // Type ID 4 => Tea
+        5 => 'Appetizers',    // Type ID 5 => Appetizers
+        6 => 'Pasta',         // Type ID 6 => Pasta
+        7 => 'Burger',        // Type ID 7 => Burger
+        8 => 'Rice Meal',     // Type ID 8 => Rice Meal
+        9 => 'Pastries',      // Type ID 9 => Pastries
+    ];
+
+    return $categoryMap[$typeId] ?? 'Unknown'; // Default to 'Unknown' if type_id is not found
+}
 
 public function updateStatus(Request $request, $id)
 {

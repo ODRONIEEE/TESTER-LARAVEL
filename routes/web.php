@@ -80,13 +80,13 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/pos/{category}',[AdminControl::class, 'pos'])->name('admin.pos');
 
     Route::get('/admin/pos',[AdminControl::class, 'test'])->name('admin.test');
-    Route::get('/admin/sales',[AdminControl::class, 'sales'])->name('admin.sales');
+    Route::get('/admin/sales',[OrderController::class, 'showsales'])->name('admin.sales');
 
     Route::get('/admin/drink-menu/{category}',[AdminControl::class, 'drink'])->name('admin.drink-menu');
     Route::get('/admin/food-menu/{category}',[AdminControl::class, 'food'])->name('admin.food-menu');
 
     Route::get('/admin/orders',[AdminControl::class, 'orders'])->name('admin.orders');
-    Route::get('/admin/orders', [OrderController::class, 'showsales'])->name('admin.sales');;
+    Route::get('/admin/orders', [OrderController::class, 'showsales'])->name('admin.orders');;
     Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
     Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
     Route::put('/admin/product/{id}', [ProductControl::class, 'update'])->name('admin.product.update');
