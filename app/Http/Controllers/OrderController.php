@@ -107,7 +107,19 @@ public function showsales()
         'Appetizer' => 0
     ];
 
-    // Loop through each order and accumulate sales per category
+    // Initialize counters for total product counts
+    $categoryCounts = [
+        'Coffee' => 0,
+        'Non-Coffee' => 0,
+        'Refreshers' => 0,
+        'Tea' => 0,
+        'Pastries' => 0,
+        'Pasta' => 0,
+        'Rice Meal' => 0,
+        'Appetizer' => 0
+    ];
+
+    // Loop through each order and accumulate sales and counts per category
     foreach ($orders as $order) {
         // Manually decode the products if they are stored as JSON strings
         $order->products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
@@ -121,15 +133,18 @@ public function showsales()
             // Add the price to the respective category sales total
             if (array_key_exists($category, $categorySales)) {
                 $categorySales[$category] += $price;
+                $categoryCounts[$category]++;  // Increase the count for the specific category
             }
+            
             // Add to total sales
             $totalSales += $price;
         }
     }
 
     // Return the sales data to the view
-    return view('admin.orders', compact('orders', 'totalSales', 'categorySales'));
+    return view('admin.sales', compact('sales', 'totalSales', 'categorySales', 'categoryCounts'));
 }
+
 
 public function updateStatus(Request $request, $id)
 {

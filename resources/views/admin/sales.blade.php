@@ -80,80 +80,70 @@
   </header>
   @endif
 
-  <main class="main">
-
-
+<main class="main">
     <div class="menu-container ">
         <div class="row">
             <div class="col-sm-4 sales-section ">
-
                 <h1>Cup Count</h1>
                 <div class="buttons">
                     <div class="item">
-                        <button onclick="addItem('Coffee')">Coffee</button>
-                        <span id="coffee-count">0</span>
+                        <button>Coffee</button>
+                        <span id="coffee-count">{{ $categoryCounts['Coffee'] }}</span>
                     </div>
                     <div class="item">
-                        <button onclick="addItem('Non-Coffee')">Non-Coffee</button>
-                        <span id="non-coffee-count">0</span>
+                        <button>Non-Coffee</button>
+                        <span id="non-coffee-count">{{ $categoryCounts['Non-Coffee'] }}</span>
                     </div>
                     <div class="item">
-                        <button onclick="addItem('Refreshers')">Refreshers</button>
-                        <span id="refreshers-count">0</span>
+                        <button>Refreshers</button>
+                        <span id="refreshers-count">{{ $categoryCounts['Refreshers'] }}</span>
                     </div>
                     <div class="item">
-                        <button onclick="addItem('Tea')">Tea</button>
-                        <span id="tea-count">0</span>
+                        <button>Tea</button>
+                        <span id="tea-count">{{ $categoryCounts['Tea'] }}</span>
                     </div>
                 </div>
-
             </div>
 
             <div class="col-sm-4 sales-section">
-
                 <h1>Meals</h1>
                 <div class="buttons">
                     <div class="item">
-                        <button onclick="addItem('Pastries')">Pastries</button>
-                        <span id="pastries-count">0</span>
+                        <button>Pastries</button>
+                        <span id="pastries-count">{{ $categoryCounts['Pastries'] }}</span>
                     </div>
                     <div class="item">
-                        <button onclick="addItem('Pasta')">Pasta</button>
-                        <span id="pasta-count">0</span>
+                        <button>Pasta</button>
+                        <span id="pasta-count">{{ $categoryCounts['Pasta'] }}</span>
                     </div>
                     <div class="item">
-                        <button onclick="addItem('Rice Meal')">Rice Meal</button>
-                        <span id="rice-meal-count">0</span>
+                        <button>Rice Meal</button>
+                        <span id="rice-meal-count">{{ $categoryCounts['Rice Meal'] }}</span>
                     </div>
                     <div class="item">
-                        <button onclick="addItem('Appetizer')">Appetizer</button>
-                        <span id="appetizer-count">0</span>
+                        <button class="total-sales">Appetizer</button>
+                        <span id="appetizer-count">{{ $categoryCounts['Appetizer'] }}</span>
                     </div>
                 </div>
-
             </div>
             <div class="col-sm-3  sales-section">
-
                 <h1>Sales</h1>
                 <div class="buttons">
                     <div class="total-sales">
                         <p>Total Sales</p>
-                        <span id="total-sales">Php 0000.00</span>
+                        <span id="total-sales">Php {{ number_format($totalSales, 2) }}</span>
                     </div>
                     <br><br>
                     <div class="total-quantity">
                         <div class="item">
-                            <button class="btn btn-lg" style="background-color: #ffffff;color: black;">Reset
-                                Sales</button>
+                            <button class="btn btn-lg" style="background-color: #ffffff;color: black;">Reset Sales</button>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
         <div class="row">
-
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6">
@@ -162,7 +152,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h2 class="cup-count">0</h2>
+                        <h2 class="cup-count">{{ array_sum($categoryCounts) }}</h2> <!-- Total cups -->
                     </div>
                 </div>
             </div>
@@ -174,23 +164,12 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h2 class="cup-count">0</h2>
+                        <h2 class="cup-count">{{ $categoryCounts['Pastries'] + $categoryCounts['Pasta'] + $categoryCounts['Rice Meal'] + $categoryCounts['Appetizer'] }}</h2> <!-- Total food -->
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
-
-
-
-
-
-
-
-
-
 </main>
 
 <footer id="footer" class="footer-product background-dark text-center">
