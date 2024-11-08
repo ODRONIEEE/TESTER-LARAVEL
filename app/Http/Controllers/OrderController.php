@@ -17,7 +17,11 @@ class OrderController extends Controller
      $orderType = $request->input('orderType');
            session()->put('orderData', $orderData);
            session()->put('totalPrice', $totalPrice);
+<<<<<<< HEAD
         session()->put('orderType', $orderType);
+=======
+          session()->put('orderType', $orderType);
+>>>>>>> 7e02e43a2d7aedd10e9d3c5a8d7208d40838ed7e
 
 
             return response()->json(['message' => 'Order data received successfully']);

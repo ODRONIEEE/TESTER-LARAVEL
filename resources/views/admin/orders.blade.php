@@ -271,7 +271,7 @@
                                 </div>
                             @endforeach
 
-                            
+
                         </div>
                     </div>
                     @endif
@@ -283,7 +283,7 @@
         <div id="history-orders" class="swiper-container order-tab init-swiper" style="display: none;">
             <div class="swiper-wrapper align-items-center">
               @foreach($orders as $order)
-            
+
                      <div class="col-lg-3 col-md-8 col-sm-12 product-details swiper-slide">
                         <h2 id="product-name" class="text-center mb-4">{{ $order->customer_name }}</h2>
                         <div class="customization-options">
@@ -343,10 +343,10 @@
                                 </div>
                             @endforeach
 
-                            
+
                         </div>
                     </div>
-                 
+
                 @endforeach
             </div>
         </div>
