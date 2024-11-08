@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('dateCreated')->useCurrent(); 
             $table->timestamps(); 
              $table->string('status'); 
-                 $table->string('order_type'); 
+             $table->string('order_type'); 
         });
     }
 

@@ -11,14 +11,14 @@ class OrderController extends Controller
     public function placeOrder(Request $request)
     {
         try {
-      
+
             $orderData = $request->input('order');
             $totalPrice = $request->input('totalPrice');
      $orderType = $request->input('orderType');
            session()->put('orderData', $orderData);
            session()->put('totalPrice', $totalPrice);
         session()->put('orderType', $orderType);
-      
+
 
             return response()->json(['message' => 'Order data received successfully']);
         } catch (\Exception $e) {
@@ -48,7 +48,7 @@ public function store(Request $request)
                     $allExtras[] = [
                         'id' => $extra,
                         'name' => 'Unknown',
-                        'price' => 0, 
+                        'price' => 0,
                     ];
                 }
             }
@@ -59,20 +59,23 @@ public function store(Request $request)
         'customer_name' => $request->customer_name,
         'total_price' => $request->total_price,
         'p_method' => $request->p_method,
-        'order_type' => $request->order_type,  // Store the order_type
+        'order_type' => $request->order_type,
         'dateCreated' => now(),
         'products' => json_encode($products),
         'extras' => json_encode($allExtras),
     ];
 
     try {
+
         $transaction = Transaction::create($transactionData);
-        session()->forget('cart'); 
+        session()->forget('cart');
         return response()->json(['success' => true, 'message' => 'Order placed successfully!']);
     } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => 'An error occurred.']);
+        Log::error('Order creation failed: ' . $e->getMessage());
+        throw new \Exception('Failed to place the order. Please try again later. Error details: ' . $e->getMessage());
     }
 }
+
 
 public function showOrders()
 {
@@ -123,12 +126,12 @@ public function showsales()
     foreach ($orders as $order) {
         // Manually decode the products if they are stored as JSON strings
         $order->products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
-        
+
         // Iterate through the products in the order
         foreach ($order->products as $product) {
             // Fetch the type_id from the product
             $typeId = $product['id'];  // Assuming 'id' refers to the product ID
-            
+
             // Fetch the product category based on the type_id
             $category = $this->getCategoryByTypeId($typeId);
             $price = $product['price'];
@@ -138,7 +141,7 @@ public function showsales()
                 $categorySales[$category] += $price;
                 $categoryCounts[$category]++;  // Increase the count for the specific category
             }
-            
+
             // Add to total sales
             $totalSales += $price;
         }

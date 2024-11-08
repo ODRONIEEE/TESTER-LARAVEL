@@ -17,7 +17,7 @@ class Order extends Model
         'total_price',
         'p_method',
         'dateCreated',
-                   'status',
+          'status',
         'order_type',
     ];
 
