@@ -53,7 +53,7 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::get('/cart', [UserControl::class, 'viewCart'])->name('cart');
     Route::post('/cart/remove', [UserControl::class, 'removeFromCart'])->name('cart.remove');
     Route::post('/cart/update', [UserControl::class, 'updateCart'])->name('cart.update');
-    
+
    Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('place.order');
 
     // Route::get('payment', [CartController::class, 'showPayment'])->name('payment.show');

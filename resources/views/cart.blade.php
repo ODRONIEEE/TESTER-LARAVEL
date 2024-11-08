@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -31,7 +31,6 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8KA4jHQsc1osGZb8sdmFic2S1wIldw18AJzAf" crossorigin="anonymous">
-
 
 </head>
 
@@ -168,7 +167,7 @@
         <div class="col-md-8">
             <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
                 <div class="order-history" style="width: 200px;">
-                    <h3>Cart</h3>
+                    <h3><a href="{{ route('menu') }}" style="text-decoration: none; color: inherit;">Add Item</a></h3>
                 </div>
                 <div class="order-history" style="width: 200px;">
                     <h3>{{ Auth::user()->name }}</h3>
@@ -180,118 +179,127 @@
     <div class="row mb-5">
         <div class="col-md-8">
             <div class="order-container">
-                <p># Cart</p>
 
-                <div class="product-table mb-3">
-                    <p></p>
-                    <p>Name</p>
-                    <p>Price</p>
-                    <p>QTY</p>
-                    <p>Action</p>
-                </div>
 
                 <!-- Cart items -->
-<div id="cart-items-container">
-    @php
-        $cart = session('cart', []);
-        $totalPrice = 0;
-    @endphp
+                <div id="cart-items-container">
+                    @php
+                    $cart = session('cart', []);
+                    $totalPrice = 0;
+                    @endphp
 
-    @foreach($cart as $item)
-        @php
-            $basePrice = $item['price'] * $item['quantity'];
-            $extrasTotal = 0; // Initialize for each item
+                    @if(count($cart) > 0)
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th class="image-column" style="color: white;"></th>
+                                    <th class="name-column" style="color: white;">Name</th>
+                                    <th class="price-column" style="color: white;">Price</th>
+                                    <th class="quantity-column" style="color: white;">QTY</th>
+                                    <th class="action-column" style="color: white;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($cart as $item)
+                                    @php
+                                    $basePrice = $item['price'] * $item['quantity'];
+                                    $extrasTotal = 0;
+                                    $product = \App\Models\Product::find($item['id']);
+                                    $productImage = $product ? $product->image : 'default.png';
+                                    $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
+                                    @endphp
 
-      
-            $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
-        @endphp
+                                    <tr class="product-row" id="cart-item-{{ $item['id'] }}">
+                                        <td class="image-column">
+                                            <div class="product-image">
+                                                <img src="{{ asset($productImage) }}" alt="{{ $item['name'] }}">
+                                            </div>
+                                        </td>
+                                        <td class="name-column">
+                                            <div class="product-name">
+                                                {{ $item['name'] }}
+                                                @if(isset($item['temperature']))
+                                                    <span class="temperature">({{ ucfirst($item['temperature']) }})</span>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td class="price-column">₱{{ number_format($basePrice, 2) }}</td>
+                                        <td class="quantity-column">
+                                            <div class="quantity-controls">
+                                                <button class="quantity-btn minus-btn" onclick="adjustQuantity('{{ $item['id'] }}', -1)" style="background-color: orange;">
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </button>
+                                                <span id="quantity-count-{{ $item['id'] }}">{{ $item['quantity'] }}</span>
+                                                <button class="quantity-btn plus-btn" onclick="adjustQuantity('{{ $item['id'] }}', 1)" style="background-color: orange;">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td class="action-column">
+                                            <button class="remove-btn" data-id="{{ $item['id'] }}" onclick="removeCartItem('{{ $item['id'] }}')">
+                                                <i class="fa-solid fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
 
-        <div class="product-table mb-3" id="cart-item-{{ $item['id'] }}">
-            <img src="assets/img/products/{{ $item['image'] ?? 'default.png' }}" alt="{{ $item['name'] }}" width="auto" height="60">
+                                    @if(!empty($extras))
+                                        @foreach($extras as $extra)
+                                            @if (is_array($extra) && isset($extra['price'], $extra['name']))
+                                                @php
+                                                $extrasTotal += $extra['price'] * $item['quantity'];
+                                                @endphp
+                                                <tr class="extra-row">
+                                                    <td></td>
+                                                    <td class="extra-name">{{ $extra['name'] }}</td>
+                                                    <td class="extra-price" colspan="3">+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
 
-            <p>{{ $item['name'] }}
-                @if(isset($item['temperature']))
-                    ({{ ucfirst($item['temperature']) }})
-                @endif
-            </p>
-
-            <p>₱{{ number_format($basePrice, 2) }}</p>
-
-            <div class="btn-container">
-                <button class="custom-btn minus-btn" onclick="adjustQuantity('{{ $item['id'] }}', -1)">
-                    <i class="fa-solid fa-minus"></i>
-                </button>
-                <span id="quantity-count-{{ $item['id'] }}" style="color:white;font-size: 1em;">{{ $item['quantity'] }}</span>
-                <button class="custom-btn plus-btn" onclick="adjustQuantity('{{ $item['id'] }}', 1)">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            </div>
-
-            <div class="btn-container">
-                <button class="custom-btn remove-item" data-id="{{ $item['id'] }}">
-                    <i class="fa-solid fa-times"></i>
-                </button>
-            </div>
-        </div>
-
-        @if(!empty($extras))
-            <div class="extras-list" style="padding-left: 20px; margin-top: -15px;">
-          
-                @foreach($extras as $extra)
-                    @if (is_array($extra) && isset($extra['price'], $extra['name']))
-                        @php
-                       
-                            $extrasTotal += $extra['price'] * $item['quantity'];
-                        @endphp
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <p>{{ $extra['name'] }}</p>
-                            <p>+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</p>
-                        </div>
+                                    @php
+                                    $itemTotal = $basePrice + $extrasTotal;
+                                    $totalPrice += $itemTotal;
+                                    @endphp
+                                @endforeach
+                            </tbody>
+                        </table>
                     @else
-                        <p>Invalid extra data</p>
+                        <div class="text-center" style="color: white; padding: 2rem;">
+                            <h3>Your cart is empty</h3>
+                            <p>UY! Kumusta</p>
+                            <p>Check out Our Menu to find the goodies there KAPATIDS!</p>
+                            <a href="{{ route('menu') }}" class="btn-dinein" style="display: inline-block; margin-top: 1rem; text-decoration: none; color: white;">
+                                 Menu
+                            </a>
+                        </div>
                     @endif
-                @endforeach
-            </div>
-        @endif
-
-        @php
-            $itemTotal = $basePrice + $extrasTotal; 
-            $totalPrice += $itemTotal;
-        @endphp
-    @endforeach
-</div>
-
+                </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
-                 <button class="btn-dinein" onclick="setOrderType('Dine In')">Dine In</button>
-        <button class="btn-dineindark" onclick="setOrderType('Take Out')">Take Out</button>
+            <div class="mb-5 order-type-buttons">
+                <button class="btn-dinein" id="dineInBtn" onclick="toggleOrderType('Dine In', this)">Dine In</button>
+                <button class="btn-dineindark" id="takeOutBtn" onclick="toggleOrderType('Take Out', this)">Take Out</button>
             </div>
 
-            <div class="mb-5" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: stretch; justify-content: space-evenly; align-items: center;">
+            <div class="mb-5 total-container">
                 <h2 class="text-yellow">Total:</h2>
-                <div class="order-history" style="width: 200px;">
+                <div class="order-history">
                     <h3 id="cart-total-price">₱{{ number_format($totalPrice, 2) }}</h3>
                 </div>
             </div>
 
             <div class="text-center">
-                <button class="btn-dinein text-center" onclick="placeOrder()" >Place Order</button>
+                <button class="btn-dinein text-center" onclick="placeOrder()">Place Order</button>
             </div>
         </div>
     </div>
+
 </div>
 
 </main>
-
-
-
-
-
-
-
 
  <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
@@ -405,15 +413,42 @@
     </script>
   <script>
 
-    let orderType = 'Dine In'; // Default to "Dine In"
+    let orderType = null; // Start with no selection
 
-function setOrderType(type) {
-    orderType = type;
+function toggleOrderType(type, button) {
+    const dineInBtn = document.getElementById('dineInBtn');
+    const takeOutBtn = document.getElementById('takeOutBtn');
+
+    if (orderType === type) {
+        // If clicking the same button, deselect it
+        orderType = null;
+        button.classList.remove('btn-active');
+    } else {
+        // Select the new button and deselect the other
+        orderType = type;
+        dineInBtn.classList.remove('btn-active');
+        takeOutBtn.classList.remove('btn-active');
+        button.classList.add('btn-active');
+    }
+
     console.log('Order Type:', orderType); // Log for debugging
 }
+
 function placeOrder() {
     // Get the cart data from Laravel Blade
-    const cartData = @json($cart);  // This assumes $cart is the cart data from Laravel
+    const cartData = @json($cart);
+
+    // Check if cart is empty
+    if (Object.keys(cartData).length === 0) {
+        alert('Your cart is empty. Please add items before placing an order.');
+        return;
+    }
+
+    // Check if order type is selected
+    if (!orderType) {
+        alert('Please select an order type (Dine In or Take Out)');
+        return;
+    }
 
     // Calculate the total price for each item and its extras
     const orderData = Object.values(cartData).map(item => {
@@ -477,7 +512,7 @@ function placeOrder() {
       body: JSON.stringify({
             order: orderData,
             totalPrice: totalPrice,
-            orderType: orderType  
+            orderType: orderType
         })
     })
     .then(response => response.json())  // Assuming the server responds with JSON
@@ -535,9 +570,335 @@ function adjustQuantity(productId, change) {
     }
 }
 
-
-
  </script>
+ <script>
+    function removeCartItem(productId) {
+        fetch('/cart/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                product_id: productId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Refresh the page to reflect changes
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error removing item:', error);
+            // Refresh even on error to ensure consistent state
+            window.location.reload();
+        });
+    }
+</script>
+
+<style>
+    /* Base styles for all screen sizes */
+.cart-title {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: bold;
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.cart-table th {
+    padding: clamp(0.5rem, 1vw, 1rem);
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.cart-table td {
+    padding: clamp(0.5rem, 1vw, 1rem);
+    vertical-align: middle;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Product image styles - fluid sizing */
+.image-column {
+    width: clamp(60px, 8vw, 80px);
+}
+
+.product-image img {
+    width: clamp(40px, 6vw, 60px);
+    height: clamp(40px, 6vw, 60px);
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Fluid typography and spacing */
+.cart-table {
+    font-size: clamp(0.875rem, 1vw, 1rem);
+}
+
+/* Quantity controls with touch-friendly sizing */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.25rem, 0.5vw, 0.5rem);
+}
+
+.quantity-btn {
+    padding: clamp(0.25rem, 0.5vw, 0.5rem);
+    min-width: clamp(1.5rem, 4vw, 2rem);
+    min-height: clamp(1.5rem, 4vw, 2rem);
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobile First Approach (Starting from iPhone SE - 375px) */
+@media screen and (max-width: 375px) {
+    .row {
+        margin: 0;
+        padding: 0.5rem;
+    }
+
+    .cart-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .name-column {
+        min-width: 100px;
+    }
+
+    .price-column {
+        width: 70px;
+    }
+
+    .quantity-column {
+        width: 90px;
+    }
+
+    .action-column {
+        width: 40px;
+    }
+
+    .order-type-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .total-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 0.75rem;
+    }
+
+    .order-history {
+        width: 100%;
+    }
+}
+
+/* Small to Medium Phones (376px to 567px) */
+@media screen and (min-width: 376px) and (max-width: 567px) {
+    .row {
+        padding: 0.75rem;
+    }
+
+    .name-column {
+        min-width: 120px;
+    }
+
+    .price-column {
+        width: 80px;
+    }
+
+    .quantity-column {
+        width: 100px;
+    }
+}
+
+/* Large Phones to Small Tablets (568px to 767px) */
+@media screen and (min-width: 568px) and (max-width: 767px) {
+    .row {
+        padding: 1rem;
+    }
+
+    .name-column {
+        min-width: 150px;
+    }
+
+    .order-type-buttons {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .total-container {
+        flex-direction: row;
+    }
+}
+
+/* Tablets (iPad Mini and similar - 768px to 1023px) */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .row {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+
+    .col-md-8, .col-md-4 {
+        width: 100%;
+    }
+
+    .name-column {
+        min-width: 180px;
+    }
+
+    .order-type-buttons {
+        flex-direction: row;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .order-type-buttons button {
+        min-width: 200px;
+    }
+}
+
+/* Large Tablets to Small Laptops (1024px to 1279px) */
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+    .row {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .col-md-8 {
+        width: 65%;
+    }
+
+    .col-md-4 {
+        width: 35%;
+    }
+}
+
+/* Laptops and Larger (1280px and above - 13 inch and larger) */
+@media screen and (min-width: 1280px) {
+    .row {
+        display: flex;
+        flex-direction: row;
+        gap: 3rem;
+        padding: 2rem;
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+
+    .col-md-8 {
+        width: 70%;
+    }
+
+    .col-md-4 {
+        width: 30%;
+    }
+}
+
+/* Extra styles for better usability */
+.cart-items-container {
+    max-height: clamp(300px, 70vh, 800px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f8fafc;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Touch-friendly styles */
+.remove-btn {
+    min-width: clamp(2rem, 5vw, 2.5rem);
+    min-height: clamp(2rem, 5vw, 2.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e53e3e;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Extra row styles */
+.extra-row td {
+    padding: clamp(0.25rem, 0.75vw, 0.75rem) clamp(0.5rem, 1vw, 1rem);
+    font-size: clamp(0.75rem, 0.9vw, 0.875rem);
+}
+
+/* Smooth transitions */
+.quantity-btn, .remove-btn, .order-type-buttons button {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Improved touch targets for mobile */
+@media (pointer: coarse) {
+    .quantity-btn,
+    .remove-btn,
+    .order-type-buttons button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .cart-table td,
+    .cart-table th {
+        min-height: 44px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .cart-table th {
+        border-bottom: 3px solid #000;
+    }
+
+    .cart-table td {
+        border-bottom: 2px solid #000;
+    }
+
+    .remove-btn {
+        color: #ff0000;
+    }
+}
+</style>
+<style>
+    .btn-active {
+      background-color: #ffc107; /* Active state color */
+    }
+
+    /* Add white text color for cart items */
+    .cart-title,
+    .cart-table,
+    .cart-table th,
+    .cart-table td,
+    .product-name,
+    .temperature,
+    .extra-name,
+    .extra-price,
+    .quantity-controls span {
+      color: #ffffff;
+    }
+  </style>
+
+
+
 </body>
 
 </html>
