@@ -79,7 +79,9 @@ public function addToCart(Request $request)
     // Make sure the price is a valid number
     $price = is_numeric($price) ? floatval($price) : 0;
 
-    // Add the product to cart with encoded extras
+      if ($temperature === 'hot') {
+        $price -= 10;  // Reduce price by 10 if hot
+    }
     $cartItem = [
         'id' => $product->id,
         'name' => $product->name,
