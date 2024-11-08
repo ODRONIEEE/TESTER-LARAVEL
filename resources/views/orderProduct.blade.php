@@ -174,9 +174,12 @@
                         <h1 class="page-header" id="display-price">{{$product->price}}</h1>
                         <div class="btn-group-wrapper">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
-                                <button type="button" class="btn btn-warning temperature-btn" data-temp="cold">C</button>
-                            </div>
+                            <button type="button" class="btn btn-warning temperature-btn" data-temp="cold">C</button>
+                                @if(!in_array($product->type_id, [1, 2, 4]))
+                                
+                                    <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
+                                @endif
+                          </div>
                         </div>
 
                    <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
@@ -205,26 +208,27 @@
             <!-- Right Section: Extras -->
             <div class="col-lg-5 col-md-5 col-sm-12 mb-4">
                 <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">Extras</h1>
-                <div class="extras-section">
-                    @if($extras->isNotEmpty())
-                        @foreach($extras as $cat_id => $items)
-                            <h4 class="mt-4">{{ $cat_id == 1 ? 'Coffee Extras' : 'Food Extras' }}</h4>
-                            <div class="radio-options">
-                                @foreach($items as $extra)
-                                    <label class="extra-label">
-                                        <input type="checkbox" class="extra-checkbox" data-price="{{ $extra->price }}" value="{{ $extra->id }}" onchange="updateExtras()">
-                                        <span class="checkmark"></span>
-                                        <div class="extra-container">
-                                            {{ $extra->name }}
-                                        </div>
-                                    </label>
-                                @endforeach
-                            </div>
-                        @endforeach
-                    @else
-                        <p>No extras available.</p>
-                    @endif
-                </div>
+           <div class="extras-section">
+                @if($extras->isNotEmpty())
+                    @foreach($extras as $cat_id => $items)
+                        <h4 class="mt-4">{{ $cat_id == 1 ? 'Coffee Extras' : 'Food Extras' }}</h4>
+                        <div class="radio-options">
+                            @foreach($items as $extra)
+                                <label class="extra-label">
+                                    <input type="checkbox" class="extra-checkbox" data-price="{{ $extra->price }}" value="{{ $extra->id }}" onchange="updateExtras()">
+                                    <span class="checkmark"></span>
+                                    <div class="extra-container">
+                                        {{ $extra->name }} - ₱{{ number_format($extra->price, 2) }}
+                                    </div>
+                                </label>
+                            @endforeach
+                        </div>
+                    @endforeach
+                @else
+                    <p>No extras available.</p>
+                @endif
+            </div>
+
             </div>
         </div>
     </div>
@@ -258,6 +262,20 @@
 
 <script>
    document.addEventListener('DOMContentLoaded', function() {
+       const tempButtons = document.querySelectorAll('.temperature-btn');
+    
+    tempButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Toggle the button classes
+            if (button.classList.contains('btn-warning')) {
+                button.classList.remove('btn-warning');
+                button.classList.add('btn-dark');
+            } else if (button.classList.contains('btn-dark')) {
+                button.classList.remove('btn-dark');
+                button.classList.add('btn-warning');
+            }
+        });
+    });
     const displayPrice = document.getElementById('display-price');
     const priceInput = document.getElementById('price-input');
     const extrasInput = document.getElementById('extras-input');
@@ -422,7 +440,7 @@ document.querySelectorAll('.temperature-btn').forEach(button => {
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 10px;
     user-select: none;
 }
 

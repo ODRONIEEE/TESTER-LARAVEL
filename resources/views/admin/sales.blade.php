@@ -169,7 +169,58 @@
                 </div>
             </div>
         </div>
+           <div class="row mt-5">
+                                <div class="col-12">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Customer Name</th>
+                                                <th>Total Price</th>
+                                                <th>Payment Method</th>
+                                                <th>Order Type</th>
+                                                <th>Date Created</th>
+                                                <th>Products</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($completedOrders as $order)
+                                                <tr>
+                                                    <td>{{ $order->customer_name }}</td>
+                                                    <td>Php {{ number_format($order->total_price, 2) }}</td>
+                                                    <td>{{ $order->p_method }}</td>
+                                                    <td>{{ $order->order_type }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d/m/Y') }}</td>
+                                                    <td>
+                                                    <ul>
+                            @foreach($order->products as $product)
+                                <li>
+                                    <strong>{{ $product['name'] ?? 'Unnamed Product' }}</strong> - Quantity: {{ $product['quantity'] }}
+                                    @if(!empty($product['extras']) && is_array($product['extras']))
+                                        <ul>
+                                            @foreach($product['extras'] as $extra)
+                                                @if(is_array($extra)) <!-- Check if $extra is an array -->
+                                                    <li>{{ $extra['name'] ?? 'Unknown Extra' }} - Price: Php {{ number_format($extra['price'], 2) }}</li>
+                                                @else
+                                                    <li>Invalid extra data</li> <!-- Handle invalid extra data -->
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
+    </div>
+
+        
+                     
 </main>
 
 <footer id="footer" class="footer-product background-dark text-center">
@@ -182,7 +233,14 @@
 
 <!-- Preloader -->
 <div id="preloader"></div>
+<!-- DataTable CSS -->
+<link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTable JS -->
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <!-- Vendor JS Files -->
 <script src="{{url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{url('assets/vendor/php-email-form/validate.js')}}"></script>
@@ -196,6 +254,17 @@
 <!-- Main JS File -->
 <script src="{{url('assets/js/main.js')}}"></script>
 <script src="{{url('assets/js/drinks_menu.js')}}"></script>
+
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable on the table
+        $('.table').DataTable({
+            responsive: true,  // Makes the table responsive on smaller screens
+            pageLength: 10,    // Set default number of records per page
+            lengthMenu: [10, 25, 50, 100]  // Options for the number of records per page
+        });
+    });
+</script>
 </body>
 
 </html>

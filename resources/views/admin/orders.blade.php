@@ -124,9 +124,11 @@
 
 <nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
     <a class="custom-category-btn" href="{{ url()->previous() }}">Back</a>
-    <button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
-    <button class="custom-category-btn" onclick="showOrder('complete')">Completed</button>
-    <button class="custom-category-btn" onclick="showOrder('history')">Order History</button>
+<button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
+<button class="custom-category-btn" onclick="showOrder('on-process')">On Process</button>
+<button class="custom-category-btn" onclick="showOrder('completed')">Completed</button>
+
+
 </nav>
 
 <div class="row">
@@ -197,8 +199,8 @@
                             @endforeach
 
                             <div class="text-center">
-                           <button class="custom-btn place-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'completed')">Complete</button>
-                            <button class="custom-btn void-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'void')">Void</button>
+                           <button class="custom-btn place-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'On Process')">On Process</button>
+                            <button class="custom-btn void-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'Void')">Void</button>
                             </div>
                         </div>
                     </div>
@@ -208,10 +210,10 @@
         </div>
 
         <!-- Swiper for Completed Orders -->
-        <div id="complete-orders" class="swiper-container order-tab init-swiper" style="display: none;">
+        <div id="on-process-orders" class="swiper-container order-tab init-swiper" style="display: none;">
             <div class="swiper-wrapper align-items-center">
                @foreach($orders as $order)
-                   @if($order->status == 'Completed')
+                   @if($order->status == 'On Process')
                     <div class="col-lg-3 col-md-8 col-sm-12 product-details swiper-slide">
                         <h2 id="product-name" class="text-center mb-4">{{ $order->customer_name }}</h2>
                         <div class="customization-options">
@@ -271,7 +273,10 @@
                                 </div>
                             @endforeach
 
-
+                        <div class="text-center">
+                           <button class="custom-btn place-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'On Process')">On Process</button>
+                            <button class="custom-btn void-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'Void')">Void</button>
+                            </div>
                         </div>
                     </div>
                     @endif
@@ -280,10 +285,10 @@
         </div>
 
         <!-- Swiper for Order History -->
-        <div id="history-orders" class="swiper-container order-tab init-swiper" style="display: none;">
+        <div id="completed-orders" class="swiper-container order-tab init-swiper" style="display: none;">
             <div class="swiper-wrapper align-items-center">
               @foreach($orders as $order)
-
+                @if($order->status == 'Completed')
                      <div class="col-lg-3 col-md-8 col-sm-12 product-details swiper-slide">
                         <h2 id="product-name" class="text-center mb-4">{{ $order->customer_name }}</h2>
                         <div class="customization-options">
@@ -346,7 +351,7 @@
 
                         </div>
                     </div>
-
+    @endif
                 @endforeach
             </div>
         </div>
@@ -396,64 +401,92 @@ function showOrder(status) {
         tab.style.display = 'none';
     });
 
-    // Show the selected order tab
+    // Ensure the status matches the element IDs (e.g., "on-process-orders")
     const selectedTab = document.getElementById(`${status}-orders`);
-    selectedTab.style.display = 'block';
+    
+    if (selectedTab) {
+        selectedTab.style.display = 'block';
 
-    // Initialize Swiper for the displayed tab if not already initialized
-    if (!selectedTab.classList.contains('swiper-initialized')) {
-        new Swiper(`#${status}-orders`, {
-            loop: true,
-            speed: 600,
-            autoplay: {
-                delay: 5000
-            },
-            slidesPerView: 3,
-            pagination: {
-                el: ".swiper-pagination",
-                type: "bullets",
-                clickable: true
-            },
-            breakpoints: {
-                320: { slidesPerView: 1, spaceBetween: 20 },
-                480: { slidesPerView: 2, spaceBetween: 40 },
-                768: { slidesPerView: 3, spaceBetween: 60 },
-                992: { slidesPerView: 3, spaceBetween: 80 },
-                1200: { slidesPerView: 3, spaceBetween: 100 }
-            }
-        });
-        selectedTab.classList.add('swiper-initialized');
+        // Initialize Swiper for the displayed tab if not already initialized
+        if (!selectedTab.classList.contains('swiper-initialized')) {
+            new Swiper(`#${status}-orders`, {
+                loop: true,
+                speed: 600,
+                autoplay: {
+                    delay: 5000
+                },
+                slidesPerView: 3,
+                pagination: {
+                    el: ".swiper-pagination",
+                    type: "bullets",
+                    clickable: true
+                },
+                breakpoints: {
+                    320: { slidesPerView: 1, spaceBetween: 20 },
+                    480: { slidesPerView: 2, spaceBetween: 40 },
+                    768: { slidesPerView: 3, spaceBetween: 60 },
+                    992: { slidesPerView: 3, spaceBetween: 80 },
+                    1200: { slidesPerView: 3, spaceBetween: 100 }
+                }
+            });
+            selectedTab.classList.add('swiper-initialized');
+        }
+    } else {
+        console.error(`Tab with ID ${status}-orders not found.`);
     }
 }
 
 
 
+
     // Your code goes here
-    function updateOrderStatus(orderId, status) {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) {
-            console.error("CSRF token not found.");
-            return;
-        }
-        fetch(`/update-order-status/${orderId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
-            },
-            body: JSON.stringify({ status: status })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(`Order ${status} successfully.`);
-                showOrder(status === 'completed' ? 'complete' : 'history');
-            } else {
-                alert('Failed to update order status.');
-            }
-        })
-        .catch(error => console.error('Error:', error));
+function updateOrderStatus(orderId, status) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    if (!csrfToken) {
+        console.error("CSRF token not found.");
+        return;
     }
+    
+    fetch(`/update-order-status/${orderId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({ status: status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            let message;
+            switch (status.toLowerCase()) {
+                case 'pending':
+                    message = 'Order set to Pending successfully.';
+                    showOrder('pending');
+                    break;
+                case 'void':
+                    message = 'Order marked as Void successfully.';
+                    showOrder('void');
+                    break;
+                case 'completed':
+                    message = 'Order Completed successfully.';
+                    showOrder('complete');
+                    break;
+                case 'on process':
+                    message = 'Order is now On Process.';
+                    showOrder('processing');
+                    break;
+                default:
+                    message = 'Order status updated successfully.';
+            }
+            alert(message);
+        } else {
+            alert('Failed to update order status.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 
 
 </script>

@@ -17,11 +17,11 @@ class OrderController extends Controller
      $orderType = $request->input('orderType');
            session()->put('orderData', $orderData);
            session()->put('totalPrice', $totalPrice);
-<<<<<<< HEAD
+
         session()->put('orderType', $orderType);
-=======
-          session()->put('orderType', $orderType);
->>>>>>> 7e02e43a2d7aedd10e9d3c5a8d7208d40838ed7e
+
+    
+
 
 
             return response()->json(['message' => 'Order data received successfully']);
@@ -98,8 +98,8 @@ public function showOrders()
 
 public function showsales()
 {
-    // Fetch all orders
-    $orders = Order::all();
+    // Fetch all completed orders
+    $completedOrders = Order::where('status', 'Completed')->get();
 
     // Initialize counters for each category
     $totalSales = 0;
@@ -127,36 +127,32 @@ public function showsales()
     ];
 
     // Loop through each order and accumulate sales and counts per category
-    foreach ($orders as $order) {
+    foreach ($completedOrders as $order) {
         // Manually decode the products if they are stored as JSON strings
         $order->products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
 
-        // Iterate through the products in the order
+        // Calculate total sales and category counts for each order
         foreach ($order->products as $product) {
-            // Fetch the type_id from the product
-            $typeId = $product['id'];  // Assuming 'id' refers to the product ID
-
-            // Fetch the product category based on the type_id
+            $typeId = $product['id'];
             $category = $this->getCategoryByTypeId($typeId);
             $price = $product['price'];
 
-            // Add the price to the respective category sales total
             if (array_key_exists($category, $categorySales)) {
                 $categorySales[$category] += $price;
-                $categoryCounts[$category]++;  // Increase the count for the specific category
+                $categoryCounts[$category]++;
             }
 
-            // Add to total sales
             $totalSales += $price;
         }
     }
 
-    // Define $sales (if needed) - e.g., set it as the total sales
+    // Define $sales as the total sales
     $sales = $totalSales;
 
-    // Return the sales data to the view
-    return view('admin.sales', compact('sales', 'totalSales', 'categorySales', 'categoryCounts'));
+    // Return the completed orders and sales data to the view
+    return view('admin.sales', compact('sales', 'totalSales', 'categorySales', 'categoryCounts', 'completedOrders'));
 }
+
 
 public function getCategoryByTypeId($typeId)
 {
