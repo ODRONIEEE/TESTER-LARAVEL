@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 class OrderController extends Controller
 {
@@ -133,16 +134,21 @@ public function showsales()
 
         // Calculate total sales and category counts for each order
         foreach ($order->products as $product) {
-            $typeId = $product['id'];
-            $category = $this->getCategoryByTypeId($typeId);
-            $price = $product['price'];
+            // Retrieve the type_id from the Product model using the product's id
+            $productDetails = Product::find($product['id']);
+            
+            if ($productDetails) {
+                $typeId = $productDetails->type_id;
+                $category = $this->getCategoryByTypeId($typeId);
+                $price = $product['price'];
 
-            if (array_key_exists($category, $categorySales)) {
-                $categorySales[$category] += $price;
-                $categoryCounts[$category]++;
+                if (array_key_exists($category, $categorySales)) {
+                    $categorySales[$category] += $price;
+                    $categoryCounts[$category]++;
+                }
+
+                $totalSales += $price;
             }
-
-            $totalSales += $price;
         }
     }
 
@@ -152,6 +158,7 @@ public function showsales()
     // Return the completed orders and sales data to the view
     return view('admin.sales', compact('sales', 'totalSales', 'categorySales', 'categoryCounts', 'completedOrders'));
 }
+
 
 
 public function getCategoryByTypeId($typeId)

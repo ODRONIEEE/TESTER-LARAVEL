@@ -125,7 +125,7 @@
 <nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
     <a class="custom-category-btn" href="{{ url()->previous() }}">Back</a>
 <button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
-<button class="custom-category-btn" onclick="showOrder('on-process')">On Process</button>
+<button class="custom-category-btn" onclick="showOrder('onprocess')">On Process</button>
 <button class="custom-category-btn" onclick="showOrder('completed')">Completed</button>
 
 
@@ -210,7 +210,7 @@
         </div>
 
         <!-- Swiper for Completed Orders -->
-        <div id="on-process-orders" class="swiper-container order-tab init-swiper" style="display: none;">
+        <div id="onprocess-orders" class="swiper-container order-tab init-swiper" style="display: none;">
             <div class="swiper-wrapper align-items-center">
                @foreach($orders as $order)
                    @if($order->status == 'On Process')
@@ -471,7 +471,7 @@ function updateOrderStatus(orderId, status) {
                     break;
                 case 'on process':
                     message = 'Order is now On Process.';
-                    showOrder('on-process');
+                    showOrder('onprocess');
                     break;
                 default:
                     message = 'Order status updated successfully.';

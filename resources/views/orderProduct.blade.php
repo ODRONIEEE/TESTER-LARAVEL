@@ -174,9 +174,9 @@
                         <h1 class="page-header" id="display-price">{{$product->price}}</h1>
                         <div class="btn-group-wrapper">
                             <div class="btn-group">
-                            <button type="button" class="btn btn-warning temperature-btn" data-temp="cold">C</button>
-                                @if(!in_array($product->type_id, [1, 2, 4]))
-                                
+                          
+                                @if(in_array($product->type_id, [1, 2, 4]))
+                                  <button type="button" class="btn btn-warning temperature-btn" data-temp="cold">C</button>
                                     <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
                                 @endif
                           </div>

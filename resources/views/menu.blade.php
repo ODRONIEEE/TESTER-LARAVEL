@@ -188,32 +188,32 @@
             </div>
             <div class="carousel-item">
                 <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Tea</button>
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="4">Tea</button>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Appetizers</button>
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="5">Appetizers</button>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Pasta</button>
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="6">Pasta</button>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Burger</button>
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="7">Burger</button>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Rice Meal</button>
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="8">Rice Meal</button>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="3">Pastries</button>
+                    <button class="custom-category-btn btn mx-2 my-1" data-type="9">Pastries</button>
                 </div>
             </div>
 
