@@ -273,9 +273,9 @@
                                 </div>
                             @endforeach
 
-                        <div class="text-center">
-                           <button class="custom-btn place-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'On Process')">On Process</button>
-                            <button class="custom-btn void-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'Void')">Void</button>
+                    <div class="text-center">
+                           <button class="custom-btn place-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'Notify')">Notify</button>
+                            <button class="custom-btn void-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'Completed')">Completed</button>
                             </div>
                         </div>
                     </div>
@@ -284,7 +284,6 @@
             </div>
         </div>
 
-        <!-- Swiper for Order History -->
         <div id="completed-orders" class="swiper-container order-tab init-swiper" style="display: none;">
             <div class="swiper-wrapper align-items-center">
               @foreach($orders as $order)
@@ -437,8 +436,6 @@ function showOrder(status) {
 }
 
 
-
-
     // Your code goes here
 function updateOrderStatus(orderId, status) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -470,11 +467,11 @@ function updateOrderStatus(orderId, status) {
                     break;
                 case 'completed':
                     message = 'Order Completed successfully.';
-                    showOrder('complete');
+                    showOrder('completed');
                     break;
                 case 'on process':
                     message = 'Order is now On Process.';
-                    showOrder('processing');
+                    showOrder('on-process');
                     break;
                 default:
                     message = 'Order status updated successfully.';

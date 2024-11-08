@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Services\CartService;
 use App\Http\Controllers\ExtrasController;
 use App\Models\Extras;
-
+use App\Models\Order;
 class UserControl extends Controller
 {
     public function home(){
@@ -37,9 +37,7 @@ class UserControl extends Controller
 
         return view('cart', compact('cart', 'totalItems', 'totalPrice'));
     }
-    public function history(){
-        return view('Order_history');
-    }
+
     public function preference(){
         return view('preferences');
     }
@@ -156,5 +154,19 @@ public function updateCart(Request $request)
     return response()->json(['success' => true]);
 }
 
+public function history()
+{
+    // Fetch all orders
+    $orders = Order::all();
+
+    // Manually decode the products and extras fields if they are stored as JSON strings
+    foreach ($orders as $order) {
+        $order->products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
+        $order->extras = is_string($order->extras) ? json_decode($order->extras, true) : $order->extras;
+    }
+
+    // Return orders to the view
+    return view('Order_history', compact('orders'));
+}
 
 }

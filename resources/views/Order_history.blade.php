@@ -163,65 +163,40 @@
                 <h3>Order History</h3>
             </div>
             <div class="col-10">
-                <div id="orderCarousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row mb-5">
-                     
-
-                                <!-- Order 3 -->
-                                <div class="col-md-4">
-                                    <div class="order-container">
-                                        <p># 00003</p>
-                                        <div class="text-right">
-                                            <p>QTY</p>
-                                        </div>
-                                        <div class="product-table mb-3">
-                                            <img src="assets/img/products/cold americano.png" alt="Card image cap"
-                                                width="auto" height="60">
-                                            <p>Caramel Macchiato</p>
-                                            <p>1</p>
-                                        </div>
-                                        <div class="product-table mb-3">
-                                            <img src="assets/img/products/cold americano.png" alt="Card image cap"
-                                                width="auto" height="60">
-                                            <p>Caramel Macchiato</p>
-                                            <p>1</p>
-                                        </div>
-                                        <div class="product-table mb-3">
-                                            <img src="assets/img/products/cold americano.png" alt="Card image cap"
-                                                width="auto" height="60">
-                                            <p>Caramel Macchiato</p>
-                                            <p>1</p>
-                                        </div>
-                                        <div class="product-table mb-3">
-                                            <img src="assets/img/products/cold americano.png" alt="Card image cap"
-                                                width="auto" height="60">
-                                            <p>Caramel Macchiato</p>
-                                            <p>1</p>
-                                        </div>
-                                        <div
-                                            style="display: flex; justify-content: space-between; align-items: center;">
-                                            <p class="text-center">Total</p>
-                                            <p class="table-container" style="width: 20%;">750</p>
-                                        </div>
-                                    </div>
+             <div class="swiper-container" id="orderSwiper">
+    <div class="swiper-wrapper">
+        <!-- Loop through orders -->
+        @foreach($orders as $order)
+        @if($order->customer_name == Auth::user()->name)
+                <div class="swiper-slide">
+                    <!-- Bootstrap Grid Layout for Orders -->
+                    <div class="col-md-4">
+                        <div class="order-container">
+                            <p># {{ $order->id }}</p>
+                            <div class="text-right">
+                                <p>QTY</p>
+                            </div>
+                            <!-- Loop through products in each order -->
+                            @foreach($order->products as $product)
+                                <div class="product-table mb-3">
+                                    <img src="assets/img/products/cold_americano.png" alt="Product Image" width="auto" height="60">
+                                    <p>{{ $product['name'] ?? 'N/A' }}</p>
+                                    <p>{{ $product['quantity'] ?? 'N/A' }}</p>
                                 </div>
+                            @endforeach
+                            <!-- Total Section -->
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <p class="text-center">Total</p>
+                                <p class="table-container" style="width: 20%;">{{ $order->total_price }}</p>
                             </div>
                         </div>
-
-                   
                     </div>
-
-                    <a class="carousel-control-prev" href="#orderCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#orderCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
                 </div>
+            @endif
+        @endforeach
+    </div>
+
+</div>
             </div>
         </div>
     </div>
@@ -291,6 +266,21 @@
         });
 
     </script>
+    <script>
+  var swiper = new Swiper('#orderSwiper', {
+    loop: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    slidesPerView: 1, // Show one slide at a time
+    spaceBetween: 10, // Space between slides
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    }
+  });
+</script>
 </body>
 
 </html>
