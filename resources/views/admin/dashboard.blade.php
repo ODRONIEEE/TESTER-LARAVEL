@@ -88,9 +88,7 @@
                 <div class="col-6">
                     <div class="row justify-content-center">
                         <div class="menu-options">
-                            <a href="{{route('admin.test')}}" class="menu-option drinks">
-                                <span>POS</span>
-                            </a>
+
                             <a href="{{route('admin.product')}}" class="menu-option foods">
                                 <span>PRODUCT</span>
                             </a>

@@ -200,7 +200,7 @@
 
                             <div class="text-center">
                            <button class="custom-btn place-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'On Process')">On Process</button>
-                            <button class="custom-btn void-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'Void')">Void</button>
+                            <button class="custom-btn void-order w-50" onclick="deleteOrder({{ $order->id }})">Void</button>
                             </div>
                         </div>
                     </div>
@@ -402,7 +402,7 @@ function showOrder(status) {
 
     // Ensure the status matches the element IDs (e.g., "on-process-orders")
     const selectedTab = document.getElementById(`${status}-orders`);
-    
+
     if (selectedTab) {
         selectedTab.style.display = 'block';
 
@@ -435,15 +435,42 @@ function showOrder(status) {
     }
 }
 
+function deleteOrder(orderId) {
+    if (confirm('Are you sure you want to void this order? This action cannot be undone.')) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error("CSRF token not found.");
+            return;
+        }
 
-    // Your code goes here
+        fetch(`/delete-order/${orderId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Order has been voided and deleted successfully.');
+                // Refresh the page or update the UI
+                location.reload();
+            } else {
+                alert('Failed to void order.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
+
 function updateOrderStatus(orderId, status) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
     if (!csrfToken) {
         console.error("CSRF token not found.");
         return;
     }
-    
+
     fetch(`/update-order-status/${orderId}`, {
         method: 'POST',
         headers: {
@@ -460,10 +487,6 @@ function updateOrderStatus(orderId, status) {
                 case 'pending':
                     message = 'Order set to Pending successfully.';
                     showOrder('pending');
-                    break;
-                case 'void':
-                    message = 'Order marked as Void successfully.';
-                    showOrder('void');
                     break;
                 case 'completed':
                     message = 'Order Completed successfully.';
@@ -483,8 +506,6 @@ function updateOrderStatus(orderId, status) {
     })
     .catch(error => console.error('Error:', error));
 }
-
-
 
 </script>
 </body>
