@@ -77,4 +77,6 @@ class CartController extends Controller
 
         return view('otc', compact('transactionId', 'totalPrice'));
     }
+
+
 }

@@ -254,7 +254,7 @@
                                                                 <td class="extra-price">+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</td>
                                                                 <td></td>
                                                                 <td class="action-column">
-                                                                    <button class="remove-btn" onclick="removeExtra('{{ $item['id'] }}', {{ $extraIndex }}, '{{ $extra['name'] }}', {{ $extra['price'] }})">
+                                                                    <button class="remove-btn" onclick="removeExtra('{{ $item['id'] }}', {{ $extraIndex }})" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
                                                                         <i class="fa-solid fa-times"></i>
                                                                     </button>
                                                                 </td>
@@ -526,6 +526,7 @@ function placeOrder() {
         console.log('Extras Total:', extrasTotal);
         console.log('Item Total:', itemTotal);
 
+
         return {
             id: item.id,
             name: item.name,
@@ -637,6 +638,43 @@ function adjustQuantity(productId, change) {
             window.location.reload();
         });
     }
+
+    function removeExtra(productId, extraIndex) {
+    // Remove the extra row from the DOM
+    const extraRow = document.getElementById(`extra-${productId}-${extraIndex}`);
+    if (extraRow) {
+        extraRow.remove();
+    }
+
+    // Send request to update the cart on the server
+    fetch('/cart/remove-extra', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            extra_index: extraIndex
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update the total price in the cart without refreshing the page
+            const totalPriceElement = document.querySelector('.text-yellow');
+            if (totalPriceElement && data.new_total) {
+                totalPriceElement.textContent = `Total: ₱${parseFloat(data.new_total).toFixed(2)}`;
+            }
+        } else {
+            console.error('Error removing extra:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 
     function addToCart(productId) {
         fetch('/cart/add', {
