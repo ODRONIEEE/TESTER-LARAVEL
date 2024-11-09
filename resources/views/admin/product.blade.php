@@ -98,7 +98,7 @@
           @endif
             <div class="row justify-content-center">
                 <div class="col-12 text-center">
-                    <h1 class="menu-title mb-4">UPDATE SYSTEM</h1>
+                    <h1 class="menu-title mb-4">PRODUCT MANAGEMENT</h1>
                 </div>
             </div>
             <div class="row justify-content-center">

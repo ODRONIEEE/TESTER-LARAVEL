@@ -39,7 +39,7 @@ class CartController extends Controller
     public function showPayment()
     {
         $transactionId = Session::get('transactionId');
-        
+
         // Calculate total price
         $cart = Session::get('cart', []);
         $totalPrice = 0;
@@ -53,8 +53,8 @@ class CartController extends Controller
     public function showOnlinePayment()
     {
         $transactionId = Session::get('transactionId');
-        
-     
+
+
         $cart = Session::get('cart', []);
         $totalPrice = 0;
         foreach ($cart as $item) {
@@ -68,7 +68,7 @@ class CartController extends Controller
     {
         $transactionId = Session::get('transactionId');
 
-       
+
         $cart = Session::get('cart', []);
         $totalPrice = 0;
         foreach ($cart as $item) {

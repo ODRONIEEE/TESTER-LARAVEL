@@ -157,6 +157,15 @@
 
 <main class="main">
     <div class="menu-container-light-details" style="padding-top: 130px;">
+        <div class="row justify-content-center mb-4">
+            <div class="col-12 col-md-6 text-center">
+                <a href="{{ route('cart') }}" class="text-decoration-none">
+                    <div class="container-otc" style="transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.backgroundColor='#4f2d19'" onmouseout="this.style.backgroundColor='#3f2314'">
+                        <h3 class="otc-header">Back to Cart</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
         <div class="row justify-content-center mb-5">
             <div class="col-12 col-md-3 mb-3 mb-md-0">
                 <div class="container-payment">
@@ -165,7 +174,7 @@
             </div>
             <div class="col-12 col-md-3">
                 <div class="container-payment">
-                        {{ number_format($totalPrice, 2) }}
+                    ₱{{ number_format($totalPrice, 2) }}
                 </div>
             </div>
         </div>

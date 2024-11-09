@@ -88,7 +88,7 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
     Route::put('/admin/product/{id}', [ProductControl::class, 'update'])->name('admin.product.update');
 Route::get('/admin/orders/filter', [OrderController::class, 'filterOrders'])->name('orders.filter');
-Route::post('/update-order-status/{id}', [OrderController::class, 'updateStatus']);
+    Route::post('/update-order-status/{id}', [OrderController::class, 'updateStatus']);
     Route::get('/admin/extras', [ExtrasController::class, 'showall'])->name('admin.extras');
     Route::post('/admin.extras', [ExtrasController::class, 'store'])->name('admin.extras.store');
     Route::delete('/admin/extras/{id}', [ExtrasController::class, 'destroy'])->name('admin.extras.destroy');

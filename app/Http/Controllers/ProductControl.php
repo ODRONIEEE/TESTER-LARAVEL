@@ -20,14 +20,12 @@ class ProductControl extends Controller
 public function order($id, $cat_id)
 {
     $product = Product::findOrFail($id);
-    
+
     // Fetch extras based on the cat_id
     $extras = Extras::where('cat_id', $cat_id)->get()->groupBy('cat_id');
 
-    return view('orderproduct', compact('product', 'extras'));
+    return view('orderProduct', compact('product', 'extras'));
 }
-
-
 
     /**
      * Show the form for creating a new resource.

@@ -152,7 +152,7 @@
         <div class="menu-container-light">
             <!-- Navbar for larger screens -->
             <nav class="category-menu-products d-none d-md-flex flex-wrap justify-content-center mb-3">
-                <button class="custom-category-btn btn mx-2 my-1" data-type="all">All</button>
+                <button class="custom-category-btn btn mx-2 my-1 active" data-type="all">All</button>
                 <button class="custom-category-btn btn mx-2 my-1" data-type="1">Coffee</button>
                 <button class="custom-category-btn btn mx-2 my-1" data-type="2">Non-Coffee</button>
                 <button class="custom-category-btn btn mx-2 my-1" data-type="3">Refreshers</button>
@@ -168,7 +168,7 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="d-flex justify-content-center">
-                    <button class="custom-category-btn btn mx-2 my-1" data-type="all">All</button>
+                    <button class="custom-category-btn btn mx-2 my-1 active" data-type="all">All</button>
                 </div>
             </div>
             <div class="carousel-item">
@@ -217,13 +217,15 @@
                 </div>
             </div>
 
+
+
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel" data-bs-slide="prev" style="font-size: 24px; color: #d2a374;">
+            <i class="bi bi-arrow-left-circle-fill"></i>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel" data-bs-slide="next" style="font-size: 24px; color: #d2a374;">
+            <i class="bi bi-arrow-right-circle-fill"></i>
             <span class="visually-hidden">Next</span>
         </button>
     </div>
@@ -246,9 +248,16 @@
 
                                         @if ($product->stock > 0)
                                             @if (isset($product->cat_id))
+                                                <!-- PRODUCT TYPE IF DRINK -->
+                                                @if(in_array($product->type_id, [1, 2, 4]))
                                                 <a href="{{ route('orderProduct', ['id' => $product->id, 'cat_id' => $product->cat_id]) }}" class="btn btn-primary btn-order">Order</a>
+
+                                                @else
+                                                <!-- PRODUCT TYPE IF FOOD -->
+                                                <a href="{{ route('orderProduct', ['id' => $product->id, 'cat_id' => $product->cat_id, 'type' => 'food']) }}" class="btn btn-primary btn-order">Order</a>
+                                            @endif
                                             @else
-                                                <span class="text-danger">Category not available</span>
+                                            <span class="text-danger">Category not available</span>
                                             @endif
                                         @else
                                             <h5 class="card-title">SORRY</h5>
@@ -333,6 +342,20 @@
         });
         </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.custom-category-btn');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                buttons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
 <style>
     @media (max-width: 767px) {
         #categoryCarousel .carousel-item {
@@ -342,6 +365,19 @@
             width: auto;
             margin: 0 auto;
         }
+    }
+</style>
+<style>
+    .custom-category-btn {
+        background-color: #242424;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .custom-category-btn.active,
+    .custom-category-btn:hover {
+        background-color: var(--accent-color);
+        color: white;
     }
 </style>
 

@@ -9,7 +9,7 @@ class Extras extends Model
 {
     use HasFactory;
 
-    protected $table = 'Extras';
+    protected $table = 'extras';
     protected $fillable = [
         'name',
         'price',
