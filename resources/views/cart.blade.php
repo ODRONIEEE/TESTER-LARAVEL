@@ -163,141 +163,182 @@
 
   <main class="main">
    <div class="menu-container-light-details" style="padding-top: 150px;">
-    <div class="row mb-5">
-        <div class="col-md-8">
-            <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
-                <div class="order-history" style="width: 200px;">
-                    <h3><a href="{{ route('menu') }}" style="text-decoration: none; color: inherit;">Add Item</a></h3>
-                </div>
-                <div class="order-history" style="width: 200px;">
-                    <h3>{{ Auth::user()->name }}</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-5">
-        <div class="col-md-8">
-            <div class="order-container">
-
-
-                <!-- Cart items -->
-                <div id="cart-items-container">
-                    @php
-                    $cart = session('cart', []);
-                    $totalPrice = 0;
-                    @endphp
-
-                    @if(count($cart) > 0)
-                        <table class="cart-table">
-                            <thead>
-                                <tr>
-                                    <th class="image-column" style="color: white;"></th>
-                                    <th class="name-column" style="color: white;">Name</th>
-                                    <th class="price-column" style="color: white;">Price</th>
-                                    <th class="quantity-column" style="color: white;">QTY</th>
-                                    <th class="action-column" style="color: white;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($cart as $item)
-                                    @php
-                                    $basePrice = $item['price'] * $item['quantity'];
-                                    $extrasTotal = 0;
-                                    $product = \App\Models\Product::find($item['id']);
-                                    $productImage = $product ? $product->image : 'default.png';
-                                    $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
-                                    @endphp
-
-                                    <tr class="product-row" id="cart-item-{{ $item['id'] }}">
-                                        <td class="image-column">
-                                            <div class="product-image">
-                                                <img src="{{ asset($productImage) }}" alt="{{ $item['name'] }}">
-                                            </div>
-                                        </td>
-                                        <td class="name-column">
-                                            <div class="product-name">
-                                                {{ $item['name'] }}
-                                                @if(isset($item['temperature']))
-                                                    <span class="temperature">({{ ucfirst($item['temperature']) }})</span>
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td class="price-column">₱{{ number_format($basePrice, 2) }}</td>
-                                        <td class="quantity-column">
-                                            <div class="quantity-controls">
-                                                <button class="quantity-btn minus-btn" onclick="adjustQuantity('{{ $item['id'] }}', -1)" style="background-color: orange;">
-                                                    <i class="fa-solid fa-minus"></i>
-                                                </button>
-                                                <span id="quantity-count-{{ $item['id'] }}">{{ $item['quantity'] }}</span>
-                                                <button class="quantity-btn plus-btn" onclick="adjustQuantity('{{ $item['id'] }}', 1)" style="background-color: orange;">
-                                                    <i class="fa-solid fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td class="action-column">
-                                            <button class="remove-btn" data-id="{{ $item['id'] }}" onclick="removeCartItem('{{ $item['id'] }}')">
-                                                <i class="fa-solid fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                    @if(!empty($extras))
-                                        @foreach($extras as $extra)
-                                            @if (is_array($extra) && isset($extra['price'], $extra['name']))
-                                                @php
-                                                $extrasTotal += $extra['price'] * $item['quantity'];
-                                                @endphp
-                                                <tr class="extra-row">
-                                                    <td></td>
-                                                    <td class="extra-name">{{ $extra['name'] }}</td>
-                                                    <td class="extra-price" colspan="3">+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
-                                    @endif
-
-                                    @php
-                                    $itemTotal = $basePrice + $extrasTotal;
-                                    $totalPrice += $itemTotal;
-                                    @endphp
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @else
-                        <div class="text-center" style="color: white; padding: 2rem;">
-                            <h3>Your cart is empty</h3>
-                            <p>UY! Kumusta</p>
-                            <p>Check out Our Menu to find the goodies there KAPATIDS!</p>
-                            <a href="{{ route('menu') }}" class="btn-dinein" style="display: inline-block; margin-top: 1rem; text-decoration: none; color: white;">
-                                 Menu
-                            </a>
+                <div class="row mb-5">
+                    <div class="col-md-8">
+                        <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: space-between; align-items: center;">
+                            <div class="order-history" style="width: 200px; transition: all 0.3s ease;">
+                                <h3><a href="{{ route('menu') }}" style="text-decoration: none; color: inherit;" onmouseover="this.parentElement.parentElement.style.backgroundColor='#4f2d19'" onmouseout="this.parentElement.parentElement.style.backgroundColor='#3f2314'">Add Item</a></h3>
+                            </div>
+                            <div class="order-history" style="width: 200px;">
+                                <h3>{{ Auth::user()->name }}</h3>
+                            </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="mb-5 order-type-buttons">
-                <button class="btn-dinein" id="dineInBtn" onclick="toggleOrderType('Dine In', this)">Dine In</button>
-                <button class="btn-dineindark" id="takeOutBtn" onclick="toggleOrderType('Take Out', this)">Take Out</button>
-            </div>
+                <div class="row mb-5">
+                    <div class="col-md-8">
+                        <div class="order-container">
 
-            <div class="mb-5 total-container">
-                <h2 class="text-yellow">Total:</h2>
-                <div class="order-history">
-                    <h3 id="cart-total-price">₱{{ number_format($totalPrice, 2) }}</h3>
+
+                            <!-- Cart items -->
+                            <div id="cart-items-container">
+                                @php
+                                $cart = session('cart', []);
+                                $totalPrice = 0;
+                                @endphp
+
+                                @if(count($cart) > 0)
+                                    <table class="cart-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="image-column" style="color: white;"></th>
+                                                <th class="name-column" style="color: white;">Name</th>
+                                                <th class="price-column" style="color: white;">Price</th>
+                                                <th class="quantity-column" style="color: white;">QTY</th>
+                                                <th class="action-column" style="color: white;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($cart as $item)
+                                                @php
+                                                $basePrice = $item['price'] * $item['quantity'];
+                                                $extrasTotal = 0;
+                                                $product = \App\Models\Product::find($item['id']);
+                                                $productImage = $product ? $product->image : 'default.png';
+                                                $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
+                                                @endphp
+
+                                                <tr class="product-row" id="cart-item-{{ $item['id'] }}">
+                                                    <td class="image-column">
+                                                        <div class="product-image">
+                                                            <img src="{{ asset($productImage) }}" alt="{{ $item['name'] }}">
+                                                        </div>
+                                                    </td>
+                                                    <td class="name-column">
+                                                        <div class="product-name">
+                                                            {{ $item['name'] }}
+                                                            @if(isset($item['temperature']))
+                                                                <span class="temperature">({{ ucfirst($item['temperature']) }})</span>
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="price-column">₱{{ number_format($basePrice, 2) }}</td>
+                                                    <td class="quantity-column">
+                                                        <div class="quantity-controls">
+                                                            <button class="quantity-btn minus-btn" onclick="adjustQuantity('{{ $item['id'] }}', -1)" style="background-color: orange;">
+                                                                <i class="fa-solid fa-minus"></i>
+                                                            </button>
+                                                            <span id="quantity-count-{{ $item['id'] }}">{{ $item['quantity'] }}</span>
+                                                            <button class="quantity-btn plus-btn" onclick="adjustQuantity('{{ $item['id'] }}', 1)" style="background-color: orange;">
+                                                                <i class="fa-solid fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    <td class="action-column">
+                                                        <button class="remove-btn" data-id="{{ $item['id'] }}" onclick="removeCartItem('{{ $item['id'] }}')" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                                            <i class="fa-solid fa-times"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                                @if(!empty($extras))
+                                                    @foreach($extras as $extraIndex => $extra)
+                                                        @if (is_array($extra) && isset($extra['price'], $extra['name']))
+                                                            @php
+                                                            $extrasTotal += $extra['price'] * $item['quantity'];
+                                                            @endphp
+                                                            <tr class="extra-row" id="extra-{{ $item['id'] }}-{{ $extraIndex }}">
+                                                                <td></td>
+                                                                <td class="extra-name">{{ $extra['name'] }}</td>
+                                                                <td class="extra-price">+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</td>
+                                                                <td></td>
+                                                                <td class="action-column">
+                                                                    <button class="remove-btn" onclick="removeExtra('{{ $item['id'] }}', {{ $extraIndex }})" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                                                        <i class="fa-solid fa-times"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+
+                                                @php
+                                                $itemTotal = $basePrice + $extrasTotal;
+                                                $totalPrice += $itemTotal;
+                                                @endphp
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                @else
+                                    <div class="text-center" style="color: white; padding: 2rem;">
+                                        <h3>Your cart is empty</h3>
+                                        <p>UY! Kumusta</p>
+                                        <p>Check out Our Menu to find the goodies there KAPATIDS!</p>
+                                        <a href="{{ route('menu') }}" class="btn-dinein" style="display: inline-block; margin-top: 1rem; text-decoration: none; color: white;">
+                                            Menu
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                                        <!-- Recommended Products -->
+                                        <div class="recommended-products">
+                                            <h2>Recommended For You</h2>
+                                            <div class="products-grid">
+
+                                                <!-- Static Product Card 1 -->
+                                                <div class="product-card">
+                                                    <div class="product-image">
+                                                        <img src="{{ asset('assets/img/menu/coffee/americano.png') }}" alt="Americano">
+                                                    </div>
+                                                    <div class="product-details">
+                                                        <h3 class="product-name">Americano</h3>
+                                                        <p class="product-price">₱145.00</p>
+                                                        <button class="add-to-cart-btn" onclick="addToCart(1, 'Americano', 145.00)">
+                                                            <i class="fa-solid fa-plus"></i> Add to Cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Static Product Card 4 -->
+                                                <div class="product-card">
+                                                    <div class="product-image">
+                                                        <img src="{{ asset('assets/img/menu/coffee/mocha.png') }}" alt="Cafe Mocha">
+                                                    </div>
+                                                    <div class="product-details">
+                                                        <h3 class="product-name">Cafe Mocha</h3>
+                                                        <p class="product-price">₱175.00</p>
+                                                        <button class="add-to-cart-btn" onclick="addToCart(4, 'Cafe Mocha', 175.00)">
+                                                            <i class="fa-solid fa-plus"></i> Add to Cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                        </div>
+                    </div>
+                    <div class="text-center font-weight: ">
+                        <h3 style="color: orange;">Choose Dining Options</h3>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="mb-5 order-type-buttons" style="display: flex; gap: 10px; justify-content: center;">
+                            <button class="btn-dineindark" id="dineInBtn" onclick="toggleOrderType('Dine In', this)" style="flex: 1;">Dine In</button>
+                            <button class="btn-dineindark" id="takeOutBtn" onclick="toggleOrderType('Take Out', this)" style="flex: 1;">Take Out</button>
+                        </div>
+
+                        <div class="mb-5 total-container">
+                            <h2 class="text-yellow">Total:     ₱{{ number_format($totalPrice, 2) }}</h2>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn-dinein text-center" onclick="placeOrder()">Place Order</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="text-center">
-                <button class="btn-dinein text-center" onclick="placeOrder()">Place Order</button>
-            </div>
-        </div>
     </div>
-
-</div>
 
 </main>
 
@@ -485,6 +526,7 @@ function placeOrder() {
         console.log('Extras Total:', extrasTotal);
         console.log('Item Total:', itemTotal);
 
+
         return {
             id: item.id,
             name: item.name,
@@ -596,10 +638,69 @@ function adjustQuantity(productId, change) {
             window.location.reload();
         });
     }
+
+    function removeExtra(productId, extraIndex) {
+    // Remove the extra row from the DOM
+    const extraRow = document.getElementById(`extra-${productId}-${extraIndex}`);
+    if (extraRow) {
+        extraRow.remove();
+    }
+
+    // Send request to update the cart on the server
+    fetch('/cart/remove-extra', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            extra_index: extraIndex
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update the total price in the cart without refreshing the page
+            const totalPriceElement = document.querySelector('.text-yellow');
+            if (totalPriceElement && data.new_total) {
+                totalPriceElement.textContent = `Total: ₱${parseFloat(data.new_total).toFixed(2)}`;
+            }
+        } else {
+            console.error('Error removing extra:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+    function addToCart(productId) {
+        fetch('/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: 1
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Refresh the page or update the cart count
+                window.location.reload();
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 </script>
 
 <style>
-    /* Base styles for all screen sizes */
+     /* Base styles for all screen sizes */
 .cart-title {
     font-size: clamp(1.25rem, 2vw, 1.5rem);
     font-weight: bold;
@@ -693,10 +794,13 @@ function adjustQuantity(productId, change) {
         width: 40px;
     }
 
-    .order-type-buttons {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
+   /* Updated Order Type Buttons */
+.order-type-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
 
     .total-container {
         flex-direction: column;
@@ -766,10 +870,12 @@ function adjustQuantity(productId, change) {
     }
 
     .order-type-buttons {
-        flex-direction: row;
-        justify-content: center;
-        gap: 2rem;
-    }
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
 
     .order-type-buttons button {
         min-width: 200px;
@@ -786,7 +892,7 @@ function adjustQuantity(productId, change) {
     }
 
     .col-md-8 {
-        width: 65%;
+        width: 100%;
     }
 
     .col-md-4 {
@@ -878,6 +984,7 @@ function adjustQuantity(productId, change) {
     }
 }
 </style>
+
 <style>
     .btn-active {
       background-color: #ffc107; /* Active state color */
@@ -897,6 +1004,124 @@ function adjustQuantity(productId, change) {
     }
   </style>
 
+<style>
+    /* ... existing styles ... */
+
+    /* Recommended Products Section */
+    .recommended-products {
+        margin-top: 3rem;
+        padding: 2rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .section-title {
+        color: #ffc107;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem 0;
+    }
+
+    .product-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .product-card .product-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .product-card .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
+    }
+
+    .product-details {
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .product-details .product-name {
+        color: white;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-details .product-price {
+        color: #ffc107;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .add-to-cart-btn {
+        background-color: #ffc107;
+        color: #48321c;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        width: 100%;
+    }
+
+    .add-to-cart-btn:hover {
+        background-color: #ffcd39;
+        transform: translateY(-2px);
+    }
+
+    /* Responsive adjustments */
+    @media screen and (max-width: 768px) {
+        .products-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .product-card .product-image {
+            height: 150px;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .products-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+
+        .product-details {
+            padding: 0.8rem;
+        }
+
+        .product-details .product-name {
+            font-size: 1rem;
+        }
+
+        .add-to-cart-btn {
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
 
 
 </body>

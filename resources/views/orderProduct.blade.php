@@ -9,7 +9,7 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon" type="image">
+  <link href="{{asset('assets/img/logo/logo2.png')}}" rel="icon" type="image">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -162,7 +162,14 @@
 <main class="main">
     <div class="menu-container-light-details">
         <div class="row">
-
+            <div class="row mb-4">
+                <div class="col-12">
+                    <a href="{{ route('menu') }}" class="btn btn-dark">
+                        <i class="bi bi-arrow-left"></i> Back to Menu
+                    </a>
+                </div>
+            </div>
+`
             <!-- Left Section: Product Display -->
             <div class="col-lg-5 col-md-6 col-sm-12 mb-4">
                 <h1 class="page-header text-center" style="color:#ed8705;font-weight: 600;">{{$product->name}}</h1>
@@ -174,10 +181,10 @@
                         <h1 class="page-header" id="display-price">{{$product->price}}</h1>
                         <div class="btn-group-wrapper">
                             <div class="btn-group">
-                          
+
                                 @if(in_array($product->type_id, [1, 2, 4]))
-                                  <button type="button" class="btn btn-warning temperature-btn" data-temp="cold">C</button>
-                                    <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
+                                  <button type="button" class="btn btn-dark temperature-btn" data-temp="cold">C</button>
+                                  <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
                                 @endif
                           </div>
                         </div>
@@ -186,7 +193,11 @@
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <input type="hidden" name="product_name" value="{{ $product->name }}">
+
+                        @if(in_array($product->type_id, [1, 2, 4]))
                         <input type="hidden" name="temperature" id="temperature-input" value="hot">
+                        @endif
+
                         <input type="hidden" name="price" id="price-input" value="{{ $product->price }}">
                         <input type="number" name="quantity" value="1" min="1">
                         <input type="hidden" name="extras" id="extras-input" value="">
@@ -263,17 +274,18 @@
 <script>
    document.addEventListener('DOMContentLoaded', function() {
        const tempButtons = document.querySelectorAll('.temperature-btn');
-    
+
     tempButtons.forEach(button => {
         button.addEventListener('click', function () {
-            // Toggle the button classes
-            if (button.classList.contains('btn-warning')) {
-                button.classList.remove('btn-warning');
-                button.classList.add('btn-dark');
-            } else if (button.classList.contains('btn-dark')) {
-                button.classList.remove('btn-dark');
-                button.classList.add('btn-warning');
-            }
+            // Remove btn-warning class from all buttons
+            tempButtons.forEach(btn => {
+                btn.classList.remove('btn-warning');
+                btn.classList.add('btn-dark');
+            });
+
+            // Add btn-warning class only to clicked button
+            button.classList.remove('btn-dark');
+            button.classList.add('btn-warning');
         });
     });
     const displayPrice = document.getElementById('display-price');

@@ -9,7 +9,7 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
+    <link href="{{asset('assets/img/logo/logo2.png')}} " rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Fonts -->
@@ -128,38 +128,31 @@
                     <p style="font-weight: 800; color: #ed8705; margin-left: 30px;" class="contact-text">Juan Delacruz
                     </p>
                 </div>
+
                 <div class="col-sm-6">
-                    <a href="{{ route('payment.page') }}">
-                        <div class="container-otc">
-
-                            <h3 style="font-weight: 800; color: #ed8705; margin-left: 30px;"
+                    <a href="{{ route('payment.page') }}" style="text-decoration: none;">
+                        <div class="container-otc" style="transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.backgroundColor='#4a2b19'" onmouseout="this.style.backgroundColor='#3f2314'">
+                            <h3 style="font-weight: 800; color: #ed8705;"
                                 class="online-payment-header">
-                                Online
-                                Payment</h3>
-
-                            <p class="waiting-time-white">Gcash payment</p>
-                            <p class="waiting-time-white">We also accept bank transfer through our Gcash account</p>
+                                Change payment?</h3>
                     </a>
                 </div>
             </div>
                  <div class="row text-center">
- <form action="{{ route('order.store') }}" method="POST" id="orderForm">
-    @csrf
-    <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
-    <input type="hidden" name="total_price" value="{{ $totalPrice }}">
-    <input type="hidden" name="order_type" value="{{ $orderType }}">
-    <input type="hidden" name="p_method" value="{{ session('payment_method') }}">
-    <input type="hidden" name="products" value="{{ json_encode($orderData) }}">
-    
-    <button class="btn btn-primary" type="button" id="proceedToPaymentButton">Proceed to Payment</button>
-</form>
+                    <form action="{{ route('order.store') }}" method="POST" id="orderForm">
+                        @csrf
+                        <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
+                        <input type="hidden" name="total_price" value="{{ $totalPrice }}">
+                        <input type="hidden" name="order_type" value="{{ $orderType }}">
+                        <input type="hidden" name="p_method" value="{{ session('payment_method') }}">
+                        <input type="hidden" name="products" value="{{ json_encode($orderData) }}">
+
+                        <button class="btn btn-primary" type="button" id="proceedToPaymentButton">Proceed to Payment</button>
+                    </form>
 
                 </div>
         </div>
         </div>
-
-
-
 
         </div>
 

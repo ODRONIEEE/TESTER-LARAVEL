@@ -163,7 +163,7 @@
                             <p class="total-text">Total</p>
                         </div>
                         <div class="col-sm-8">
-                            <div class="container-payment">{{ $totalPrice }}</div>
+                            <div class="container-payment">₱{{ $totalPrice }}</div>
                         </div>
                     </div>
                 </div>
@@ -178,36 +178,24 @@
             </div>
             <div class="row text-center">
                 <div class="col-sm-6 mb-3">
-                  <a href="{{ route('payment.page') }}">
-                        <div class="container-otc">
-
-                            <h3 class="otc-header">
-                                Over the Counter
-                            </h3>
-
-
-                            <p class="waiting-time-white">Payment over the cashier</p>
+                  <a href="{{ route('payment.page') }}" class="text-decoration-none">
+                        <div class="container-otc" style="transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.backgroundColor='#4f2d19'" onmouseout="this.style.backgroundColor='#3f2314'">
+                            <h3 class="otc-header">Change payment?</h3>
                         </div>
                     </a>
                 </div>
-                <div class="col-sm-6">
-                    <h3 class="proceed-text">
-                        Please Proceed to the counter to proceed with your order
-                    </h3>
-                </div>
-            </div>
-            <div class="row text-center">
-         <form action="{{ route('order.store') }}" method="POST" id="orderForm">
-    @csrf
-    <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
-    <input type="hidden" name="total_price" value="{{ $totalPrice }}">
-    <input type="hidden" name="order_type" value="{{ $orderType }}">
-    <input type="hidden" name="p_method" value="{{ session('payment_method') }}">
-    <input type="hidden" name="products" value="{{ json_encode($orderData) }}">
+                <form action="{{ route('order.store') }}" method="POST" id="orderForm">
+                    @csrf
+                    <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
+                    <input type="hidden" name="total_price" value="{{ $totalPrice }}">
+                    <input type="hidden" name="order_type" value="{{ $orderType }}">
+                    <input type="hidden" name="p_method" value="{{ session('payment_method') }}">
+                    <input type="hidden" name="products" value="{{ json_encode($orderData) }}">
 
-    <button class="btn btn-primary" type="button" id="proceedToPaymentButton">Proceed to Payment</button>
-</form>
-                </div>
+                    <button class="btn btn-primary" type="button" id="proceedToPaymentButton">Proceed to Payment</button>
+                </form>
+            </div>
+
         </div>
 
     </main>

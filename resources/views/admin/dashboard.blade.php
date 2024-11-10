@@ -39,7 +39,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
         <a href="{{route('admin.dashboard')}}" class="logo d-flex align-items-center me-auto">
-          <img src="{{asset('assets/img/logo/logo.png')}}" alt="">
+          <img src="{{asset('assets/img/logo/logo2.png')}}" alt="">
         </a>
         @auth
         <nav id="navmenu" class="navmenu">
