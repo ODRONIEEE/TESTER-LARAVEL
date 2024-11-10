@@ -453,7 +453,7 @@
                 <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
                 <li><i class="bi bi-chevron-right"></i> <a href="#cafe">About us</a></li>
                 <li><i class="bi bi-chevron-right"></i> <a href="{{route('privacy')}}">Privacy</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="{{route('terms')}}">Terms and conditions</a></li>
+                <li><i class="bi bi-chevron-right"></i> <a href="{{route('Terms')}}">Terms and conditions</a></li>
               </ul>
             </div>
 

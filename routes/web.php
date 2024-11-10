@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-route::get('terms', function(){return view('terms'); })->name('terms');
+route::get('Terms', function(){return view('Terms'); })->name('Terms');
 route::get('privacy', function(){return view('privacy'); })->name('privacy');
 route::get('welcome', function(){return view('welcome'); })->name('welcome');
 
