@@ -21,7 +21,7 @@ class OrderController extends Controller
 
         session()->put('orderType', $orderType);
 
-    
+
 
 
 
@@ -112,7 +112,8 @@ public function showsales()
         'Pastries' => 0,
         'Pasta' => 0,
         'Rice Meal' => 0,
-        'Appetizer' => 0
+        'Appetizer' => 0,
+        'Burgers' => 0  // Added Burgers category
     ];
 
     // Initialize counters for total product counts
@@ -124,19 +125,17 @@ public function showsales()
         'Pastries' => 0,
         'Pasta' => 0,
         'Rice Meal' => 0,
-        'Appetizer' => 0
+        'Appetizer' => 0,
+        'Burgers' => 0  // Added Burgers category
     ];
 
-    // Loop through each order and accumulate sales and counts per category
+    // Rest of your existing foreach loop remains the same
     foreach ($completedOrders as $order) {
-        // Manually decode the products if they are stored as JSON strings
         $order->products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
 
-        // Calculate total sales and category counts for each order
         foreach ($order->products as $product) {
-            // Retrieve the type_id from the Product model using the product's id
             $productDetails = Product::find($product['id']);
-            
+
             if ($productDetails) {
                 $typeId = $productDetails->type_id;
                 $category = $this->getCategoryByTypeId($typeId);
@@ -155,7 +154,6 @@ public function showsales()
     // Define $sales as the total sales
     $sales = $totalSales;
 
-    // Return the completed orders and sales data to the view
     return view('admin.sales', compact('sales', 'totalSales', 'categorySales', 'categoryCounts', 'completedOrders'));
 }
 
@@ -164,18 +162,18 @@ public function showsales()
 public function getCategoryByTypeId($typeId)
 {
     $categoryMap = [
-        1 => 'Coffee',        // Type ID 1 => Coffee
-        2 => 'Non-Coffee',    // Type ID 2 => Non-Coffee
-        3 => 'Refreshers',    // Type ID 3 => Refreshers
-        4 => 'Tea',           // Type ID 4 => Tea
-        5 => 'Appetizers',    // Type ID 5 => Appetizers
-        6 => 'Pasta',         // Type ID 6 => Pasta
-        7 => 'Burger',        // Type ID 7 => Burger
-        8 => 'Rice Meal',     // Type ID 8 => Rice Meal
-        9 => 'Pastries',      // Type ID 9 => Pastries
+        1 => 'Coffee',
+        2 => 'Non-Coffee',
+        3 => 'Refreshers',
+        4 => 'Tea',
+        5 => 'Appetizer',    // Changed from 'Appetizers' to 'Appetizer' to match the array keys
+        6 => 'Pasta',
+        7 => 'Burgers',      // Changed from 'Burger' to 'Burgers' to match the array keys
+        8 => 'Rice Meal',
+        9 => 'Pastries',
     ];
 
-    return $categoryMap[$typeId] ?? 'Unknown'; // Default to 'Unknown' if type_id is not found
+    return $categoryMap[$typeId] ?? 'Unknown';
 }
 
 public function updateStatus(Request $request, $id)

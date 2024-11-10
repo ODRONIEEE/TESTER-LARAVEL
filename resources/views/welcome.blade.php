@@ -204,113 +204,65 @@
 
 
 
-        <section id="menu" class="about section ">
-          <!-- Section Title -->
-          <div class="container section-title" data-aos="fade-up">
-            <h2>Try Our Best Selling!</h2>
-          </div><!-- End Section Title -->
-
-          <div class="container">
-            <div class="row gy-4">
-              <div class="container" data-aos="zoom-in">
-                <div class="swiper init-swiper">
-                  <script type="application/json" class="swiper-config">
-                  {
-                    "loop": true,
-                    "speed": 600,
-                    "autoplay": {
-                      "delay": 5000
-                    },
-                    "slidesPerView": 3,
-                    "pagination": {
-                      "el": ".swiper-pagination",
-                      "type": "bullets",
-                      "clickable": true
-                    },
-                    "breakpoints": {
-                      "320": {
-                        "slidesPerView": 1,
-                        "spaceBetween": 20
-                      },
-                      "480": {
-                        "slidesPerView": 2,
-                        "spaceBetween": 40
-                      },
-                      "768": {
-                        "slidesPerView": 3,
-                        "spaceBetween": 60
-                      },
-                      "992": {
-                        "slidesPerView": 3,
-                        "spaceBetween": 80
-                      },
-                      "1200": {
-                        "slidesPerView": 3,
-                        "spaceBetween": 100
-                      }
-                    }
-                  }
-                </script>
-
-                  <div class="swiper-wrapper align-items-center">
-
-                    <div class="swiper-slide">
-                      <h2 class="text-center">Hot Americano</h2>
-                      <div class=" card card-slider">
-                        <img src="assets/img/products/hot caffe late.png" class=" img-fluid" alt="">
-                      </div>
-                    </div>
-
-
-                    <div class="swiper-slide ">
-                      <h2 class="text-center">Refresher Green Apple</h2>
-                      <div class=" card card-slider">
-                        <img src="assets/img/products/refresher green apple.png" class=" img-fluid" alt="">
-                      </div>
-                    </div>
-
-                    <div class="swiper-slide ">
-                      <h2 class="text-center">Refresher kiwi</h2>
-                      <div class=" card card-slider">
-                        <img src="assets/img/products/refresher kiwi.png" class=" img-fluid" alt="">
-                      </div>
-                    </div>
-
-
-                    <div class="swiper-slide ">
-                      <h2 class="text-center">Cold Americano</h2>
-                      <div class=" card card-slider">
-                        <img src="assets/img/products/cold cafe latte.png" class=" img-fluid" alt="">
-                      </div>
-                    </div>
-
-
-                    <div class="swiper-slide ">
-                      <h2 class="text-center">Refreshers Passion Fruit</h2>
-                      <div class=" card card-slider">
-                        <img src="assets/img/products/refreshers passion fruit.png" class=" img-fluid" alt="">
-                      </div>
-                    </div>
-
-                    <div class="swiper-slide ">
-                      <h2 class="text-center">Refresher Lychee</h2>
-                      <div class=" card card-slider">
-                        <img src="assets/img/products/Refresher lychee.png" class=" img-fluid" alt="">
-                      </div>
-                    </div>
-
-
-                  </div>
-                </div>
-              </div>
+        <section id="menu" class="about section">
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Try Our Best Selling!</h2>
             </div>
-          </div>
+
+            <div class="container">
+                <div class="row gy-4">
+                    <div class="container" data-aos="zoom-in">
+                        <div class="swiper bestseller-swiper">
+                            <div class="swiper-wrapper align-items-center">
+                                @if(isset($topProducts) && count($topProducts) > 0)
+                                    @foreach($topProducts as $index => $product)
+                                        <div class="swiper-slide">
+                                            <div class="card card-slider">
+                                                <div class="ribbon-wrapper">
+                                                    <div class="ribbon text-center">
+                                                        Top {{ $index + 1 }}
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4 class="text-center mb-3">{{ $product['product_name'] }}</h4>
+                                                    <img
+                                                        src="{{ asset($product['image']) }}"
+                                                        class="img-fluid"
+                                                        alt="{{ $product['product_name'] }}"
+                                                        onerror="this.src='{{ asset('assets/img/products/default.png') }}'"
+                                                    >
+                                                    <div class="text-center mt-3">
+                                                        <div class="price mt-2">₱{{ number_format($product['price'], 2) }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="swiper-slide">
+                                        <div class="card card-slider">
+                                            <div class="card-body text-center">
+                                                <p>No best-selling products available yet</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
 
 
 
-        <!-- Team Section -->
+
+
+          <!-- Team Section -->
         <section id="cafe" class="team  section">
 
           <!-- Section Title -->
@@ -493,6 +445,40 @@
    <!-- Main JS File -->
    <script src="{{asset('assets/js/main.js')}}"></script>
    <script src="{{asset('assets/js/drinks_menu.js')}}"></script>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new Swiper('.bestseller-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                768: {
+                    slidesPerView: 3,
+                },
+                1024: {
+                    slidesPerView: 4,
+                },
+            },
+        });
+    });
+</script>
+
 <style>
 .cart-item-count {
     position: absolute;
@@ -505,9 +491,76 @@
     font-size: 12px;
 }
 
-
-
 </style>
+<style>
+    .bestseller-swiper {
+        padding: 20px 40px;
+    }
+
+    .card-slider {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        margin: 10px;
+    }
+
+    .card-slider:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-slider img {
+        max-height: 200px;
+        object-fit: contain;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .card-slider h4 {
+        color: #333;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    .price {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #333;
+        background: rgba(255, 255, 255, 0.8);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+        font-size: 20px;
+    }
+
+    .swiper-pagination-bullet {
+        background: #333;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+        .bestseller-swiper {
+            padding: 20px;
+        }
+    }
+    </style>
 </body>
 
 </html>
