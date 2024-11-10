@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\AdminControl;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProductRankingController;
+
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -19,6 +21,8 @@ route::get('terms', function(){return view('terms'); })->name('terms');
 route::get('privacy', function(){return view('privacy'); })->name('privacy');
 route::get('welcome', function(){return view('welcome'); })->name('welcome');
 
+Route::get('/best-selling-products', [ProductRankingController::class, 'rankBestSellingProducts']);
+Route::get('/top-products-by-type', [ProductRankingController::class, 'rankBestSellingProductsByType'])->name('top.products.by.type');
 
 
 // Route::get('welcome', function () {

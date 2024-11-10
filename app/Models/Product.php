@@ -25,4 +25,10 @@ class Product extends Model
 
     ];
 
+     // Define the relationship to Type
+     public function type()
+     {
+         return $this->belongsTo(ProductType::class, 'type_id');
+     }
+
 }
