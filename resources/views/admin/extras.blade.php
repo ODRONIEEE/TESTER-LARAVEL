@@ -92,11 +92,7 @@
                 {{ session('error') }}
             </div>
           @endif
-        <div class="row menu-content" style="max-width: 80%;margin: auto;">
-
-            <div class="col-2">
-                <div class="menu-options">
-                    <a href="{{route('admin.product')}}" style="position: relative;
+          <a href="{{route('admin.product')}}" style="position: relative;
                         width: 300px;
                         height: 81px;
                         text-decoration: none;
@@ -112,9 +108,17 @@
                         margin: 10px;
                         box-sizing: border-box;
                         background-color: #3f2314;
-                        border-radius: 50px;">
-                        <span>Add Extras</span>
+                        border-radius: 50px;
+                        transition: background-color 0.3s ease;"
+                        onmouseover="this.style.backgroundColor='#ff8c00'"
+                        onmouseout="this.style.backgroundColor='#3f2314'">
+                        <span>Back</span>
                     </a>
+        <div class="row menu-content" style="max-width: 80%;margin: auto;">
+
+            <div class="col-2">
+                <div class="menu-options">
+
                 </div>
             </div>
 

@@ -225,13 +225,15 @@
                         <h4 class="mt-4">{{ $cat_id == 1 ? 'Coffee Extras' : 'Food Extras' }}</h4>
                         <div class="radio-options">
                             @foreach($items as $extra)
-                                <label class="extra-label">
-                                    <input type="checkbox" class="extra-checkbox" data-price="{{ $extra->price }}" value="{{ $extra->id }}" onchange="updateExtras()">
-                                    <span class="checkmark"></span>
-                                    <div class="extra-container">
-                                        {{ $extra->name }} - ₱{{ number_format($extra->price, 2) }}
-                                    </div>
-                                </label>
+                                @if($extra->quantity > 0)
+                                    <label class="extra-label">
+                                        <input type="checkbox" class="extra-checkbox" data-price="{{ $extra->price }}" value="{{ $extra->id }}" onchange="updateExtras()">
+                                        <span class="checkmark"></span>
+                                        <div class="extra-container">
+                                            {{ $extra->name }} - ₱{{ number_format($extra->price, 2) }}
+                                        </div>
+                                    </label>
+                                @endif
                             @endforeach
                         </div>
                     @endforeach
