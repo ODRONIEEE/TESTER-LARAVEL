@@ -155,63 +155,56 @@
 
 
   <main class="main">
-
-
     <div class="menu-container-light-details" style="padding-top: 150px;">
         <div class="row">
-            <div class="col-2 order-history">
-                <h3>Order History</h3>
-            </div>
-            <div class="col-10">
-             <div class="swiper-container" id="orderSwiper">
-    <div class="swiper-wrapper">
-        <!-- Loop through orders -->
-        @foreach($orders as $order)
-        @if($order->customer_name == Auth::user()->name)
-                <div class="swiper-slide">
-                    <!-- Bootstrap Grid Layout for Orders -->
-                    <div class="col-md-4">
-                        <div class="order-container">
-                            <p># {{ $order->id }}</p>
-                            <div class="text-right">
-                                <p>QTY</p>
-                            </div>
-                            <!-- Loop through products in each order -->
-                            @foreach($order->products as $product)
-                                <div class="product-table mb-3">
-                                    <img src="assets/img/products/cold_americano.png" alt="Product Image" width="auto" height="60">
-                                    <p>{{ $product['name'] ?? 'N/A' }}</p>
-                                    <p>{{ $product['quantity'] ?? 'N/A' }}</p>
+            <div class="col-12">
+                <h3 class="order-history-title mb-4">Order History</h3>
+                <div class="orders-container">
+                    @foreach($orders as $order)
+                        @if($order->customer_name == Auth::user()->name)
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Order #{{ $order->id }}</h5>
+                                        <div class="order-meta">
+                                            <span class="order-date">{{ \Carbon\Carbon::parse($order->created_at)->format('M d, Y h:i A') }}</span>
+                                            <span class="payment-badge">{{ $order->payment_method }}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            @endforeach
-                            <!-- Total Section -->
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <p class="text-center">Total</p>
-                                <p class="table-container" style="width: 20%;">{{ $order->total_price }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-        @endforeach
-    </div>
 
-</div>
+                                <div class="order-details">
+                                    @foreach($order->products as $product)
+                                        <div class="product-row">
+                                            <div class="product-info">
+                                                @if(isset($product['image']))
+                                                    <img src="{{ asset('uploads/' . $product['image']) }}" alt="{{ $product['name'] }}">
+                                                @else
+                                                    <img src="{{ asset('assets/img/products/default.png') }}" alt="Default Product Image">
+                                                @endif
+                                                <span class="product-name">{{ $product['name'] }}</span>
+                                            </div>
+                                            <div class="product-quantity">
+                                                × {{ $product['quantity'] }}
+                                            </div>
+                                            <div class="product-price">
+                                                ₱{{ number_format($product['price'] * $product['quantity'], 2) }}
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <div class="order-total">
+                                        <span>Total Amount</span>
+                                        <span class="total-price">₱{{ number_format($order->total_price, 2) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
-
-
-    <!-- Add Bootstrap CSS and JS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-
-
-
 </main>
     <footer id="footer" class="footer-product text-center">
 
@@ -225,6 +218,12 @@
 
     <!-- Preloader -->
     <div id="preloader"></div>
+
+        <!-- Add Bootstrap CSS and JS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -281,6 +280,136 @@
     }
   });
 </script>
+<style>
+    .order-history-title {
+    color: #333;
+    font-weight: 600;
+    padding-left: 20px;
+}
+
+.orders-container {
+    padding: 0 20px;
+}
+
+.order-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.order-header {
+    background: #f8f9fa;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-header h5 {
+    margin: 0;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.order-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.order-date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.payment-badge {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.order-details {
+    padding: 20px;
+}
+
+.product-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.product-row:last-child {
+    border-bottom: none;
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.product-info img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-name {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.product-quantity {
+    color: #666;
+    margin: 0 20px;
+}
+
+.product-price {
+    font-weight: 500;
+    color: #2c3e50;
+    min-width: 100px;
+    text-align: right;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #eee;
+}
+
+.total-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1976d2;
+}
+
+@media (max-width: 768px) {
+    .order-meta {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+    }
+
+    .product-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .product-quantity {
+        margin: 10px 0;
+    }
+}
+</style>
 </body>
 
 </html>

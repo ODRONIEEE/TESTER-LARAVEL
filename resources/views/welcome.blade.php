@@ -292,7 +292,7 @@
 
               <div class="col-lg-8"  data-aos-delay="10">
                 <div class="team-member d-flex align-items-start">
-                  <video controls autoplay loop muted width="800">
+                  <video controls autoplay loop muted width="100%">
                     <source src="assets/video/Archive Cafe - Video.mp4" type="video/mp4">
                   </video>
                 </div>
@@ -402,10 +402,10 @@
             <div class="col-lg-2 col-md-3 footer-links">
               <h4>Useful Links</h4>
               <ul>
-                <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="#cafe">About us</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="{{route('privacy')}}">Privacy</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="{{route('Terms')}}">Terms and conditions</a></li>
+                <li><i class="bi bi-chevron-right"></i> <a href="#" class="hover-orange">Home</a></li>
+                <li><i class="bi bi-chevron-right"></i> <a href="#cafe" class="hover-orange">About us</a></li>
+                <li><i class="bi bi-chevron-right"></i> <a href="{{route('privacy')}}" class="hover-orange">Privacy</a></li>
+                <li><i class="bi bi-chevron-right"></i> <a href="{{route('Terms')}}" class="hover-orange">Terms and conditions</a></li>
               </ul>
             </div>
 
@@ -414,9 +414,8 @@
             <div class="col-lg-4 col-md-12">
               <h4>Follow Us</h4>
               <div class="social-links d-flex">
-                <a href="https://www.facebook.com/ArchiveCafeBTM"><i class="bi bi-facebook"></i></a>
-                <a href=""><i class="bi bi-instagram"></i></a>
-
+                <a href="https://www.facebook.com/ArchiveCafeBTM" class="hover-orange"><i class="bi bi-facebook"></i></a>
+                <a href="" class="hover-orange"><i class="bi bi-instagram"></i></a>
               </div>
             </div>
 
@@ -478,9 +477,14 @@
         });
     });
 </script>
-
 <style>
-.cart-item-count {
+    .hover-orange:hover {
+      color: orange !important;
+      transition: color 0.3s ease;
+    }
+  </style>
+<style>
+    .cart-item-count {
     position: absolute;
     top: -10px;
     right: -10px;

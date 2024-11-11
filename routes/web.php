@@ -13,26 +13,18 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductRankingController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('welcome');
+
 
 Route::get('/', [ProductRankingController::class, 'welcome'])->name('welcome');
 
-
-
 route::get('Terms', function(){return view('Terms'); })->name('Terms');
 route::get('privacy', function(){return view('privacy'); })->name('privacy');
-route::get('welcome', function(){return view('welcome'); })->name('welcome');
 
 
 Route::get('/best-selling-products', [ProductRankingController::class, 'rankBestSellingProducts']);
 Route::get('/top-products-by-type', [ProductRankingController::class, 'rankBestSellingProductsByType'])->name('top.products.by.type');
 
 
-// Route::get('welcome', function () {
-//     return view('welcome');
-// })->middleware(['auth', 'verified'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -45,7 +37,8 @@ require __DIR__.'/auth.php';
 
 //User Routes
 Route::middleware(['auth','UserMiddleware'])->group(function(){
-    Route::get('dashboard',[UserControl::class, 'home'])->name('dashboard');
+
+    Route::get('welcome',[UserControl::class, 'home'])->name('welcome');
     Route::get('menu',[UserControl::class, 'menu'])->name('menu');
 
     Route::get('cart',[UserControl::class, 'cart'])->name('cart');

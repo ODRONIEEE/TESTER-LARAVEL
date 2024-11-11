@@ -3,19 +3,71 @@
 namespace App\Http\Controllers\User;
 
 
+use App\Models\Order;
+use App\Models\Extras;
 use App\Models\Product;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Services\CartService;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ExtrasController;
-use App\Models\Extras;
-use App\Models\Order;
+
 class UserControl extends Controller
 {
     public function home(){
-        return view('dashboard');
+         // Fetch all transactions
+         $transactions = Transaction::all();
+
+         // Initialize an array to store quantities for each product
+         $productQuantities = [];
+
+         // Loop through each transaction and aggregate product quantities
+         foreach ($transactions as $transaction) {
+             $products = json_decode($transaction->products);
+             if (!is_array($products) && !is_object($products)) {
+                 continue;
+             }
+
+             foreach ($products as $item) {
+                 $productId = $item->id;
+                 $quantity = $item->quantity;
+
+                 // Retrieve product details
+                 $product = Product::find($productId);
+
+                 // Skip if the product is not found
+                 if (!$product) {
+                     continue;
+                 }
+
+                 // Accumulate quantities for each product
+                 if (isset($productQuantities[$productId])) {
+                     $productQuantities[$productId]['quantity'] += $quantity;
+                 } else {
+                     $productQuantities[$productId] = [
+                         'product_id' => $productId,
+                         'product_name' => $product->name,
+                         'quantity' => $quantity,
+                         'price' => $product->price,
+                         'image' => $product->image ?? null,
+                     ];
+                 }
+             }
+         }
+
+         // Convert to array and sort by quantity in descending order
+         $productQuantities = array_values($productQuantities);
+         usort($productQuantities, function ($a, $b) {
+             return $b['quantity'] <=> $a['quantity'];
+         });
+
+         // Get only the top 5 products
+         $topProducts = array_slice($productQuantities, 0, 5);
+
+
+        return view('welcome', compact('topProducts'));
     }
     public function menu(){
 
@@ -57,7 +109,7 @@ public function addToCart(Request $request)
     $quantity = $request->input('quantity', 1);
     $temperature = $request->input('temperature');
     $price = $request->input('price');
-    
+
     // Fetch extras from the request
     $extras = json_decode($request->input('extras'), true);
     $extrasDetails = [];
