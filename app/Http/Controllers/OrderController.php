@@ -31,72 +31,107 @@ class OrderController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-public function store(Request $request)
-{
-    // Validate incoming request
-    $request->validate([
-        'customer_name' => 'required|string',
-        'products' => 'required|json', // Expect products as a JSON string
-        'total_price' => 'required|numeric',
-        'p_method' => 'required|string',
-        'order_type' => 'required|string', // Added validation for order_type
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'customer_name' => 'required|string',
+            'products' => 'required|json',
+            'total_price' => 'required|numeric',
+            'p_method' => 'required|string',
+            'order_type' => 'required|string',
+        ]);
 
-    $products = json_decode($request->products, true);
-    $allExtras = [];
-    foreach ($products as $product) {
-        if (isset($product['extras']) && !empty($product['extras'])) {
-            foreach ($product['extras'] as $extra) {
-                if (is_array($extra)) {
-                    $allExtras[] = $extra;
-                } elseif (is_string($extra)) {
-                    $allExtras[] = [
-                        'id' => $extra,
-                        'name' => 'Unknown',
-                        'price' => 0,
-                    ];
+        $products = json_decode($request->products, true);
+        $formattedProducts = [];
+
+        // Restructure products and their extras
+        foreach ($products as $product) {
+            $productData = [
+                'id' => $product['id'],
+                'name' => $product['name'],
+                'price' => $product['price'],
+                'quantity' => $product['quantity'] ?? 1,
+                'extras' => [] // Initialize extras array for this product
+            ];
+
+            // If this product has extras, add them to the product's extras array
+            if (isset($product['extras']) && !empty($product['extras'])) {
+                foreach ($product['extras'] as $extra) {
+                    if (is_array($extra)) {
+                        $productData['extras'][] = [
+                            'id' => $extra['id'],
+                            'name' => $extra['name'],
+                            'price' => $extra['price'],
+                            'quantity' => $extra['quantity'] ?? 1
+                        ];
+                    }
                 }
             }
+
+            $formattedProducts[] = $productData;
+        }
+
+        $transactionData = [
+            'customer_name' => $request->customer_name,
+            'total_price' => $request->total_price,
+            'p_method' => $request->p_method,
+            'order_type' => $request->order_type,
+            'dateCreated' => now(),
+            'products' => json_encode($formattedProducts),
+            'status' => 'Pending'
+        ];
+
+        try {
+            $transaction = Transaction::create($transactionData);
+            session()->forget('cart');
+            return response()->json(['success' => true, 'message' => 'Order placed successfully!']);
+        } catch (\Exception $e) {
+            Log::error('Order creation failed: ' . $e->getMessage());
+            throw new \Exception('Failed to place the order. Please try again later. Error details: ' . $e->getMessage());
         }
     }
 
-    $transactionData = [
-        'customer_name' => $request->customer_name,
-        'total_price' => $request->total_price,
-        'p_method' => $request->p_method,
-        'order_type' => $request->order_type,
-        'dateCreated' => now(),
-        'products' => json_encode($products),
-        'extras' => json_encode($allExtras),
-    ];
+    public function showOrders()
+    {
+        $orders = Order::all();
 
-    try {
+        foreach ($orders as $order) {
+            // Decode the JSON strings to arrays only for products
+            $products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
 
-        $transaction = Transaction::create($transactionData);
-        session()->forget('cart');
-        return response()->json(['success' => true, 'message' => 'Order placed successfully!']);
-    } catch (\Exception $e) {
-        Log::error('Order creation failed: ' . $e->getMessage());
-        throw new \Exception('Failed to place the order. Please try again later. Error details: ' . $e->getMessage());
+            // Format the products and their extras
+            if ($products) {
+                $formattedProducts = [];
+                foreach ($products as $product) {
+                    $productData = [
+                        'id' => $product['id'] ?? null,
+                        'name' => $product['name'] ?? 'N/A',
+                        'price' => $product['price'] ?? 0,
+                        'quantity' => $product['quantity'] ?? 1
+                    ];
+
+                    // Check if this product has extras in the main extras array
+                    if (isset($product['extras']) && !empty($product['extras'])) {
+                        $productData['extras'] = array_map(function($extra) {
+                            return [
+                                'id' => $extra['id'] ?? null,
+                                'name' => $extra['name'] ?? 'N/A',
+                                'price' => $extra['price'] ?? 0,
+                                'quantity' => $extra['quantity'] ?? 1
+                            ];
+                        }, $product['extras']);
+                    } else {
+                        $productData['extras'] = [];
+                    }
+
+                    $formattedProducts[] = $productData;
+                }
+                $order->products = $formattedProducts;
+            }
+        }
+
+        return view('admin.orders', ['orders' => $orders]);
     }
-}
-
-
-public function showOrders()
-{
-    // Fetch all orders
-    $orders = Order::all();
-
-    // Manually decode the products and extras fields if they are stored as JSON strings
-    foreach ($orders as $order) {
-        $order->products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
-        $order->extras = is_string($order->extras) ? json_decode($order->extras, true) : $order->extras;
-    }
-
-    // Return orders to the view
-    return view('admin.orders', compact('orders'));
-}
-
 public function showsales()
 {
     // Fetch all completed orders
