@@ -23,6 +23,8 @@ route::get('welcome', function(){return view('welcome'); })->name('welcome');
 
 Route::get('/best-selling-products', [ProductRankingController::class, 'rankBestSellingProducts']);
 Route::get('/top-products-by-type', [ProductRankingController::class, 'rankBestSellingProductsByType'])->name('top.products.by.type');
+Route::get('/top-one-products-by-type', [ProductRankingController::class, 'rankTopOneSellingProductsByType'])->name('top.one.products.by.type');
+
 
 
 // Route::get('welcome', function () {
