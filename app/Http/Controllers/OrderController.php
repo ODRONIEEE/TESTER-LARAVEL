@@ -22,9 +22,6 @@ class OrderController extends Controller
         session()->put('orderType', $orderType);
 
 
-
-
-
             return response()->json(['message' => 'Order data received successfully']);
         } catch (\Exception $e) {
             // If something goes wrong, return an error message
@@ -223,8 +220,19 @@ public function updateStatus(Request $request, $id)
     return response()->json(['success' => false], 400);
 }
 
-
-
+public function deleteTransaction($id)
+{
+    try {
+        $transaction = Transaction::find($id);
+        if ($transaction) {
+            $transaction->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'Transaction not found'], 404);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
 
 
 }

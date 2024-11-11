@@ -119,7 +119,7 @@
 <main class="main">
     <div class="menu-container">
     <nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
-        <a class="custom-category-btn" href="{{ url()->previous() }}">Back</a>
+        <a class="custom-category-btn" href="{{route('admin.dashboard')}}">Back</a>
         <button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
         <button class="custom-category-btn" onclick="showOrder('onProcess')">On Process</button>
     </nav>
@@ -403,6 +403,38 @@ function updateOrderStatus(orderId, status) {
 document.addEventListener('DOMContentLoaded', function() {
     showOrder('pending');
 });
+
+function deleteOrder(orderId) {
+    if (confirm('Are you sure you want to void this order? This action cannot be undone.')) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error("CSRF token not found.");
+            return;
+        }
+
+        fetch(`/delete-transaction/${orderId}`, {  // Updated endpoint
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Transaction has been voided and deleted successfully.');
+                location.reload();
+            } else {
+                alert('Failed to void transaction: ' + (data.message || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while voiding the transaction.');
+        });
+    }
+}
+
 </script>
 </body>
 
