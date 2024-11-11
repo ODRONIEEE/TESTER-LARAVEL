@@ -185,6 +185,9 @@
                                 @if(in_array($product->type_id, [1, 2, 4]))
                                   <button type="button" class="btn btn-dark temperature-btn" data-temp="cold">C</button>
                                   <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
+                                  <div id="temperature-error" class="text-danger" style="display: none;">
+                                    Please select a temperature
+                                </div>
                                 @endif
                           </div>
                         </div>
@@ -225,13 +228,15 @@
                         <h4 class="mt-4">{{ $cat_id == 1 ? 'Coffee Extras' : 'Food Extras' }}</h4>
                         <div class="radio-options">
                             @foreach($items as $extra)
-                                <label class="extra-label">
-                                    <input type="checkbox" class="extra-checkbox" data-price="{{ $extra->price }}" value="{{ $extra->id }}" onchange="updateExtras()">
-                                    <span class="checkmark"></span>
-                                    <div class="extra-container">
-                                        {{ $extra->name }} - ₱{{ number_format($extra->price, 2) }}
-                                    </div>
-                                </label>
+                                @if($extra->quantity > 0)
+                                    <label class="extra-label">
+                                        <input type="checkbox" class="extra-checkbox" data-price="{{ $extra->price }}" value="{{ $extra->id }}" onchange="updateExtras()">
+                                        <span class="checkmark"></span>
+                                        <div class="extra-container">
+                                            {{ $extra->name }} - ₱{{ number_format($extra->price, 2) }}
+                                        </div>
+                                    </label>
+                                @endif
                             @endforeach
                         </div>
                     @endforeach
@@ -306,6 +311,23 @@
         syrup: {},
         sauce: {}
     };
+
+    tempButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove btn-warning class from all buttons
+            tempButtons.forEach(btn => {
+                btn.classList.remove('btn-warning');
+                btn.classList.add('btn-dark');
+            });
+
+            // Add btn-warning class only to clicked button
+            button.classList.remove('btn-dark');
+            button.classList.add('btn-warning');
+
+            // Hide error message when temperature is selected
+            document.getElementById('temperature-error').style.display = 'none';
+        });
+    });
 
     function updateDisplayPrice() {
         let totalPrice = basePrice;
@@ -386,38 +408,46 @@
     updateDisplayPrice();
 
     addToCartForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    console.log('Form submission intercepted');
+        e.preventDefault();
 
-    const formData = new FormData(this);
+        // Check if temperature selection is required and made
+        const requiresTemperature = document.querySelectorAll('.temperature-btn').length > 0;
+        const temperatureSelected = document.querySelector('.temperature-btn.btn-warning');
 
-    // Ensure extras are properly formatted
-    const extrasJson = JSON.stringify(extras);
-    formData.set('extras', extrasJson);
-
-    fetch(this.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json'
+        if (requiresTemperature && !temperatureSelected) {
+            document.getElementById('temperature-error').style.display = 'block';
+            return false;
         }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Item added to cart successfully!');
-            // Optionally redirect to cart page
-            window.location.href = '{{ route("cart") }}';
-        } else {
-            alert('Error adding item to cart: ' + (data.message || 'Unknown error'));
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while adding the item to cart.');
+
+        document.getElementById('temperature-error').style.display = 'none';
+        console.log('Form submission intercepted');
+
+        const formData = new FormData(this);
+        const extrasJson = JSON.stringify(extras);
+        formData.set('extras', extrasJson);
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Item added to cart successfully!');
+                window.location.href = '{{ route("cart") }}';
+            } else {
+                alert('Error adding item to cart: ' + (data.message || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while adding the item to cart.');
+        });
     });
-});
 
 
    });

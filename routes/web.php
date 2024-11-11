@@ -13,13 +13,12 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductRankingController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
 
-route::get('terms', function(){return view('terms'); })->name('terms');
+
+Route::get('/', [ProductRankingController::class, 'welcome'])->name('welcome');
+route::get('Terms', function(){return view('Terms'); })->name('Terms');
 route::get('privacy', function(){return view('privacy'); })->name('privacy');
-route::get('welcome', function(){return view('welcome'); })->name('welcome');
+
 
 Route::get('/best-selling-products', [ProductRankingController::class, 'rankBestSellingProducts']);
 Route::get('/top-products-by-type', [ProductRankingController::class, 'rankBestSellingProductsByType'])->name('top.products.by.type');
@@ -27,9 +26,6 @@ Route::get('/top-one-products-by-type', [ProductRankingController::class, 'rankT
 
 
 
-// Route::get('welcome', function () {
-//     return view('welcome');
-// })->middleware(['auth', 'verified'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -42,11 +38,11 @@ require __DIR__.'/auth.php';
 
 //User Routes
 Route::middleware(['auth','UserMiddleware'])->group(function(){
-    Route::get('dashboard',[UserControl::class, 'home'])->name('dashboard');
+
+    Route::get('welcome',[UserControl::class, 'home'])->name('welcome');
+
     Route::get('menu',[UserControl::class, 'menu'])->name('menu');
-
     Route::get('cart',[UserControl::class, 'cart'])->name('cart');
-
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
     Route::get('Order_history',[UserControl::class, 'history'])->name('Order_history');
     Route::get('preferences',[UserControl::class, 'preference'])->name('preferences');
@@ -83,27 +79,24 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/pos/{category}',[AdminControl::class, 'pos'])->name('admin.pos');
     Route::get('/admin/sales',[OrderController::class, 'showsales'])->name('admin.sales');
     Route::get('/admin/pos',[AdminControl::class, 'test'])->name('admin.test');
-    // Route::get('/admin/sales',[AdminControl::class, 'sales'])->name('admin.sales');
+
 
     Route::get('/admin/drink-menu/{category}',[AdminControl::class, 'drink'])->name('admin.drink-menu');
     Route::get('/admin/food-menu/{category}',[AdminControl::class, 'food'])->name('admin.food-menu');
 
     Route::get('/admin/orders',[AdminControl::class, 'orders'])->name('admin.orders');
-    Route::get('/admin/orders', [OrderController::class, 'showOrders'])->name('admin.orders');;
+    Route::get('/admin/orders', [OrderController::class, 'showOrders'])->name('admin.orders');
+    Route::delete('/delete-transaction/{id}', [OrderController::class, 'deleteTransaction'])->name('delete.transaction');
+
     Route::get('/admin/product_info/{type}',[ProductControl::class, 'show'])->name('admin.product_info');
     Route::delete('/admin/product/{product}', [ProductControl::class, 'destroy'])->name('admin.product.destroy');
     Route::put('/admin/product/{id}', [ProductControl::class, 'update'])->name('admin.product.update');
-Route::get('/admin/orders/filter', [OrderController::class, 'filterOrders'])->name('orders.filter');
+    Route::get('/admin/orders/filter', [OrderController::class, 'filterOrders'])->name('orders.filter');
     Route::post('/update-order-status/{id}', [OrderController::class, 'updateStatus']);
     Route::get('/admin/extras', [ExtrasController::class, 'showall'])->name('admin.extras');
     Route::post('/admin.extras', [ExtrasController::class, 'store'])->name('admin.extras.store');
     Route::delete('/admin/extras/{id}', [ExtrasController::class, 'destroy'])->name('admin.extras.destroy');
     Route::put('/admin/extras/{id}', [ExtrasController::class, 'update'])->name('admin.extras.update');
-
-
-    // Route::get('/admin/product_info/{cat_id}', [ExtrasController::class, 'show'])->name('admin.product_info');
-    // Route::get('/admin/product_info/{cat_id}', [InfoControl::class, 'show'])->name('admin.product_info');
-
 
 });
 

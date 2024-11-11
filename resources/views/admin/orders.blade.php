@@ -116,250 +116,172 @@
   </header>
   @endif
 
-    <main class="main">
+<main class="main">
+    <div class="menu-container">
+    <nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
+        <a class="custom-category-btn" href="{{route('admin.dashboard')}}">Back</a>
+        <button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
+        <button class="custom-category-btn" onclick="showOrder('onProcess')">On Process</button>
+    </nav>
 
+    <div class="row">
+        <div class="container" data-aos="zoom-in">
+            <!-- Swiper for Pending Orders -->
+            <div id="pending-orders" class="order-tab">
+                <div class="table-responsive">
+                    @php
+                        $hasPendingOrders = $orders->contains('status', 'Pending');
+                    @endphp
 
-      <div class="menu-container">
-
-
-<nav class="category-menu d-flex justify-content-around flex-wrap mb-3">
-    <a class="custom-category-btn" href="{{ url()->previous() }}">Back</a>
-<button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
-<button class="custom-category-btn" onclick="showOrder('onprocess')">On Process</button>
-<button class="custom-category-btn" onclick="showOrder('completed')">Completed</button>
-
-
-</nav>
-
-<div class="row">
-    <div class="container" data-aos="zoom-in">
-
-        <!-- Swiper for Pending Orders -->
-        <div id="pending-orders" class="swiper-container order-tab init-swiper" style="display: none;">
-            <div class="swiper-wrapper align-items-center">
-              @foreach($orders as $order)
-                   @if($order->status == 'Pending')
-                   <div class="col-lg-3 col-md-8 col-sm-12 product-details swiper-slide">
-                        <h2 id="product-name" class="text-center mb-4">{{ $order->customer_name }}</h2>
-                        <div class="customization-options">
-                            <div class="row mb-3 justify-content-center">
-                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                                    <h3>Order #{{ $order->id }}</h3>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                                    <h3>{{ $order->order_type }}</h3>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3 justify-content-center">
-                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <h3>Product</h3>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <h3>QTY</h3>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <h3>Price</h3>
-                                </div>
-                            </div>
-
-                            <!-- Products Section -->
-                            @foreach ($order->products as $product)
-                                <div class="row mb-3 justify-content-center">
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $product['name'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $product['quantity'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $product['price'] ?? 'N/A' }}</h3>
-                                    </div>
-                                </div>
-                            @endforeach
-
-                            <!-- Extras Section -->
-                            <div class="row mb-3 justify-content-center">
-                                <div class="col-12 text-center">
-                                    <h3>Extras</h3>
-                                </div>
-                            </div>
-                            @foreach ($order->extras as $extra)
-                                <div class="row mb-3 justify-content-center">
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $extra['name'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $extra['quantity'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $extra['price'] ?? 'N/A' }}</h3>
-                                    </div>
-                                </div>
-                            @endforeach
-
-                            <div class="text-center">
-                           <button class="custom-btn place-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'On Process')">On Process</button>
-                            <button class="custom-btn void-order w-50" onclick="deleteOrder({{ $order->id }})">Void</button>
-                            </div>
+                    @if($hasPendingOrders)
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Order Details</th>
+                                    <th>Products</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($orders as $order)
+                                    @if($order->status == 'Pending')
+                                        <tr>
+                                            <td>
+                                                <div class="order-info">
+                                                    <h4>Customer: {{ $order->customer_name }}</h4>
+                                                    <p>Order #{{ $order->id }}</p>
+                                                    <p>Total: ₱{{ number_format($order->total_price, 2) }}</p>
+                                                    <p>Payment: {{$order->p_method}}</p>
+                                                    <p>Type: {{ $order->order_type }}</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Product</th>
+                                                            <th>QTY</th>
+                                                            <th>Price</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($order->products as $product)
+                                                            <tr>
+                                                                <td>{{ $product['name'] }}</td>
+                                                                <td>{{ $product['quantity'] }}</td>
+                                                                <td>₱{{ number_format($product['price'], 2) }}</td>
+                                                            </tr>
+                                                            @if(!empty($product['extras']))
+                                                                @foreach ($product['extras'] as $extra)
+                                                                    <tr class="table-light">
+                                                                        <td class="ps-4">+ {{ $extra['name'] }}</td>
+                                                                        <td>{{ $extra['quantity'] }}</td>
+                                                                        <td>₱{{ number_format($extra['price'], 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            @endif
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column gap-2">
+                                                    <button class="btn btn-primary" onclick="updateOrderStatus({{ $order->id }}, 'On Process')">On Process</button>
+                                                    <button class="btn btn-danger" onclick="deleteOrder({{ $order->id }})">Void</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <div class="text-center p-5" style="color: orange">
+                            <p class="h2 fw-bold">No pending orders at the moment</p>
                         </div>
-                    </div>
-                      @endif
-                @endforeach
-            </div>
-        </div>
-
-        <!-- Swiper for Completed Orders -->
-        <div id="onprocess-orders" class="swiper-container order-tab init-swiper" style="display: none;">
-            <div class="swiper-wrapper align-items-center">
-               @foreach($orders as $order)
-                   @if($order->status == 'On Process')
-                    <div class="col-lg-3 col-md-8 col-sm-12 product-details swiper-slide">
-                        <h2 id="product-name" class="text-center mb-4">{{ $order->customer_name }}</h2>
-                        <div class="customization-options">
-                            <div class="row mb-3 justify-content-center">
-                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                                    <h3>Order #{{ $order->id }}</h3>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                                    <h3>{{ $order->order_type }}</h3>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3 justify-content-center">
-                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <h3>Product</h3>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <h3>QTY</h3>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <h3>Price</h3>
-                                </div>
-                            </div>
-
-                            <!-- Products Section -->
-                            @foreach ($order->products as $product)
-                                <div class="row mb-3 justify-content-center">
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $product['name'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $product['quantity'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $product['price'] ?? 'N/A' }}</h3>
-                                    </div>
-                                </div>
-                            @endforeach
-
-                            <!-- Extras Section -->
-                            <div class="row mb-3 justify-content-center">
-                                <div class="col-12 text-center">
-                                    <h3>Extras</h3>
-                                </div>
-                            </div>
-                            @foreach ($order->extras as $extra)
-                                <div class="row mb-3 justify-content-center">
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $extra['name'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $extra['quantity'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $extra['price'] ?? 'N/A' }}</h3>
-                                    </div>
-                                </div>
-                            @endforeach
-
-                    <div class="text-center">
-                           <button class="custom-btn place-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'Notify')">Notify</button>
-                            <button class="custom-btn void-order w-50" onclick="updateOrderStatus({{ $order->id }}, 'Completed')">Completed</button>
-                            </div>
-                        </div>
-                    </div>
                     @endif
-                @endforeach
+                </div>
             </div>
-        </div>
 
-        <div id="completed-orders" class="swiper-container order-tab init-swiper" style="display: none;">
-            <div class="swiper-wrapper align-items-center">
-              @foreach($orders as $order)
-                @if($order->status == 'Completed')
-                     <div class="col-lg-3 col-md-8 col-sm-12 product-details swiper-slide">
-                        <h2 id="product-name" class="text-center mb-4">{{ $order->customer_name }}</h2>
-                        <div class="customization-options">
-                            <div class="row mb-3 justify-content-center">
-                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                                    <h3>Order #{{ $order->id }}</h3>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 text-center">
-                                    <h3>{{ $order->order_type }}</h3>
-                                </div>
-                            </div>
+            <!-- Swiper for On Process Orders -->
+            <div id="onProcess-orders" class="order-tab" style="display: none;">
+                <div class="table-responsive">
+                    @php
+                        $hasOnProcessOrders = $orders->contains('status', 'On Process');
+                    @endphp
 
-                            <div class="row mb-3 justify-content-center">
-                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <h3>Product</h3>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <h3>QTY</h3>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <h3>Price</h3>
-                                </div>
-                            </div>
-
-                            <!-- Products Section -->
-                            @foreach ($order->products as $product)
-                                <div class="row mb-3 justify-content-center">
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $product['name'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $product['quantity'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $product['price'] ?? 'N/A' }}</h3>
-                                    </div>
-                                </div>
-                            @endforeach
-
-                            <!-- Extras Section -->
-                            <div class="row mb-3 justify-content-center">
-                                <div class="col-12 text-center">
-                                    <h3>Extras</h3>
-                                </div>
-                            </div>
-                            @foreach ($order->extras as $extra)
-                                <div class="row mb-3 justify-content-center">
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $extra['name'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $extra['quantity'] ?? 'N/A' }}</h3>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                                        <h3>{{ $extra['price'] ?? 'N/A' }}</h3>
-                                    </div>
-                                </div>
-                            @endforeach
-
-
+                    @if($hasOnProcessOrders)
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Order Details</th>
+                                    <th>Products</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($orders as $order)
+                                    @if($order->status == 'On Process')
+                                        <tr>
+                                            <td>
+                                                <div class="order-info">
+                                                    <h4>Customer: {{ $order->customer_name }}</h4>
+                                                    <p>Order #{{ $order->id }}</p>
+                                                    <p>Total: ₱{{ number_format($order->total_price, 2) }}</p>
+                                                    <p>Payment: {{$order->p_method}}</p>
+                                                    <p>Type: {{ $order->order_type }}</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Product</th>
+                                                            <th>QTY</th>
+                                                            <th>Price</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($order->products as $product)
+                                                            <tr>
+                                                                <td>{{ $product['name'] }}</td>
+                                                                <td>{{ $product['quantity'] }}</td>
+                                                                <td>₱{{ number_format($product['price'], 2) }}</td>
+                                                            </tr>
+                                                            @if(!empty($product['extras']))
+                                                                @foreach ($product['extras'] as $extra)
+                                                                    <tr class="table-light">
+                                                                        <td class="ps-4">+ {{ $extra['name'] }}</td>
+                                                                        <td>{{ $extra['quantity'] }}</td>
+                                                                        <td>₱{{ number_format($extra['price'], 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            @endif
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column gap-2">
+                                                    <button class="btn btn-primary" onclick="updateOrderStatus({{ $order->id }}, 'Completed')">Completed</button>
+                                                    <button class="btn btn-danger" onclick="deleteOrder({{ $order->id }})">Void</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <div class="text-center p-5">
+                            <h3>No orders in process at the moment</h3>
                         </div>
-                    </div>
-    @endif
-                @endforeach
+                    @endif
+                </div>
             </div>
+
         </div>
     </div>
-</div>
-
-
-
-
 </div>
 
 
@@ -400,38 +322,11 @@ function showOrder(status) {
         tab.style.display = 'none';
     });
 
-    // Ensure the status matches the element IDs (e.g., "on-process-orders")
-    const selectedTab = document.getElementById(`${status}-orders`);
-
-    if (selectedTab) {
-        selectedTab.style.display = 'block';
-
-        // Initialize Swiper for the displayed tab if not already initialized
-        if (!selectedTab.classList.contains('swiper-initialized')) {
-            new Swiper(`#${status}-orders`, {
-                loop: true,
-                speed: 600,
-                autoplay: {
-                    delay: 5000
-                },
-                slidesPerView: 3,
-                pagination: {
-                    el: ".swiper-pagination",
-                    type: "bullets",
-                    clickable: true
-                },
-                breakpoints: {
-                    320: { slidesPerView: 1, spaceBetween: 20 },
-                    480: { slidesPerView: 2, spaceBetween: 40 },
-                    768: { slidesPerView: 3, spaceBetween: 60 },
-                    992: { slidesPerView: 3, spaceBetween: 80 },
-                    1200: { slidesPerView: 3, spaceBetween: 100 }
-                }
-            });
-            selectedTab.classList.add('swiper-initialized');
-        }
-    } else {
-        console.error(`Tab with ID ${status}-orders not found.`);
+    // Show the selected tab
+    if (status === 'pending') {
+        document.getElementById('pending-orders').style.display = 'block';
+    } else if (status === 'onProcess') {
+        document.getElementById('onProcess-orders').style.display = 'block';
     }
 }
 
@@ -454,7 +349,6 @@ function deleteOrder(orderId) {
         .then(data => {
             if (data.success) {
                 alert('Order has been voided and deleted successfully.');
-                // Refresh the page or update the UI
                 location.reload();
             } else {
                 alert('Failed to void order.');
@@ -486,25 +380,59 @@ function updateOrderStatus(orderId, status) {
             switch (status.toLowerCase()) {
                 case 'pending':
                     message = 'Order set to Pending successfully.';
-                    showOrder('pending');
                     break;
                 case 'completed':
                     message = 'Order Completed successfully.';
-                    showOrder('completed');
                     break;
                 case 'on process':
                     message = 'Order is now On Process.';
-                    showOrder('onprocess');
                     break;
                 default:
                     message = 'Order status updated successfully.';
             }
             alert(message);
+            location.reload();
         } else {
             alert('Failed to update order status.');
         }
     })
     .catch(error => console.error('Error:', error));
+}
+
+// Show pending orders by default when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    showOrder('pending');
+});
+
+function deleteOrder(orderId) {
+    if (confirm('Are you sure you want to void this order? This action cannot be undone.')) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error("CSRF token not found.");
+            return;
+        }
+
+        fetch(`/delete-transaction/${orderId}`, {  // Updated endpoint
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Transaction has been voided and deleted successfully.');
+                location.reload();
+            } else {
+                alert('Failed to void transaction: ' + (data.message || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while voiding the transaction.');
+        });
+    }
 }
 
 </script>

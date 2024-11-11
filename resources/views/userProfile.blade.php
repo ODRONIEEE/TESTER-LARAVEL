@@ -234,7 +234,7 @@
             </div>
             <div class="col-lg-4 col-md-12">
                 <button class="btn-dashboard w-100 mb-2" onclick="window.location.href='{{route('privacy')}}'">Privacy</button>
-                <button class="btn-dashboard w-100 mb-2" onclick="window.location.href='{{route('terms')}}'">Terms and Conditions</button>
+                <button class="btn-dashboard w-100 mb-2" onclick="window.location.href='{{route('Terms')}}'">Terms and Conditions</button>
             </div>
             <!-- Right Column: Logo and Text -->
             <div class="col-lg-4 col-md-12">

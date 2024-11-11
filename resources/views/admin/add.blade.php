@@ -81,31 +81,31 @@
   @endif
 <main class="main">
     <div class="menu-container ">
+        <a href="{{route('admin.product')}}" style="       position: relative;
+        width: 300px;
+        height: 81px;
+        text-decoration: none;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        z-index: 1;
+        margin: 10px;
+        box-sizing: border-box;
+        background-color: #3f2314;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;"
+        onmouseover="this.style.backgroundColor='#ff8c00'"
+        onmouseout="this.style.backgroundColor='#3f2314'">
+        <span>Back</span>
+    </a>
         <div class="row menu-content " style="max-width: 80%;margin: auto;">
 
-            <div class="col-2">
-                <div class="menu-options">
-                    <a href="{{route('admin.product')}}" style="       position: relative;
-                        width: 300px;
-                        height: 81px;
-                        text-decoration: none;
-                        color: white;
-                        font-size: 1.2rem;
-                        font-weight: bold;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        overflow: hidden;
-                        transition: transform 0.3s ease, background-color 0.3s ease;
-                        z-index: 1;
-                        margin: 10px;
-                        box-sizing: border-box;
-                        background-color: #3f2314;
-                        border-radius: 50px;">
-                        <span>Add Products</span>
-                    </a>
-                </div>
-            </div>
+
 
 
         <form action="{{route('admin.store')}}" method="POST" enctype="multipart/form-data">

@@ -121,8 +121,12 @@
                         <span id="rice-meal-count">{{ $categoryCounts['Rice Meal'] }}</span>
                     </div>
                     <div class="item">
-                        <button class="total-sales">Appetizer</button>
+                        <button>Appetizer</button>
                         <span id="appetizer-count">{{ $categoryCounts['Appetizer'] }}</span>
+                    </div>
+                    <div class="item">
+                        <button>Burgers</button>
+                        <span id="burgers-count">{{ $categoryCounts['Burgers'] }}</span>
                     </div>
                 </div>
             </div>
@@ -164,7 +168,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h2 class="cup-count">{{ $categoryCounts['Pastries'] + $categoryCounts['Pasta'] + $categoryCounts['Rice Meal'] + $categoryCounts['Appetizer'] }}</h2> <!-- Total food -->
+                        <h2 class="cup-count">{{ $categoryCounts['Pastries'] + $categoryCounts['Pasta'] + $categoryCounts['Rice Meal'] + $categoryCounts['Appetizer'] + $categoryCounts['Burgers'] }}</h2>
                     </div>
                 </div>
             </div>
@@ -219,8 +223,8 @@
     </div>
     </div>
 
-        
-                     
+
+
 </main>
 
 <footer id="footer" class="footer-product background-dark text-center">

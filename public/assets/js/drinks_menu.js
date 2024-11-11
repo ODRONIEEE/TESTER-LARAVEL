@@ -17,9 +17,9 @@ async function showCategory(category) {
 ///api/menu/${category}
     // Fetch items from the API
     try {
-      const response = await fetch({{ url('api/menu/${category}') }});
-      console.log(response);
-      if (!response.ok) {
+        const response = await fetch(`/api/menu/${category}`);
+        console.log(response);
+        if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const menuItems = await response.json();
@@ -42,7 +42,7 @@ async function showCategory(category) {
 
 let shots = 1;
 let quantity = 1;
-let pricePerItem = 100; 
+let pricePerItem = 100;
 let totalPrice = 100;
 
 // Redirect functions
@@ -91,7 +91,7 @@ function showCategory(category) {
 
     // Clear and populate menu items based on the category
     let itemsDiv;
-    
+
     if (category === 'coffee' || category === 'non-coffee') {
         document.getElementById("coffee-non").style.display = "";
         itemsDiv = document.getElementById("menu-items-coffee");
@@ -132,7 +132,7 @@ function showCategoryFood(category) {
 
     // Clear and populate menu items based on the category
     let     itemsDiv = document.getElementById("menu-items-food");
-    
+
 
     // Clear previous items
     itemsDiv.innerHTML = "";
@@ -160,7 +160,7 @@ function showCategory(category) {
     document.getElementById("refreshers-non").style.display = "none";
 
     let itemsDiv;
-    
+
     if (category === 'coffee' || category === 'non-coffee') {
         document.getElementById("coffee-non").style.display = "";
         itemsDiv = document.getElementById("menu-items-coffee");
@@ -206,18 +206,18 @@ const productDescriptions = {
     'Blue Citron': 'A refreshing blend of honey citron ginger tea and vibrant blue tea.',
     'Blue Honey': 'Calming blue tea combined with the natural sweetness of honey.',
     'Black Tea': 'Rich black tea infused with fragrant notes of lychee syrup.',
-    
+
     // New burger descriptions
     'Classic Burger': 'Features a perfectly grilled beef patty topped with fresh lettuce, juicy tomato, and crisp pickles, all nestled in a soft, toasted bun. Finished with a layer of melted cheddar cheese.',
     'Cheesy Burger': 'Combines a juicy, grilled beef patty with a generous layer of melted cheddar cheese, creating a rich and indulgent flavor. Topped with fresh lettuce, ripe tomato, and tangy pickles, all nestled in a toasted bun.',
     'Dynamite Burger': 'Packs a punch with a spicy, flame-grilled beef patty layered with fiery jalapeños, zesty pepper jack cheese, and a smoky chipotle mayo. Enhanced with crisp lettuce and ripe tomato on a toasted bun.',
     'Chicken Popeyes': 'Features a crispy, golden-brown chicken fillet patty topped with creamy cheese sauce and our signature spicy Dynamite sauce. Nestled in a soft, toasted bun with fresh lettuce and tomato, this burger offers a satisfying blend of savory, cheesy, and fiery flavors for a truly indulgent experience.',
-    
+
     // New appetizer descriptions
     'Overload Nachos': 'A flavor bomb featuring crispy tortilla chips smothered in rich cheese sauce and zesty mustard cheese sauce. Topped with fresh tomato, crisp lettuce, and crunchy cucumber slices, these nachos offer a deliciously satisfying blend of creamy, tangy, and refreshing flavors in every bite.',
     'Fries': 'Golden, crispy, and perfectly seasoned, offering a satisfying crunch with every bite. Lightly salted and served hot.',
     'Parmesan Potato Chips': 'Crispy, thinly sliced potatoes seasoned with a generous coating of savory Parmesan cheese. These golden chips offer a delightful crunch and rich, cheesy flavor in every bite.',
-    
+
     // New pasta descriptions
     'Chicken Alfredo': 'Features tender, juicy chicken seasoned with zesty Cajun spices, nestled in a creamy white Alfredo sauce. Served over a bed of perfectly cooked pasta.',
     'Chicken Pomodoro': 'Features succulent, tender chicken served in a rich and tangy red tomato sauce. This classic dish is paired with a bed of al dente pasta, creating a flavorful and satisfying meal with every bite.'
@@ -237,12 +237,12 @@ function loadProduct(productName, category) {
     if (category === 'refreshers') {
         document.getElementById("extras-section").style.display = "none";
         document.getElementById("syrup-section").style.display = "";
-    } 
+    }
     // Show Extras section for Tea
     else if (category === 'tea') {
         document.getElementById("syrup-section").style.display = "none";
         document.getElementById("extras-section").style.display = "";
-    } 
+    }
     // Show both for Coffee and Non-Coffee
     else {
         document.getElementById("syrup-section").style.display = "";
@@ -279,7 +279,7 @@ buttons.forEach(button => {
     button.addEventListener('click', function() {
         // Remove the 'clicked' class from all buttons (optional if you want only one button to stay clicked)
         buttons.forEach(btn => btn.classList.remove('clicked'));
-        
+
         // Add the 'clicked' class to the clicked button
         this.classList.add('clicked');
     });

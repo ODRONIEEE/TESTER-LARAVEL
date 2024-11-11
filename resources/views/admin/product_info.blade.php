@@ -83,6 +83,11 @@
 
 
     <div class="menu-container ">
+        <div class="d-flex justify-content-start mt-3">
+            <a href="{{ route('admin.add') }}" class="btn btn-brown" style="background-color: #b86143; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#ff8c00'; this.style.color='#fff'" onmouseout="this.style.backgroundColor='#b86143'" onmousedown="this.style.backgroundColor='#ff8c00'; this.style.color='#fff'" onmouseup="this.style.backgroundColor='#b86143'">
+                Add New Product
+            </a>
+        </div>
         <div class="col-lg-12 col-md-12 col-lg-12  product-details">
             <h1 class=" text-center" style="color:white;font-weight: 700;"><strong>Products
             </strong></h1>
@@ -147,6 +152,7 @@
                     </tbody>
 
                 </table>
+
 
             </div>
         </div>

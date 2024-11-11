@@ -99,15 +99,15 @@ public function order($id, $cat_id)
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id){
 
+public function update(Request $request, $id){
     // Validate the request data
     $request->validate([
         'name' => 'string|max:255',
         'price' => 'numeric|min:0',
         'stock' => 'integer|min:0',
         'description' => 'string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:102400',
     ]);
 
     $product = Product::findOrFail($id);
@@ -120,7 +120,7 @@ public function order($id, $cat_id)
     if ($request->hasFile('image')) {
         // Delete old image
         if ($product->image) {
-            $oldImagePath = public_path('uploads/' . $product->image);
+            $oldImagePath = public_path($product->image);
             if (file_exists($oldImagePath)) {
                 unlink($oldImagePath);
             }
@@ -128,11 +128,10 @@ public function order($id, $cat_id)
 
         // Store new image
         $image = $request->file('image');
-        $imageName = $request['name'] . '_' . time();
+        $imageName = $request->name . '_' . time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('uploads'), $imageName);
         $product->image = 'uploads/' . $imageName;
     }
-
 
     $product->save();
 
