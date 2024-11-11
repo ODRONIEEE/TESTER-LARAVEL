@@ -281,40 +281,39 @@
                                                     @endif
                                                 </div>
 
-                                        <!-- Recommended Products -->
-                                        <div class="recommended-products">
-                                            <h2>Recommended For You</h2>
-                                            <div class="products-grid">
+                                <!-- Recommended Products -->
+<div class="recommended-products">
+    <h2 class="section-title">Recommended For You</h2>
+    @if(isset($recommendations) && !empty($recommendations))
+        @if($recommendationType === 'food')
+            <p style="color: white;">Based on your cart having more drinks, we recommend these food items:</p>
+        @elseif($recommendationType === 'drink')
+            <p style="color: white;">Based on your cart having more food items, we recommend these drinks:</p>
+        @else
+            <p style="color: white;">Our top recommended products:</p>
+        @endif
 
-                                                <!-- Static Product Card 1 -->
-                                                <div class="product-card">
-                                                    <div class="product-image">
-                                                        {{-- <img src="{{ asset($product->image) }}" alt="Americano"> --}}
-                                                    </div>
-                                                    <div class="product-details">
-                                                        <h3 class="product-name">Americano</h3>
-                                                        <p class="product-price">₱145.00</p>
-                                                        <button class="add-to-cart-btn" onclick="addToCart(1, 'Americano', 145.00)">
-                                                            <i class="fa-solid fa-plus"></i> Add to Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Static Product Card 4 -->
-                                                <div class="product-card">
-                                                    <div class="product-image">
-                                                        {{-- <img src="{{ asset($productImage) }}" alt="Cafe Mocha"> --}}
-                                                    </div>
-                                                    <div class="product-details">
-                                                        <h3 class="product-name">Cafe Mocha</h3>
-                                                        <p class="product-price">₱175.00</p>
-                                                        <button class="add-to-cart-btn" onclick="addToCart(4, 'Cafe Mocha', 175.00)">
-                                                            <i class="fa-solid fa-plus"></i> Add to Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+        <div class="products-grid">
+            @foreach($recommendations as $product)
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-name">{{ $product['name'] }}</h3>
+                        <p class="product-price">₱{{ number_format($product['price'], 2) }}</p>
+                        <a href="{{ route('orderProduct', ['id' => $product['id'], 'cat_id' => $product['type_id']]) }}"
+                           class="add-to-cart-btn">
+                            <i class="fa-solid fa-plus"></i> Add to Cart
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p style="color: white; text-align: center;">Add items to your cart to see personalized recommendations.</p>
+    @endif
+</div>
 
                         </div>
                     </div>
@@ -328,9 +327,15 @@
                             <button class="btn-dineindark" id="dineInBtn" onclick="toggleOrderType('Dine In', this)" style="flex: 1;">Dine In</button>
                             <button class="btn-dineindark" id="takeOutBtn" onclick="toggleOrderType('Take Out', this)" style="flex: 1;">Take Out</button>
                         </div>
+                        <div class="mb-3 coupon-container" style="display: flex; gap: 10px; justify-content: center;">
+                            <input type="text" id="couponCode" class="form-control" placeholder="Enter coupon code" style="flex: 2;">
+                            <button onclick="validateCoupon()" class="btn btn-primary" style="flex: 1;">Confirm</button>
+                        </div>
+                        <div id="couponMessage" class="text-center mt-2" style="display: none;"></div>
 
                         <div class="mb-5 total-container">
-                            <h2 class="text-yellow">Total:     ₱{{ number_format($totalPrice, 2) }}</h2>
+                            <h2 class="text-yellow" id="totalPriceDisplay">Total: ₱{{ number_format($totalPrice, 2) }}</h2>
+                            <h2 class="text-yellow" id="discountedTotalDisplay" style="display: none;"></h2>
                         </div>
 
                         <div class="text-center">
@@ -365,6 +370,49 @@
    <script src="{{url('assets/js/drinks_menu.js')}}"></script>
    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
+   <script>
+    let currentDiscount = 0;
+    let originalTotal = {{ $totalPrice }};
+
+    function validateCoupon() {
+        const couponCode = document.getElementById('couponCode').value;
+        const messageDiv = document.getElementById('couponMessage');
+        const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+        const discountedTotalDisplay = document.getElementById('discountedTotalDisplay');
+
+        // List of valid coupon codes
+        const validCoupons = {
+            'WELCOME10': 10,
+            'SAVE20': 20,
+            'SPECIAL30': 30
+        };
+
+        if (validCoupons.hasOwnProperty(couponCode)) {
+            const discountPercent = validCoupons[couponCode];
+            currentDiscount = discountPercent;
+            const discountAmount = (originalTotal * discountPercent) / 100;
+            const discountedTotal = originalTotal - discountAmount;
+
+            messageDiv.innerHTML = `Valid coupon! ${discountPercent}% discount applied`;
+            messageDiv.style.color = 'green';
+
+            // Update total price displays
+            totalPriceDisplay.style.textDecoration = 'line-through';
+            discountedTotalDisplay.style.display = 'block';
+            discountedTotalDisplay.innerHTML = `Discounted Total: ₱${discountedTotal.toFixed(2)}`;
+        } else {
+            messageDiv.innerHTML = 'Invalid coupon code';
+            messageDiv.style.color = 'red';
+            currentDiscount = 0;
+
+            // Reset total price displays
+            totalPriceDisplay.style.textDecoration = 'none';
+            discountedTotalDisplay.style.display = 'none';
+        }
+
+        messageDiv.style.display = 'block';
+    }
+    </script>
    <script>
     document.addEventListener('DOMContentLoaded', function() {
         const removeButtons = document.querySelectorAll('.remove-item');
@@ -510,10 +558,6 @@ function placeOrder() {
             }
         }
 
-        // Log extras for debugging
-        console.log('Item:', item);
-        console.log('Parsed Extras:', extras);
-
         // Calculate extras total
         extrasTotal = extras.reduce((total, extra) => {
             const extraPrice = parseFloat(extra.price) || 0; // Fallback to 0 if NaN
@@ -522,48 +566,43 @@ function placeOrder() {
 
         const itemTotal = basePrice + extrasTotal;
 
-        // Log item totals for debugging
-        console.log('Base Price:', basePrice);
-        console.log('Extras Total:', extrasTotal);
-        console.log('Item Total:', itemTotal);
-
-
         return {
             id: item.id,
             name: item.name,
-            price: basePrice, // Use calculated base price
+            price: basePrice,
             quantity: parseInt(item.quantity, 10),
-            extras: extras,  // Store the parsed extras
-            totalPrice: itemTotal  // Total for this item (base price + extras)
+            extras: extras,
+            totalPrice: itemTotal
         };
     });
 
-    // Calculate the total price for all items
-    const totalPrice = orderData.reduce((sum, item) => sum + (item.totalPrice || 0), 0);  // Ensure each item total is treated safely
+    // Calculate the total price and apply discount if any
+    let totalPrice = orderData.reduce((sum, item) => sum + (item.totalPrice || 0), 0);
 
-    // Log the total price
-    console.log('Order Data:', orderData);
-    console.log('Total Price:', totalPrice);
+    if (currentDiscount > 0) {
+        const discountAmount = (totalPrice * currentDiscount) / 100;
+        totalPrice -= discountAmount;
+    }
 
-    // Now, send the order data to the server using fetch
+    // Send the order data to the server
     fetch("{{ route('place.order') }}", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"  // Include CSRF token for security
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
         },
-      body: JSON.stringify({
+        body: JSON.stringify({
             order: orderData,
             totalPrice: totalPrice,
-            orderType: orderType
+            orderType: orderType,
+            appliedDiscount: currentDiscount
         })
     })
-    .then(response => response.json())  // Assuming the server responds with JSON
+    .then(response => response.json())
     .then(data => {
-        // Redirect to the payment page after a successful response
-        window.location.href = "{{ route('payment.page') }}";  // Redirect to payment page
+        window.location.href = "{{ route('payment.page') }}";
     })
-    .catch(error => console.error('Error placing order:', error));  // Handle any errors
+    .catch(error => console.error('Error placing order:', error));
 }
 
 function adjustQuantity(productId, change) {

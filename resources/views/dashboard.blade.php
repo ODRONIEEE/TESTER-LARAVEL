@@ -175,6 +175,7 @@
                 style="margin-bottom: 34px;" data-aos="zoom-out">
                     @auth
                     <h2>Welcome Back! {{Auth::user()->name}}</h2>
+                    <p>You have made {{ $transactionCount }} {{ Str::plural('transaction', $transactionCount) }} with us!</p>
                     @endauth
 
                 <h1 class="archive-cafe-title">Archive Cafe</h1>

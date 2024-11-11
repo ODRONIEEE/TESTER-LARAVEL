@@ -91,9 +91,9 @@
               <li class="nav-item cafe-center">
                 <h1 class="cafe-name">archive <span>cafe</span></h1>
               </li>
-              <li><a href="#cafe">Cafe</a></li>
+              <li><a href="{{route('welcome')}}">Cafe</a></li>
               <li><a href="{{route('menu')}}">Menu</a></li>
-              <li><a href="#team">Meet The Team</a></li>
+              <li><a href="{{route('welcome')}}">Meet The Team</a></li>
               <li class="nav-item d-none d-md-block">
                 <span class="navbar-divider"></span>
               </li>
@@ -183,8 +183,8 @@
                             <div class="btn-group">
 
                                 @if(in_array($product->type_id, [1, 2, 4]))
-                                  <button type="button" class="btn btn-dark temperature-btn" data-temp="cold">C</button>
-                                  <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
+                                  <button type="button" class="btn btn-dark temperature-btn" data-temp="cold">Cold</button>
+                                  <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">Hot</button>
                                   <div id="temperature-error" class="text-danger" style="display: none;">
                                     Please select a temperature
                                 </div>
