@@ -160,7 +160,6 @@
     </header>
 
   @endif
-
   <main class="main">
    <div class="menu-container-light-details" style="padding-top: 150px;">
                 <div class="row mb-5">
@@ -181,106 +180,107 @@
                         <div class="order-container">
 
 
-                            <!-- Cart items -->
-                            <div id="cart-items-container">
-                                @php
-                                $cart = session('cart', []);
-                                $totalPrice = 0;
-                                @endphp
+                                                <!-- Cart items -->
+                                                <div id="cart-items-container">
+                                                    @php
+                                                    $cart = session('cart', []);
+                                                    $totalPrice = 0;
+                                                    @endphp
 
-                                @if(count($cart) > 0)
-                                    <table class="cart-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="image-column" style="color: white;"></th>
-                                                <th class="name-column" style="color: white;">Name</th>
-                                                <th class="price-column" style="color: white;">Price</th>
-                                                <th class="quantity-column" style="color: white;">QTY</th>
-                                                <th class="action-column" style="color: white;">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($cart as $item)
-                                                @php
-                                                $basePrice = $item['price'] * $item['quantity'];
-                                                $extrasTotal = 0;
-                                                $product = \App\Models\Product::find($item['id']);
-                                                $productImage = $product ? $product->image : 'default.png';
-                                                $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
-                                                @endphp
+                                                    @if(count($cart) > 0)
+                                                        <table class="cart-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="image-column" style="color: white;"></th>
+                                                                    <th class="name-column" style="color: white;">Name</th>
+                                                                    <th class="price-column" style="color: white;">Price</th>
+                                                                    <th class="quantity-column" style="color: white;">QTY</th>
+                                                                    <th class="action-column" style="color: white;">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach($cart as $item)
+                                                                    @php
+                                                                    $basePrice = $item['price'] * $item['quantity'];
+                                                                    $extrasTotal = 0;
+                                                                    $product = \App\Models\Product::find($item['id']);
+                                                                    $productImage = $product ? $product->image : 'default.png';
+                                                                    $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
+                                                                    @endphp
 
-                                                <tr class="product-row" id="cart-item-{{ $item['id'] }}">
-                                                    <td class="image-column">
-                                                        <div class="product-image">
-                                                            <img src="{{ asset($productImage) }}" alt="{{ $item['name'] }}">
+                                                                    <tr class="product-row" id="cart-item-{{ $item['id'] }}">
+                                                                        <td class="image-column">
+                                                                            <div class="product-image">
+                                                                                <img src="{{ asset($productImage) }}" alt="{{ $item['name'] }}">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="name-column">
+                                                                            <div class="product-name">
+                                                                                {{ $item['name'] }}
+                                                                                @if(isset($item['temperature']))
+                                                                                    <span class="temperature">({{ ucfirst($item['temperature']) }})</span>
+                                                                                @endif
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="price-column">₱{{ number_format($basePrice, 2) }}</td>
+                                                                        <td class="quantity-column">
+                                                                            <div class="quantity-controls">
+                                                                                <button class="quantity-btn minus-btn" onclick="adjustQuantity('{{ $item['id'] }}', -1)" style="background-color: orange;">
+                                                                                    <i class="fa-solid fa-minus"></i>
+                                                                                </button>
+                                                                                <span id="quantity-count-{{ $item['id'] }}">{{ $item['quantity'] }}</span>
+                                                                                <button class="quantity-btn plus-btn" onclick="adjustQuantity('{{ $item['id'] }}', 1)" style="background-color: orange;">
+                                                                                    <i class="fa-solid fa-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="action-column">
+                                                                            <button class="remove-btn" data-id="{{ $item['id'] }}" onclick="removeCartItem('{{ $item['id'] }}')" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                                                                <i class="fa-solid fa-times"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    @if(!empty($extras))
+                                                                        @foreach($extras as $extraIndex => $extra)
+                                                                            @if (is_array($extra) && isset($extra['price'], $extra['name']))
+                                                                                @php
+                                                                                $extrasTotal += $extra['price'] * $item['quantity'];
+                                                                                @endphp
+                                                                                <tr class="extra-row" id="extra-{{ $item['id'] }}-{{ $extraIndex }}">
+                                                                                    <td></td>
+                                                                                    <td class="extra-name">{{ $extra['name'] }}</td>
+                                                                                    <td class="extra-price">+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</td>
+                                                                                    <td></td>
+                                                                                    <td class="action-column">
+                                                                                        <button class="remove-btn" onclick="removeExtra('{{ $item['id'] }}', {{ $extraIndex }})" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                                                                            <i class="fa-solid fa-times"></i>
+                                                                                        </button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+
+                                                                    @php
+                                                                    $itemTotal = $basePrice + $extrasTotal;
+                                                                    $totalPrice += $itemTotal;
+                                                                    @endphp
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    @else
+                                                        <div class="text-center" style="color: white; padding: 2rem;">
+                                                            <h3>Your cart is empty</h3>
+                                                            <p>UY! Kumusta</p>
+                                                            <p>Check out Our Menu to find the goodies there KAPATIDS!</p>
+                                                            <a href="{{ route('menu') }}" class="btn-dinein" style="display: inline-block; margin-top: 1rem; text-decoration: none; color: white;">
+                                                                Menu
+                                                            </a>
                                                         </div>
-                                                    </td>
-                                                    <td class="name-column">
-                                                        <div class="product-name">
-                                                            {{ $item['name'] }}
-                                                            @if(isset($item['temperature']))
-                                                                <span class="temperature">({{ ucfirst($item['temperature']) }})</span>
-                                                            @endif
-                                                        </div>
-                                                    </td>
-                                                    <td class="price-column">₱{{ number_format($basePrice, 2) }}</td>
-                                                    <td class="quantity-column">
-                                                        <div class="quantity-controls">
-                                                            <button class="quantity-btn minus-btn" onclick="adjustQuantity('{{ $item['id'] }}', -1)" style="background-color: orange;">
-                                                                <i class="fa-solid fa-minus"></i>
-                                                            </button>
-                                                            <span id="quantity-count-{{ $item['id'] }}">{{ $item['quantity'] }}</span>
-                                                            <button class="quantity-btn plus-btn" onclick="adjustQuantity('{{ $item['id'] }}', 1)" style="background-color: orange;">
-                                                                <i class="fa-solid fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                    <td class="action-column">
-                                                        <button class="remove-btn" data-id="{{ $item['id'] }}" onclick="removeCartItem('{{ $item['id'] }}')" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                                                            <i class="fa-solid fa-times"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                    @endif
+                                                </div>
 
-                                                @if(!empty($extras))
-                                                    @foreach($extras as $extraIndex => $extra)
-                                                        @if (is_array($extra) && isset($extra['price'], $extra['name']))
-                                                            @php
-                                                            $extrasTotal += $extra['price'] * $item['quantity'];
-                                                            @endphp
-                                                            <tr class="extra-row" id="extra-{{ $item['id'] }}-{{ $extraIndex }}">
-                                                                <td></td>
-                                                                <td class="extra-name">{{ $extra['name'] }}</td>
-                                                                <td class="extra-price">+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</td>
-                                                                <td></td>
-                                                                <td class="action-column">
-                                                                    <button class="remove-btn" onclick="removeExtra('{{ $item['id'] }}', {{ $extraIndex }})" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                                                                        <i class="fa-solid fa-times"></i>
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-
-                                                @php
-                                                $itemTotal = $basePrice + $extrasTotal;
-                                                $totalPrice += $itemTotal;
-                                                @endphp
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                @else
-                                    <div class="text-center" style="color: white; padding: 2rem;">
-                                        <h3>Your cart is empty</h3>
-                                        <p>UY! Kumusta</p>
-                                        <p>Check out Our Menu to find the goodies there KAPATIDS!</p>
-                                        <a href="{{ route('menu') }}" class="btn-dinein" style="display: inline-block; margin-top: 1rem; text-decoration: none; color: white;">
-                                            Menu
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
                                         <!-- Recommended Products -->
                                         <div class="recommended-products">
                                             <h2>Recommended For You</h2>
@@ -289,7 +289,7 @@
                                                 <!-- Static Product Card 1 -->
                                                 <div class="product-card">
                                                     <div class="product-image">
-                                                        <img src="{{ asset('assets/img/menu/coffee/americano.png') }}" alt="Americano">
+                                                        {{-- <img src="{{ asset($product->image) }}" alt="Americano"> --}}
                                                     </div>
                                                     <div class="product-details">
                                                         <h3 class="product-name">Americano</h3>
@@ -303,7 +303,7 @@
                                                 <!-- Static Product Card 4 -->
                                                 <div class="product-card">
                                                     <div class="product-image">
-                                                        <img src="{{ asset('assets/img/menu/coffee/mocha.png') }}" alt="Cafe Mocha">
+                                                        {{-- <img src="{{ asset($productImage) }}" alt="Cafe Mocha"> --}}
                                                     </div>
                                                     <div class="product-details">
                                                         <h3 class="product-name">Cafe Mocha</h3>
@@ -318,6 +318,7 @@
 
                         </div>
                     </div>
+
                     <div class="text-center font-weight: ">
                         <h3 style="color: orange;">Choose Dining Options</h3>
                     </div>

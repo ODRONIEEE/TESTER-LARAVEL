@@ -69,6 +69,7 @@ class UserControl extends Controller
 
         return view('welcome', compact('topProducts'));
     }
+
     public function menu(){
 
         $products = Product::where('stock', '>', 0)->get();
@@ -150,12 +151,6 @@ public function addToCart(Request $request)
 
     return redirect()->route('cart')->with('success', 'Product added to cart successfully!');
 }
-
-
-
-
-
-
 
     public function viewCart()
     {

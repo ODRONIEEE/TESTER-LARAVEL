@@ -175,6 +175,7 @@
                 style="margin-bottom: 34px;" data-aos="zoom-out">
                     @auth
                     <h2>Welcome Back! {{Auth::user()->name}}</h2>
+
                     @endauth
 
                 <h1 class="archive-cafe-title">Archive Cafe</h1>
@@ -214,6 +215,7 @@
                     <div class="container" data-aos="zoom-in">
                         <div class="swiper bestseller-swiper">
                             <div class="swiper-wrapper align-items-center">
+
                                 @if(isset($topProducts) && count($topProducts) > 0)
                                     @foreach($topProducts as $index => $product)
                                         <div class="swiper-slide">
@@ -223,6 +225,7 @@
                                                         Top {{ $index + 1 }}
                                                     </div>
                                                 </div>
+
                                                 <div class="card-body">
                                                     <h4 class="text-center mb-3">{{ $product['product_name'] }}</h4>
                                                     <img
@@ -235,6 +238,7 @@
                                                         <div class="price mt-2">₱{{ number_format($product['price'], 2) }}</div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     @endforeach

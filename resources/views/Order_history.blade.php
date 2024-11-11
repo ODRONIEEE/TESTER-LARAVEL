@@ -83,9 +83,9 @@
           <li class="nav-item cafe-center">
             <h1 class="cafe-name">archive <span>cafe</span></h1>
           </li>
-          <li><a href="{{route('dashboard')}}">Cafe</a></li>
+          <li><a href="{{route('welcome')}}">Cafe</a></li>
           <li><a href="{{route('menu')}}">Menu</a></li>
-          <li><a href="{{route('dashboard')}}">Meet The Team</a></li>
+          <li><a href="{{route('welcome')}}">Meet The Team</a></li>
           <li class="nav-item d-none d-md-block">
             <span class="navbar-divider"></span>
           </li>
@@ -176,14 +176,10 @@
                                 <div class="order-details">
                                     @foreach($order->products as $product)
                                         <div class="product-row">
-                                            <div class="product-info">
-                                                @if(isset($product['image']))
-                                                    <img src="{{ asset('uploads/' . $product['image']) }}" alt="{{ $product['name'] }}">
-                                                @else
-                                                    <img src="{{ asset('assets/img/products/default.png') }}" alt="Default Product Image">
-                                                @endif
-                                                <span class="product-name">{{ $product['name'] }}</span>
-                                            </div>
+                                                <div class="product-info">
+
+                                                    <span class="product-name">{{ $product['name'] }}</span>
+                                                </div>
                                             <div class="product-quantity">
                                                 × {{ $product['quantity'] }}
                                             </div>
@@ -206,6 +202,8 @@
         </div>
     </div>
 </main>
+
+
     <footer id="footer" class="footer-product text-center">
 
         <h1>"brewing timeless moments"</h1>
