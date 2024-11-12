@@ -170,7 +170,7 @@
                         </div>
                         <div class="col-sm-8">
                             <div class="container-payment">
-                                Payment Method
+                                Online Payment
                             </div>
                         </div>
                     </div>

@@ -155,7 +155,7 @@
                             <div class="container-payment">   {{ Auth::user()->name }}</div>
                         </div>
                         <div class="col-sm-8">
-                            <div class="container-payment">Payment Method</div>
+                            <div class="container-payment">Over The Counter</div>
                         </div>
                     </div>
                     <div class="row">

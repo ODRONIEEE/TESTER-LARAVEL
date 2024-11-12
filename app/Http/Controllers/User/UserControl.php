@@ -261,5 +261,86 @@ public function history()
     // Return orders to the view
     return view('Order_history', compact('orders'));
 }
+public function removeExtra(Request $request)
+{
+    $productId = $request->product_id;
+    $extraIndex = $request->extra_index;
+
+    $cart = session()->get('cart', []);
+    $updated = false;
+
+    // Find the correct cart item
+    foreach ($cart as $index => $item) {
+        if ($item['id'] == $productId) {
+            // Decode extras if it's a JSON string
+            $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
+
+            // Remove the specific extra
+            if (isset($extras[$extraIndex])) {
+                unset($extras[$extraIndex]);
+                // Reindex the array
+                $extras = array_values($extras);
+
+                // Update the cart item with the modified extras
+                $cart[$index]['extras'] = json_encode($extras);
+                $updated = true;
+            }
+        }
+    }
+
+    if ($updated) {
+        // Save the updated cart back to the session
+        session(['cart' => $cart]);
+
+        // Calculate new total
+        $newTotal = $this->calculateCartTotal($cart);
+
+        // Get the updated extras for this product
+        $updatedExtras = [];
+        foreach ($cart as $item) {
+            if ($item['id'] == $productId) {
+                $updatedExtras = json_decode($item['extras'], true);
+                break;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Extra removed successfully',
+            'new_total' => $newTotal,
+            'updatedExtras' => $updatedExtras,
+            'cart' => $cart
+        ]);
+    }
+
+    return response()->json([
+        'success' => false,
+        'message' => 'Extra not found'
+    ]);
+}
+
+private function calculateCartTotal($cart)
+{
+    $total = 0;
+    foreach ($cart as $item) {
+        $basePrice = $item['price'] * $item['quantity'];
+        $extrasTotal = 0;
+
+        if (!empty($item['extras'])) {
+            $extras = is_string($item['extras'])
+                ? json_decode($item['extras'], true)
+                : $item['extras'];
+
+            foreach ($extras as $extra) {
+                if (isset($extra['price'])) {
+                    $extrasTotal += $extra['price'] * $item['quantity'];
+                }
+            }
+        }
+
+        $total += $basePrice + $extrasTotal;
+    }
+    return $total;
+}
 
 }

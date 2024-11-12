@@ -200,13 +200,13 @@
                                                             </thead>
                                                             <tbody>
                                                                 @foreach($cart as $item)
-                                                                    @php
-                                                                    $basePrice = $item['price'] * $item['quantity'];
-                                                                    $extrasTotal = 0;
-                                                                    $product = \App\Models\Product::find($item['id']);
-                                                                    $productImage = $product ? $product->image : 'default.png';
-                                                                    $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
-                                                                    @endphp
+                                                                @php
+                                                                $basePrice = $item['price'] * $item['quantity'];
+                                                                $extrasTotal = 0;
+                                                                $product = \App\Models\Product::find($item['id']);
+                                                                $productImage = $product ? $product->image : 'default.png';
+                                                                $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
+                                                                @endphp
 
                                                                     <tr class="product-row" id="cart-item-{{ $item['id'] }}">
                                                                         <td class="image-column">
@@ -242,25 +242,25 @@
                                                                     </tr>
 
                                                                     @if(!empty($extras))
-                                                                        @foreach($extras as $extraIndex => $extra)
-                                                                            @if (is_array($extra) && isset($extra['price'], $extra['name']))
-                                                                                @php
-                                                                                $extrasTotal += $extra['price'] * $item['quantity'];
-                                                                                @endphp
-                                                                                <tr class="extra-row" id="extra-{{ $item['id'] }}-{{ $extraIndex }}">
-                                                                                    <td></td>
-                                                                                    <td class="extra-name">{{ $extra['name'] }}</td>
-                                                                                    <td class="extra-price">+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</td>
-                                                                                    <td></td>
-                                                                                    <td class="action-column">
-                                                                                        <button class="remove-btn" onclick="removeExtra('{{ $item['id'] }}', {{ $extraIndex }})" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                                                                                            <i class="fa-solid fa-times"></i>
-                                                                                        </button>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endif
-                                                                        @endforeach
-                                                                    @endif
+                                                                    @foreach($extras as $extraIndex => $extra)
+                                                                        @if (is_array($extra) && isset($extra['price'], $extra['name']))
+                                                                            @php
+                                                                            $extrasTotal += $extra['price'] * $item['quantity'];
+                                                                            @endphp
+                                                                            <tr class="extra-row" id="extra-{{ $item['id'] }}-{{ $extraIndex }}">
+                                                                                <td></td>
+                                                                                <td class="extra-name">{{ $extra['name'] }}</td>
+                                                                                <td class="extra-price">+ ₱{{ number_format($extra['price'] * $item['quantity'], 2) }}</td>
+                                                                                <td></td>
+                                                                                <td class="action-column">
+                                                                                    <button class="remove-btn" onclick="removeExtra('{{ $item['id'] }}', {{ $extraIndex }})" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                                                                        <i class="fa-solid fa-times"></i>
+                                                                                    </button>
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
 
                                                                     @php
                                                                     $itemTotal = $basePrice + $extrasTotal;
@@ -282,38 +282,39 @@
                                                 </div>
 
                                 <!-- Recommended Products -->
-<div class="recommended-products">
-    <h2 class="section-title">Recommended For You</h2>
-    @if(isset($recommendations) && !empty($recommendations))
-        @if($recommendationType === 'food')
-            <p style="color: white;">Based on your cart having more drinks, we recommend these food items:</p>
-        @elseif($recommendationType === 'drink')
-            <p style="color: white;">Based on your cart having more food items, we recommend these drinks:</p>
-        @else
-            <p style="color: white;">Our top recommended products:</p>
-        @endif
+                                <div class="recommended-products">
+                                    <h2 class="section-title">Recommended For You</h2>
+                                    @if(isset($recommendations) && !empty($recommendations))
+                                        @if($recommendationType === 'food')
+                                            <p style="color: white;">Based on your cart having more drinks, we recommend these food items:</p>
+                                        @elseif($recommendationType === 'drink')
+                                            <p style="color: white;">Based on your cart having more food items, we recommend these drinks:</p>
+                                        @else
+                                            <p style="color: white;">Our top recommended products:</p>
 
-        <div class="products-grid">
-            @foreach($recommendations as $product)
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}">
-                    </div>
-                    <div class="product-details">
-                        <h3 class="product-name">{{ $product['name'] }}</h3>
-                        <p class="product-price">₱{{ number_format($product['price'], 2) }}</p>
-                        <a href="{{ route('orderProduct', ['id' => $product['id'], 'cat_id' => $product['type_id']]) }}"
-                           class="add-to-cart-btn">
-                            <i class="fa-solid fa-plus"></i> Add to Cart
-                        </a>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    @else
-        <p style="color: white; text-align: center;">Add items to your cart to see personalized recommendations.</p>
-    @endif
-</div>
+                                        @endif
+
+                                        <div class="products-grid">
+                                            @foreach($recommendations as $product)
+                                                <div class="product-card">
+                                                    <div class="product-image">
+                                                        <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}">
+                                                    </div>
+                                                    <div class="product-details">
+                                                        <h3 class="product-name">{{ $product['name'] }}</h3>
+                                                        <p class="product-price">₱{{ number_format($product['price'], 2) }}</p>
+                                                        <a href="{{ route('orderProduct', ['id' => $product['id'], 'cat_id' => $product['type_id']]) }}"
+                                                        class="add-to-cart-btn">
+                                                            <i class="fa-solid fa-plus"></i> Add to Cart
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <p style="color: white; text-align: center;">Add items to your cart to see personalized recommendations.</p>
+                                    @endif
+                                </div>
 
                         </div>
                     </div>
@@ -371,6 +372,41 @@
    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
    <script>
+    function removeExtra(productId, extraIndex) {
+    // Remove the extra row from the DOM
+    const extraRow = document.getElementById(`extra-${productId}-${extraIndex}`);
+    if (extraRow) {
+        extraRow.remove();
+    }
+
+    // Send request to update the cart on the server
+    fetch('/cart/remove-extra', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            extra_index: extraIndex
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update the total price in the cart without refreshing the page
+            const totalPriceElement = document.querySelector('.text-yellow');
+            if (totalPriceElement && data.new_total) {
+                totalPriceElement.textContent = `Total: ₱${parseFloat(data.new_total).toFixed(2)}`;
+            }
+        } else {
+            console.error('Error removing extra:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
     let currentDiscount = 0;
     let originalTotal = {{ $totalPrice }};
 
@@ -680,12 +716,6 @@ function adjustQuantity(productId, change) {
     }
 
     function removeExtra(productId, extraIndex) {
-    // Remove the extra row from the DOM
-    const extraRow = document.getElementById(`extra-${productId}-${extraIndex}`);
-    if (extraRow) {
-        extraRow.remove();
-    }
-
     // Send request to update the cart on the server
     fetch('/cart/remove-extra', {
         method: 'POST',
@@ -701,11 +731,39 @@ function adjustQuantity(productId, change) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Update the total price in the cart without refreshing the page
-            const totalPriceElement = document.querySelector('.text-yellow');
+            // Remove the specific extra row from the DOM
+            const extraRow = document.getElementById(`extra-${productId}-${extraIndex}`);
+            if (extraRow) {
+                extraRow.remove();
+            }
+
+            // Update the remaining extra rows' IDs and remove buttons
+            const productExtras = document.querySelectorAll(`[id^="extra-${productId}-"]`);
+            productExtras.forEach((row, newIndex) => {
+                // Update the row ID
+                row.id = `extra-${productId}-${newIndex}`;
+
+                // Update the remove button's onclick handler
+                const removeButton = row.querySelector('.remove-btn');
+                if (removeButton) {
+                    removeButton.onclick = () => removeExtra(productId, newIndex);
+                }
+            });
+
+            // Update the total price display
+            const totalPriceElement = document.getElementById('totalPriceDisplay');
             if (totalPriceElement && data.new_total) {
                 totalPriceElement.textContent = `Total: ₱${parseFloat(data.new_total).toFixed(2)}`;
+                originalTotal = data.new_total; // Update original total for discount calculations
             }
+
+            // If there's a discounted total display, update it as well
+            const discountedTotalElement = document.getElementById('discountedTotalDisplay');
+            if (discountedTotalElement && discountedTotalElement.style.display !== 'none' && currentDiscount > 0) {
+                const discountedTotal = data.new_total * (1 - currentDiscount / 100);
+                discountedTotalElement.textContent = `Discounted Total: ₱${discountedTotal.toFixed(2)}`;
+            }
+
         } else {
             console.error('Error removing extra:', data.message);
         }
@@ -1116,15 +1174,26 @@ function adjustQuantity(productId, change) {
 
     .add-to-cart-btn {
         background-color: #ffc107;
-        color: #48321c;
-        border: none;
-        padding: 0.8rem 1.5rem;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 600;
-        width: 100%;
+    color: #48321c;
+    border: none;
+    padding: 0.3rem 0.8rem;  /* Reduced padding further */
+    border-radius: 15px;     /* Reduced border radius */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;        /* Slightly reduced font weight */
+    width: auto;
+    display: inline-block;
+    font-size: 0.8rem;       /* Smaller base font size */
+    text-decoration: none;
+    text-align: center;
+    min-width: 90px;         /* Reduced minimum width */
+    line-height: 1.2;
     }
+    .add-to-cart-btn i {
+    font-size: 0.7rem;      /* Make icon slightly smaller than text */
+    margin-right: 0.2rem;
+}
+
 
     .add-to-cart-btn:hover {
         background-color: #ffcd39;
@@ -1141,6 +1210,15 @@ function adjustQuantity(productId, change) {
         .product-card .product-image {
             height: 150px;
         }
+        .add-to-cart-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        min-width: 100px;
+    }
+
+    .product-details {
+        padding: 0.8rem;
+    }
     }
 
     @media screen and (max-width: 480px) {
@@ -1160,6 +1238,32 @@ function adjustQuantity(productId, change) {
             padding: 0.6rem 1rem;
             font-size: 0.9rem;
         }
+        .add-to-cart-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+        min-width: 90px;
+    }
+
+    .product-details {
+        padding: 0.6rem;
+    }
+
+    .product-details .product-name {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .product-details .product-price {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    /* Add styles for very small screens */
+@media screen and (max-width: 320px) {
+    .add-to-cart-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        min-width: 80px;
+    }
     }
 </style>
 

@@ -50,15 +50,12 @@ Route::middleware(['auth','UserMiddleware'])->group(function(){
     Route::post('/cart/add', [UserControl::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/remove', [UserControl::class, 'removeFromCart'])->name('cart.remove');
     Route::post('/cart/update', [UserControl::class, 'updateCart'])->name('cart.update');
-
-   Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('place.order');
+    Route::post('/cart/remove-extra', [UserControl::class, 'removeExtra'])->name('cart.remove-extra');
+    Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('place.order');
 
 Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('payment.page');
 Route::get('/payment/online', [PaymentController::class, 'handleOnlinePayment'])->name('payment.online');
 Route::get('/payment/otc', [PaymentController::class, 'handleOtcPayment'])->name('payment.otc');
-
-
-
 
 });
 
