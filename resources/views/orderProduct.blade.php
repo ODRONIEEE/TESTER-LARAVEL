@@ -91,9 +91,9 @@
               <li class="nav-item cafe-center">
                 <h1 class="cafe-name">archive <span>cafe</span></h1>
               </li>
-              <li><a href="#cafe">Cafe</a></li>
+              <li><a href="{{route('welcome')}}">Cafe</a></li>
               <li><a href="{{route('menu')}}">Menu</a></li>
-              <li><a href="#team">Meet The Team</a></li>
+              <li><a href="{{route('welcome')}}">Meet The Team</a></li>
               <li class="nav-item d-none d-md-block">
                 <span class="navbar-divider"></span>
               </li>
@@ -179,33 +179,30 @@
                     </div>
                     <div class="col-lg-8 col-md-6 col-sm-12 mb-4" style="text-align: right;">
                         <h1 class="page-header" id="display-price">{{$product->price}}</h1>
+
                         <div class="btn-group-wrapper">
                             <div class="btn-group">
-
                                 @if(in_array($product->type_id, [1, 2, 4]))
-                                  <button type="button" class="btn btn-dark temperature-btn" data-temp="cold">C</button>
-                                  <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">H</button>
-                                  <div id="temperature-error" class="text-danger" style="display: none;">
-                                    Please select a temperature
-                                </div>
+                                    <button type="button" class="btn btn-dark temperature-btn" data-temp="cold">Cold</button>
+                                    <button type="button" class="btn btn-dark temperature-btn" data-temp="hot">Hot</button>
                                 @endif
-                          </div>
+                            </div>
                         </div>
 
-                   <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <input type="hidden" name="product_name" value="{{ $product->name }}">
+                        <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="product_name" value="{{ $product->name }}">
 
-                        @if(in_array($product->type_id, [1, 2, 4]))
-                        <input type="hidden" name="temperature" id="temperature-input" value="hot">
-                        @endif
+                            @if(in_array($product->type_id, [1, 2, 4]))
+                                <input type="hidden" name="temperature" id="temperature-input" value="">
+                            @endif
 
-                        <input type="hidden" name="price" id="price-input" value="{{ $product->price }}">
-                        <input type="number" name="quantity" value="1" min="1">
-                        <input type="hidden" name="extras" id="extras-input" value="">
-                        <button type="submit" class="btn btn-warning mt-3">Add to Cart</button>
-                    </form>
+                            <input type="hidden" name="price" id="price-input" value="{{ $product->price }}">
+                            <input type="number" name="quantity" value="1" min="1">
+                            <input type="hidden" name="extras" id="extras-input" value="">
+                            <button type="submit" class="btn btn-warning mt-3" id="addToCartButton">Add to Cart</button>
+                        </form>
 
                     </div>
                 </div>
@@ -276,200 +273,176 @@
    <script src="{{asset('assets/js/main.js')}}"></script>
    <script src="{{asset('assets/js/drinks_menu.js')}}"></script>
 
-<script>
-   document.addEventListener('DOMContentLoaded', function() {
-       const tempButtons = document.querySelectorAll('.temperature-btn');
 
-    tempButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            // Remove btn-warning class from all buttons
-            tempButtons.forEach(btn => {
-                btn.classList.remove('btn-warning');
-                btn.classList.add('btn-dark');
-            });
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tempButtons = document.querySelectorAll('.temperature-btn');
 
-            // Add btn-warning class only to clicked button
-            button.classList.remove('btn-dark');
-            button.classList.add('btn-warning');
-        });
-    });
-    const displayPrice = document.getElementById('display-price');
-    const priceInput = document.getElementById('price-input');
-    const extrasInput = document.getElementById('extras-input');
-    const temperatureInput = document.getElementById('temperature-input');
-    const temperatureBtns = document.querySelectorAll('.temperature-btn');
-    const espressoBtns = document.querySelectorAll('.espresso-btn');
-    const syrupInputs = document.querySelectorAll('input[name^="extras[syrup]"]');
-    const sauceInputs = document.querySelectorAll('input[name^="extras[sauce]"]');
-    const addToCartForm = document.getElementById('addToCartForm');
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+     tempButtons.forEach(button => {
+         button.addEventListener('click', function () {
+             // Remove btn-warning class from all buttons
+             tempButtons.forEach(btn => {
+                 btn.classList.remove('btn-warning');
+                 btn.classList.add('btn-dark');
+             });
 
-    const originalBasePrice = parseFloat('{{ $product->price }}');
-    let basePrice = originalBasePrice;
-    let extras = {
-        espresso: { selected: null, price: 0 },
-        syrup: {},
-        sauce: {}
-    };
+             // Add btn-warning class only to clicked button
+             button.classList.remove('btn-dark');
+             button.classList.add('btn-warning');
+         });
+     });
+     const displayPrice = document.getElementById('display-price');
+     const priceInput = document.getElementById('price-input');
+     const extrasInput = document.getElementById('extras-input');
+     const temperatureInput = document.getElementById('temperature-input');
+     const temperatureBtns = document.querySelectorAll('.temperature-btn');
+     const espressoBtns = document.querySelectorAll('.espresso-btn');
+     const syrupInputs = document.querySelectorAll('input[name^="extras[syrup]"]');
+     const sauceInputs = document.querySelectorAll('input[name^="extras[sauce]"]');
+     const addToCartForm = document.getElementById('addToCartForm');
+     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-    tempButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            // Remove btn-warning class from all buttons
-            tempButtons.forEach(btn => {
-                btn.classList.remove('btn-warning');
-                btn.classList.add('btn-dark');
-            });
+     const originalBasePrice = parseFloat('{{ $product->price }}');
+     let basePrice = originalBasePrice;
+     let extras = {
+         espresso: { selected: null, price: 0 },
+         syrup: {},
+         sauce: {}
+     };
 
-            // Add btn-warning class only to clicked button
-            button.classList.remove('btn-dark');
-            button.classList.add('btn-warning');
+     function updateDisplayPrice() {
+         let totalPrice = basePrice;
+         let extrasTotal = 0;
 
-            // Hide error message when temperature is selected
-            document.getElementById('temperature-error').style.display = 'none';
-        });
-    });
+         extrasTotal += extras.espresso.price;
 
-    function updateDisplayPrice() {
-        let totalPrice = basePrice;
-        let extrasTotal = 0;
+         Object.values(extras.syrup).forEach(syrup => {
+             if (syrup.selected) extrasTotal += syrup.price;
+         });
 
-        extrasTotal += extras.espresso.price;
+         Object.values(extras.sauce).forEach(sauce => {
+             if (sauce.selected) extrasTotal += sauce.price;
+         });
 
-        Object.values(extras.syrup).forEach(syrup => {
-            if (syrup.selected) extrasTotal += syrup.price;
-        });
+         totalPrice += extrasTotal;
 
-        Object.values(extras.sauce).forEach(sauce => {
-            if (sauce.selected) extrasTotal += sauce.price;
-        });
+         displayPrice.innerHTML = `Base: $${basePrice.toFixed(2)}<br>Total: $${totalPrice.toFixed(2)}`;
+         priceInput.value = totalPrice.toFixed(2);
+         extrasInput.value = JSON.stringify(extras);
+     }
 
-        totalPrice += extrasTotal;
+     temperatureBtns.forEach(btn => {
+         btn.addEventListener('click', function() {
+             temperatureBtns.forEach(b => b.classList.remove('active'));
+             this.classList.add('active');
+             temperatureInput.value = this.dataset.temp;
 
-        displayPrice.innerHTML = `Base: $${basePrice.toFixed(2)}<br>Total: $${totalPrice.toFixed(2)}`;
-        priceInput.value = totalPrice.toFixed(2);
-        extrasInput.value = JSON.stringify(extras);
-    }
+             if (this.dataset.temp === 'hot') {
+                 basePrice = originalBasePrice - 10;
+             } else {
+                 basePrice = originalBasePrice;
+             }
+             updateDisplayPrice();
+         });
+     });
 
-    temperatureBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            temperatureBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            temperatureInput.value = this.dataset.temp;
+     espressoBtns.forEach(btn => {
+         btn.addEventListener('click', function() {
+             espressoBtns.forEach(b => b.classList.remove('active'));
+             this.classList.add('active');
+             extras.espresso.selected = this.dataset.value;
+             extras.espresso.price = parseFloat(this.dataset.price);
+             updateDisplayPrice();
+         });
+     });
 
-            if (this.dataset.temp === 'hot') {
-                basePrice = originalBasePrice - 10;
-            } else {
-                basePrice = originalBasePrice;
-            }
-            updateDisplayPrice();
-        });
-    });
+     syrupInputs.forEach(input => {
+         input.addEventListener('change', function() {
+             const syrupName = this.name.match(/\[syrup\]\[(.+?)\]/)[1];
+             if (this.checked) {
+                 extras.syrup[syrupName] = {
+                     selected: true,
+                     price: parseFloat(this.dataset.price)
+                 };
+             } else {
+                 delete extras.syrup[syrupName];
+             }
+             updateDisplayPrice();
+         });
+     });
 
-    espressoBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            espressoBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            extras.espresso.selected = this.dataset.value;
-            extras.espresso.price = parseFloat(this.dataset.price);
-            updateDisplayPrice();
-        });
-    });
+     sauceInputs.forEach(input => {
+         input.addEventListener('change', function() {
+             const sauceName = this.name.match(/\[sauce\]\[(.+?)\]/)[1];
+             if (this.checked) {
+                 extras.sauce[sauceName] = {
+                     selected: true,
+                     price: parseFloat(this.dataset.price)
+                 };
+             } else {
+                 delete extras.sauce[sauceName];
+             }
+             updateDisplayPrice();
+         });
+     });
 
-    syrupInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            const syrupName = this.name.match(/\[syrup\]\[(.+?)\]/)[1];
-            if (this.checked) {
-                extras.syrup[syrupName] = {
-                    selected: true,
-                    price: parseFloat(this.dataset.price)
-                };
-            } else {
-                delete extras.syrup[syrupName];
-            }
-            updateDisplayPrice();
-        });
-    });
+     updateDisplayPrice();
 
-    sauceInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            const sauceName = this.name.match(/\[sauce\]\[(.+?)\]/)[1];
-            if (this.checked) {
-                extras.sauce[sauceName] = {
-                    selected: true,
-                    price: parseFloat(this.dataset.price)
-                };
-            } else {
-                delete extras.sauce[sauceName];
-            }
-            updateDisplayPrice();
-        });
-    });
+     addToCartForm.addEventListener('submit', function(e) {
+     e.preventDefault();
+     console.log('Form submission intercepted');
 
-    updateDisplayPrice();
+     const formData = new FormData(this);
 
-    addToCartForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+     // Ensure extras are properly formatted
+     const extrasJson = JSON.stringify(extras);
+     formData.set('extras', extrasJson);
 
-        // Check if temperature selection is required and made
-        const requiresTemperature = document.querySelectorAll('.temperature-btn').length > 0;
-        const temperatureSelected = document.querySelector('.temperature-btn.btn-warning');
+     fetch(this.action, {
+         method: 'POST',
+         body: formData,
+         headers: {
+             'X-CSRF-TOKEN': csrfToken,
+             'Accept': 'application/json'
+         }
+     })
+     .then(response => response.json())
+     .then(data => {
+         if (data.success) {
+             alert('Item added to cart successfully!');
+             // Optionally redirect to cart page
+             window.location.href = '{{ route("cart") }}';
+         } else {
+             alert('Error adding item to cart: ' + (data.message || 'Unknown error'));
+         }
+     })
+     .catch(error => {
+         console.error('Error:', error);
+         alert('An error occurred while adding the item to cart.');
+     });
+ });
 
-        if (requiresTemperature && !temperatureSelected) {
-            document.getElementById('temperature-error').style.display = 'block';
-            return false;
-        }
 
-        document.getElementById('temperature-error').style.display = 'none';
-        console.log('Form submission intercepted');
-
-        const formData = new FormData(this);
-        const extrasJson = JSON.stringify(extras);
-        formData.set('extras', extrasJson);
-
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Item added to cart successfully!');
-                window.location.href = '{{ route("cart") }}';
-            } else {
-                alert('Error adding item to cart: ' + (data.message || 'Unknown error'));
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while adding the item to cart.');
-        });
     });
 
+ </script>
+ <script>
+  function updateExtras() {
+     const extras = [];
+     document.querySelectorAll('.extra-checkbox:checked').forEach(checkbox => {
+         extras.push(checkbox.value);
+     });
+     document.getElementById('extras-input').value = JSON.stringify(extras);
+ }
 
-   });
+ // Update the temperature based on button click
+ document.querySelectorAll('.temperature-btn').forEach(button => {
+     button.addEventListener('click', function () {
+         document.getElementById('temperature-input').value = this.dataset.temp;
+     });
+ });
 
-</script>
-<script>
- function updateExtras() {
-    const extras = [];
-    document.querySelectorAll('.extra-checkbox:checked').forEach(checkbox => {
-        extras.push(checkbox.value);
-    });
-    document.getElementById('extras-input').value = JSON.stringify(extras);
-}
-
-// Update the temperature based on button click
-document.querySelectorAll('.temperature-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        document.getElementById('temperature-input').value = this.dataset.temp;
-    });
-});
-
-</script>
+ </script>
 <style>
 .radio-options {
     margin-top: 10px;

@@ -83,9 +83,9 @@
           <li class="nav-item cafe-center">
             <h1 class="cafe-name">archive <span>cafe</span></h1>
           </li>
-          <li><a href="{{route('dashboard')}}">Cafe</a></li>
+          <li><a href="{{route('welcome')}}">Cafe</a></li>
           <li><a href="{{route('menu')}}">Menu</a></li>
-          <li><a href="{{route('dashboard')}}">Meet The Team</a></li>
+          <li><a href="{{route('welcome')}}">Meet The Team</a></li>
           <li class="nav-item d-none d-md-block">
             <span class="navbar-divider"></span>
           </li>

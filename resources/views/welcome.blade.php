@@ -173,10 +173,18 @@
                 <!-- Text content section -->
                 <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start"
                 style="margin-bottom: 34px;" data-aos="zoom-out">
-                    @auth
-                    <h2>Welcome Back! {{Auth::user()->name}}</h2>
+                @auth
+                <h2>Welcome Back! {{Auth::user()->name}}</h2>
+                <p>You have made {{ $transactionCount }} {{ Str::plural('transaction', $transactionCount) }} with us!</p>
 
-                    @endauth
+                @if($transactionCount == 10)
+                    <p class="member-status vip">🌟 VIP Member 🌟</p>
+                @elseif($transactionCount == 5)
+                    <p class="member-status gold">✨ Gold Member ✨</p>
+                    <p>Use SAVE20 for 20% off!</p>
+                @endif
+
+                @endauth
 
                 <h1 class="archive-cafe-title">Archive Cafe</h1>
                   <p>“Brewing Timeless Moments”</p>

@@ -40,34 +40,24 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth','UserMiddleware'])->group(function(){
 
     Route::get('welcome',[UserControl::class, 'home'])->name('welcome');
-
     Route::get('menu',[UserControl::class, 'menu'])->name('menu');
-    Route::get('cart',[UserControl::class, 'cart'])->name('cart');
     Route::get('userProfile',[UserControl::class, 'userProfile'])->name('userProfile');
     Route::get('Order_history',[UserControl::class, 'history'])->name('Order_history');
     Route::get('preferences',[UserControl::class, 'preference'])->name('preferences');
-   Route::get('orderProduct/{id}/{cat_id}', [ProductControl::class, 'order'])->name('orderProduct');
 
+    Route::get('orderProduct/{id}/{cat_id}', [ProductControl::class, 'order'])->name('orderProduct');
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 
-
-
+    Route::get('cart',[UserControl::class, 'cart'])->name('cart');
     Route::post('/cart/add', [UserControl::class, 'addToCart'])->name('cart.add');
-    Route::get('/cart', [UserControl::class, 'viewCart'])->name('cart');
     Route::post('/cart/remove', [UserControl::class, 'removeFromCart'])->name('cart.remove');
     Route::post('/cart/update', [UserControl::class, 'updateCart'])->name('cart.update');
-
-   Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('place.order');
-
-    // Route::get('payment', [CartController::class, 'showPayment'])->name('payment.show');
-    // Route::get('payment/online', [CartController::class, 'showOnlinePayment'])->name('payment.online');
-    // Route::get('payment/otc', [CartController::class, 'showOTCPayment'])->name('payment.otc');
+    Route::post('/cart/remove-extra', [UserControl::class, 'removeExtra'])->name('cart.remove-extra');
+    Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('place.order');
 
 Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('payment.page');
 Route::get('/payment/online', [PaymentController::class, 'handleOnlinePayment'])->name('payment.online');
 Route::get('/payment/otc', [PaymentController::class, 'handleOtcPayment'])->name('payment.otc');
-
-Route::post('/order', [OrderController::class, 'store'])->name('order.store');
-
 
 });
 

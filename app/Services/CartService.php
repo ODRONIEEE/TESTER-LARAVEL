@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Product;
+use App\Models\Transaction;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class CartService
 {
-    public function getCart()
-    {
-        return Session::get('cart', []);
-    }
+
 
     public function getCartItemCount()
     {
@@ -74,5 +74,93 @@ class CartService
         }
     }
 
+
+
+    public function getRecommendations()
+{
+    $cart = $this->getCart();
+
+    // Initialize counters
+    $drinkCount = 0;
+    $foodCount = 0;
+
+    // Count items by category in cart
+    foreach ($cart as $cartItem) {
+        $product = Product::with('type')->find($cartItem['id']);
+        if ($product && $product->type) {
+            $quantity = isset($cartItem['quantity']) ? $cartItem['quantity'] : 1;
+            if ($product->type->category === 'drink') {
+                $drinkCount += $quantity;
+            } else {
+                $foodCount += $quantity;
+            }
+        }
+    }
+
+    // Determine which category to recommend
+    if ($drinkCount > $foodCount) {
+        $recommendCategory = 'food';
+    } elseif ($foodCount > $drinkCount) {
+        $recommendCategory = 'drink';
+    } else {
+        $recommendCategory = 'both';
+    }
+
+    // Get transactions and calculate top products
+    $transactions = Transaction::all();
+    $productQuantities = [];
+
+    foreach ($transactions as $transaction) {
+        $products = json_decode($transaction->products);
+        if (!is_array($products) && !is_object($products)) continue;
+
+        foreach ($products as $item) {
+            $product = Product::with('type')->find($item->id);
+            if (!$product || !$product->type) continue;
+
+            // For 'both' category or matching category
+            if ($recommendCategory === 'both' ||
+                $product->type->category === $recommendCategory) {
+
+                $productId = $product->id;
+                if (!isset($productQuantities[$productId])) {
+                    $productQuantities[$productId] = [
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'price' => $product->price,
+                        'image' => $product->image,
+                        'type_id' => $product->type->id,
+                        'category' => $product->type->category,
+                        'quantity' => 0
+                    ];
+                }
+                $productQuantities[$productId]['quantity'] += $item->quantity;
+            }
+        }
+    }
+
+    // Convert to array and sort by quantity
+    $recommendations = array_values($productQuantities);
+    usort($recommendations, function($a, $b) {
+        return $b['quantity'] <=> $a['quantity'];
+    });
+
+    // Get top 4 recommendations
+    $recommendations = array_slice($recommendations, 0, 4);
+
+    return [
+        'recommendations' => $recommendations,
+        'recommendationType' => $recommendCategory,
+        'counts' => [
+            'drinks' => $drinkCount,
+            'food' => $foodCount
+        ]
+    ];
+}
+
+    public function getCart()
+    {
+        return Session::get('cart', []);
+    }
 
 }

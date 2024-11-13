@@ -11,65 +11,94 @@ use Illuminate\Http\Request;
 use App\Services\CartService;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ExtrasController;
 
 class UserControl extends Controller
 {
-    public function home(){
-         // Fetch all transactions
-         $transactions = Transaction::all();
 
-         // Initialize an array to store quantities for each product
-         $productQuantities = [];
+    public function home()
+    {
+        // Get the authenticated user
+        $user = Auth::user();
 
-         // Loop through each transaction and aggregate product quantities
-         foreach ($transactions as $transaction) {
-             $products = json_decode($transaction->products);
-             if (!is_array($products) && !is_object($products)) {
-                 continue;
-             }
+        // Initialize variables
+        $transactionCount = 0;
+        $topProducts = [];
 
-             foreach ($products as $item) {
-                 $productId = $item->id;
-                 $quantity = $item->quantity;
+        if ($user) {
+            // Count transactions for the authenticated user based on customer_name
+            $transactionCount = Transaction::where('customer_name', $user->name)
+                                         ->where('status', 'Completed')
+                                         ->count();
 
-                 // Retrieve product details
-                 $product = Product::find($productId);
+            // Fetch all completed transactions
+            $transactions = Transaction::where('status', 'Completed')->get();
 
-                 // Skip if the product is not found
-                 if (!$product) {
-                     continue;
-                 }
+            // Initialize array to store product quantities
+            $productQuantities = [];
 
-                 // Accumulate quantities for each product
-                 if (isset($productQuantities[$productId])) {
-                     $productQuantities[$productId]['quantity'] += $quantity;
-                 } else {
-                     $productQuantities[$productId] = [
-                         'product_id' => $productId,
-                         'product_name' => $product->name,
-                         'quantity' => $quantity,
-                         'price' => $product->price,
-                         'image' => $product->image ?? null,
-                     ];
-                 }
-             }
-         }
+            // Process each transaction
+            foreach ($transactions as $transaction) {
+                $products = json_decode($transaction->products);
 
-         // Convert to array and sort by quantity in descending order
-         $productQuantities = array_values($productQuantities);
-         usort($productQuantities, function ($a, $b) {
-             return $b['quantity'] <=> $a['quantity'];
-         });
+                // Skip if products is not valid JSON
+                if (!is_array($products) && !is_object($products)) {
+                    continue;
+                }
 
-         // Get only the top 5 products
-         $topProducts = array_slice($productQuantities, 0, 5);
+                // Process each product in the transaction
+                foreach ($products as $item) {
+                    if (!isset($item->id) || !isset($item->quantity)) {
+                        continue;
+                    }
 
+                    $productId = $item->id;
+                    $quantity = $item->quantity;
 
-        return view('welcome', compact('topProducts'));
+                    // Get product details
+                    $product = Product::find($productId);
+                    if (!$product) {
+                        continue;
+                    }
+
+                    // Accumulate quantities for each product
+                    if (isset($productQuantities[$productId])) {
+                        $productQuantities[$productId]['quantity'] += $quantity;
+                    } else {
+                        $productQuantities[$productId] = [
+                            'product_id' => $productId,
+                            'product_name' => $product->name,
+                            'quantity' => $quantity,
+                            'price' => $product->price,
+                            'image' => $product->image ?? null,
+                        ];
+                    }
+                }
+            }
+
+            // Sort products by quantity sold
+            if (!empty($productQuantities)) {
+                $productQuantities = array_values($productQuantities);
+                usort($productQuantities, function($a, $b) {
+                    return $b['quantity'] <=> $a['quantity'];
+                });
+
+                // Get top 5 products
+                $topProducts = array_slice($productQuantities, 0, 5);
+            }
+        }
+
+        // Get cart item count for the cart badge
+        $cartItemCount = count(session()->get('cart', []));
+
+        return view('welcome', [
+            'transactionCount' => $transactionCount,
+            'topProducts' => $topProducts,
+            'cartItemCount' => $cartItemCount
+        ]);
     }
-
     public function menu(){
 
         $products = Product::where('stock', '>', 0)->get();
@@ -80,21 +109,11 @@ class UserControl extends Controller
     public function userprofile(){
         return view('userProfile');
     }
-    public function cart(){
 
-        $cart = Session::get('cart', []);
-        $totalItems = array_sum(array_column($cart, 'quantity'));
-        $totalPrice = array_sum(array_map(function($item) {
-            return $item['price'] * $item['quantity'];
-        }, $cart));
-
-        return view('cart', compact('cart', 'totalItems', 'totalPrice'));
-    }
 
     public function preference(){
         return view('preferences');
     }
-
 
 
     protected $cartService;
@@ -102,6 +121,30 @@ class UserControl extends Controller
     public function __construct(CartService $cartService)
     {
         $this->cartService = $cartService;
+    }
+
+    public function cart()
+    {
+        // Get current cart
+        $cart = Session::get('cart', []);
+
+        // Calculate totals
+        $totalItems = array_sum(array_column($cart, 'quantity'));
+        $totalPrice = array_sum(array_map(function($item) {
+            return $item['price'] * $item['quantity'];
+        }, $cart));
+
+        // Get recommendations from CartService
+        $recommendationData = $this->cartService->getRecommendations();
+
+        return view('cart', [
+            'cart' => $cart,
+            'totalItems' => $totalItems,
+            'totalPrice' => $totalPrice,
+            'recommendations' => $recommendationData['recommendations'],
+            'recommendationType' => $recommendationData['recommendationType'],
+            'itemCounts' => $recommendationData['counts']
+        ]);
     }
 
 public function addToCart(Request $request)
@@ -151,6 +194,7 @@ public function addToCart(Request $request)
 
     return redirect()->route('cart')->with('success', 'Product added to cart successfully!');
 }
+
 
     public function viewCart()
     {
@@ -216,6 +260,87 @@ public function history()
 
     // Return orders to the view
     return view('Order_history', compact('orders'));
+}
+public function removeExtra(Request $request)
+{
+    $productId = $request->product_id;
+    $extraIndex = $request->extra_index;
+
+    $cart = session()->get('cart', []);
+    $updated = false;
+
+    // Find the correct cart item
+    foreach ($cart as $index => $item) {
+        if ($item['id'] == $productId) {
+            // Decode extras if it's a JSON string
+            $extras = is_string($item['extras']) ? json_decode($item['extras'], true) : $item['extras'];
+
+            // Remove the specific extra
+            if (isset($extras[$extraIndex])) {
+                unset($extras[$extraIndex]);
+                // Reindex the array
+                $extras = array_values($extras);
+
+                // Update the cart item with the modified extras
+                $cart[$index]['extras'] = json_encode($extras);
+                $updated = true;
+            }
+        }
+    }
+
+    if ($updated) {
+        // Save the updated cart back to the session
+        session(['cart' => $cart]);
+
+        // Calculate new total
+        $newTotal = $this->calculateCartTotal($cart);
+
+        // Get the updated extras for this product
+        $updatedExtras = [];
+        foreach ($cart as $item) {
+            if ($item['id'] == $productId) {
+                $updatedExtras = json_decode($item['extras'], true);
+                break;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Extra removed successfully',
+            'new_total' => $newTotal,
+            'updatedExtras' => $updatedExtras,
+            'cart' => $cart
+        ]);
+    }
+
+    return response()->json([
+        'success' => false,
+        'message' => 'Extra not found'
+    ]);
+}
+
+private function calculateCartTotal($cart)
+{
+    $total = 0;
+    foreach ($cart as $item) {
+        $basePrice = $item['price'] * $item['quantity'];
+        $extrasTotal = 0;
+
+        if (!empty($item['extras'])) {
+            $extras = is_string($item['extras'])
+                ? json_decode($item['extras'], true)
+                : $item['extras'];
+
+            foreach ($extras as $extra) {
+                if (isset($extra['price'])) {
+                    $extrasTotal += $extra['price'] * $item['quantity'];
+                }
+            }
+        }
+
+        $total += $basePrice + $extrasTotal;
+    }
+    return $total;
 }
 
 }

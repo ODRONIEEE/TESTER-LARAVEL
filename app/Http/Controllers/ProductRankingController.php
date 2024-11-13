@@ -19,9 +19,6 @@ class ProductRankingController  extends Controller
         // Fetch all transactions
         $transactions = Transaction::all();
 
-        // Get the authenticated user's ID
-        $userId = Auth::id();
-
         // Initialize an array to store quantities for each product
         $productQuantities = [];
 
@@ -68,10 +65,7 @@ class ProductRankingController  extends Controller
         // Get only the top 5 products
         $topProducts = array_slice($productQuantities, 0, 5);
 
-        return view('welcome', [
-            'topProducts' => $topProducts,
-            // 'membershipStatus' => $membershipStatus
-        ]);
+        return view('welcome', ['topProducts' => $topProducts]);
     }
 
     public function rankBestSellingProducts()
@@ -162,7 +156,6 @@ class ProductRankingController  extends Controller
                 }
             }
         }
-
 
         // Sort each type's products by quantity in descending order and keep only the top 10
         foreach ($productQuantitiesByType as &$typeGroup) {
