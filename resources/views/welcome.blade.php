@@ -542,7 +542,8 @@
             },
             success: function() {
                 // Reload notifications to update the badge count and list
-                loadNotifications();
+                // loadNotifications();
+                window.location.href = "{{ route('Order_history') }}";
             }
         });
     }
@@ -553,6 +554,7 @@
     });
     // Check for new notifications every 2 seconds
     setInterval(loadNotifications, 2000);
+    
 </script>
 
     <script>
@@ -589,9 +591,9 @@
     </script>
 
     <script>
-    // Toggle dropdown visibility
+    // Toggle notifications-list visibility
     function toggleDropdown() {
-        document.getElementById('dropdown').classList.toggle('active');
+        document.getElementById('notifications-list').classList.toggle('active');
     }
 
     // Function to show order details when a notification is clicked

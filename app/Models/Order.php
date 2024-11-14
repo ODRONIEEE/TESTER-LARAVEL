@@ -11,18 +11,26 @@ class Order extends Model
 
     protected $table = 'transaction';
     protected $fillable = [
+        'user_id',
         'customer_name',
         'products',
         'extras',
         'total_price',
         'p_method',
         'dateCreated',
-          'status',
+        'status',
         'order_type',
     ];
 
     protected $casts = [
         'products' => 'array',  // Ensure products is cast to an array
         'extras' => 'array',    // Ensure extras is cast to an array
+        'dateCreated' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id'); // Ensure `user_id` exists in the `transaction` table
+    }
+
 }

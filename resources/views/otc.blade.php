@@ -186,6 +186,7 @@
                 </div>
                 <form action="{{ route('order.store') }}" method="POST" id="orderForm">
                     @csrf
+                    <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="customer_name" value="{{ Auth::user()->name }}">
                     <input type="hidden" name="total_price" value="{{ $totalPrice }}">
                     <input type="hidden" name="order_type" value="{{ $orderType }}">

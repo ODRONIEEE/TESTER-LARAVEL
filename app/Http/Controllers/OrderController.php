@@ -69,6 +69,7 @@ class OrderController extends Controller
         }
 
         $transactionData = [
+            'user_id' => $request->userId,
             'customer_name' => $request->customer_name,
             'total_price' => $request->total_price,
             'p_method' => $request->p_method,
@@ -210,7 +211,8 @@ public function getCategoryByTypeId($typeId)
 
 public function updateStatus(Request $request, $id)
 {
-    $order = Order::find($id);
+    // $order = Order::find($id);
+    $order = Transaction::find($id);
     if ($order) {
         $order->status = $request->status;
         $order->save();
