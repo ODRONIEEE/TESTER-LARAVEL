@@ -12,7 +12,20 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductRankingController;
+use App\Http\Controllers\NotificationController;
 
+
+// test of notif only
+Route::get('/test-notification', function () {
+    $transaction = \App\Models\Transaction::find(12); // Replace with an actual ID
+    $transaction->user->notify(new \App\Notifications\OrderCompleted($transaction));
+    return "Notification sent!";
+});
+
+
+// Notification Ajax 
+Route::get('/notifications', [NotificationController::class, 'fetchNotifications'])->name('notifications.fetch');
+Route::post('/notifications/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
 
 Route::get('/', [ProductRankingController::class, 'welcome'])->name('welcome');

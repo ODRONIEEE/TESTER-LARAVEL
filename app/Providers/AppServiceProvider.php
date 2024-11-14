@@ -6,6 +6,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Services\CartService;
 
+use App\Models\Transaction;
+use App\Observers\TransactionObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     public function register()
@@ -25,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
         //         $view->with('cartItemCount', $app->make('cart_item_count'));
         //     });
         // });
+
+        Transaction::observe(TransactionObserver::class);
     }
 }

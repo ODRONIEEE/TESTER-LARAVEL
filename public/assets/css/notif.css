@@ -1,0 +1,38 @@
+/* Basic styles for custom notification badge */
+.custom-notification-icon {
+    position: relative;
+    cursor: pointer;
+  }
+  .custom-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 50%;
+    font-size: 12px;
+  }
+  /* Dropdown styling */
+  .custom-dropdown {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  .custom-dropdown.active {
+    display: block;
+  }
+  .custom-dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .custom-dropdown-item:hover {
+    background-color: #f1f1f1;
+  }

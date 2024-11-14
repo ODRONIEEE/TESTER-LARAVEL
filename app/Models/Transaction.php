@@ -14,14 +14,16 @@ class Transaction extends Model
 
    
     protected $fillable = [
+        'user_id',
         'customer_name',
         'products',   
         'extras',    
         'total_price',
         'p_method',
         'dateCreated',
-           'status',
-            'order_type',
+        'status',
+        'order_type',
+        'is_read',
     ];
 
   
@@ -30,5 +32,10 @@ class Transaction extends Model
         'extras' => 'array',
         'dateCreated' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id'); // Ensure `user_id` exists in the `transaction` table
+    }
 }
 
