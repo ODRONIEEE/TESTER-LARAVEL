@@ -80,6 +80,7 @@ class ProductRankingController  extends Controller
         foreach ($transactions as $transaction) {
             foreach (json_decode($transaction->products) as $item) {
                 $productId = $item->id;
+                // $productImage = $item->image;
                 $quantity = $item->quantity;
 
                 // Retrieve product details, including type info
@@ -92,6 +93,7 @@ class ProductRankingController  extends Controller
                     // Initialize the product details with type information
                     $productQuantities[$productId] = [
                         'product_id' => $productId,
+                        'product_image' => $product->image,
                         'quantity' => $quantity,
                         'type_id' => $product->type->id ?? null,
                         'name' => $product->type->name ?? null,
