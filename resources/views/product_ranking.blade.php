@@ -16,6 +16,7 @@
             <thead>
                 <tr>
                     <th>Product ID</th>
+                    <th>Product Image</th>
                     <th>Type ID</th>
                     <th>Type Name</th>
                     <th>Total Quantity Sold</th>
@@ -25,6 +26,7 @@
                 @foreach ($rankedProducts as $product)
                     <tr>
                         <td>{{ $product['product_id'] }}</td>
+                        <td>{{ $product['product_image'] }}</td>
                         <td>{{ $product['type_id'] }}</td>
                         <td>{{ $product['name'] }}</td>
                         <td>{{ $product['quantity'] }}</td>
