@@ -112,9 +112,11 @@
                             <span class="cart-item-count">{{ $cartItemCount }}</span>
                             @endif
                         </a>
-                    </li>       
+                    </li>
 
-             
+                    <li class="nav-item d-none d-md-block">
+                        <span class="navbar-divider"></span>
+                    </li>
 
                     <!-- Notification Icon with Badge -->
                     <div class="custom-notification-icon" onclick="toggleDropdown()">
@@ -125,13 +127,6 @@
 
                     <!-- Dropdown Notification List -->
                     <div class="custom-dropdown" id="notifications-list">
-                        <!-- <div class="custom-dropdown-item" onclick="showOrderDetails(1)">Your order #1 is ready for
-                            pickup</div>
-                        <div class="custom-dropdown-item" onclick="showOrderDetails(2)">Your order #2 is ready for
-                            pickup</div>
-                        <div class="custom-dropdown-item" onclick="showOrderDetails(3)">Your order #3 is ready for
-                            pickup</div> -->
-
                             <div>
                                 @foreach(auth()->user()->unreadNotifications as $notification)
                                     <div class="custom-dropdown-item" onclick="markAsRead('{{ $notification->id }}')">
@@ -140,7 +135,7 @@
                                 @endforeach
                             </div>
 
-                            
+
                     </div>
 
                     <!-- Content area where the details will appear -->
@@ -212,20 +207,20 @@
                     <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start"
                         style="margin-bottom: 34px;" data-aos="zoom-out">
                         @auth
-                        <h2>Welcome Back! {{Auth::user()->name}}</h2>
-                        <p>You have made {{ $transactionCount }} {{ Str::plural('transaction', $transactionCount) }} with us!</p>
+                <h2>Welcome Back! {{Auth::user()->name}}</h2>
+                <p>You have made {{ $transactionCount }} {{ Str::plural('transaction', $transactionCount) }} with us!</p>
 
-                        @if($transactionCount == 10)
-                        <p class="member-status vip">🌟 VIP Member 🌟</p>
-                        @elseif($transactionCount == 5)
-                        <p class="member-status gold">✨ Gold Member ✨</p>
-                        <p>Use SAVE20 for 20% off!</p>
-                        @endif
+                @if($transactionCount >= 10)
+                    <p class="member-status vip">🌟 VIP Member 🌟</p>
+                @elseif($transactionCount >= 5)
+                    <p class="member-status gold">✨ Gold Member ✨</p>
+                    <p>Use SAVE20 for 20% off!</p>
+                @endif
 
-                        @endauth
+                @endauth
 
                         <h1 class="archive-cafe-title">Archive Cafe</h1>
-                        <p>“Brewing Timeless Moments”</p>
+                        <p>"Brewing Timeless Moments"</p>
                         <div class="d-flex justify-content-center justify-content-lg-start">
                             <a href="#menu" class="btn-get-started">Hot Drinks!</a>
                         </div>
@@ -554,7 +549,7 @@
     });
     // Check for new notifications every 2 seconds
     setInterval(loadNotifications, 2000);
-    
+
 </script>
 
     <script>

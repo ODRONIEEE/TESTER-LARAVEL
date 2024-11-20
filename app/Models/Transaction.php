@@ -9,24 +9,23 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    
+
     protected $table = 'transaction';
 
-   
+
     protected $fillable = [
         'user_id',
         'customer_name',
-        'products',   
-        'extras',    
+        'products',
+        'extras',
         'total_price',
         'p_method',
         'dateCreated',
         'status',
         'order_type',
-        'is_read',
     ];
 
-  
+
     protected $casts = [
         'products' => 'array',
         'extras' => 'array',

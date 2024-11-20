@@ -96,7 +96,6 @@
                     <thead>
                         <tr>
                             <th scope="col" class="text-center">ID </th>
-                            <th scope="col" class="text-center">Product Code</th>
                             <th scope="col" class="text-center">Product Name</th>
                             <th scope="col" class="text-center">Description</th>
                             <th scope="col" class="text-center">Price</th>
@@ -110,10 +109,10 @@
                         <tr>
                             <td class="text-center">{{ $index + 1 }}</td>
                             <td class="text-center">
-                                <div class="table-container">{{ $product->product_code }}</div>
+                                <div class="table-container">{{ $product->name }}</div>
                             </td>
-                            <td class="text-center">{{ $product->name }}</td>
-                            <td>{{ $product->description }}</td>
+
+                            <td class="text-center">{{ $product->description }}</td>
                             <td class="text-center">
                                 <div class="table-container">
                                     {{ $product->price }}

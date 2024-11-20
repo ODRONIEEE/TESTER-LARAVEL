@@ -99,6 +99,9 @@ class UserControl extends Controller
             'cartItemCount' => $cartItemCount
         ]);
     }
+
+
+
     public function menu(){
 
         $products = Product::where('stock', '>', 0)->get();

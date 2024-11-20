@@ -19,6 +19,21 @@ class ProductRankingController  extends Controller
         // Fetch all transactions
         $transactions = Transaction::all();
 
+        // Initialize variables
+        $transactionCount = 0;
+    $user = Auth::user();
+
+    if ($user) {
+        // Count completed transactions for the authenticated user using customer_name
+        $transactionCount = Transaction::where('customer_name', $user->name)
+                                     ->where('status', 'Completed')
+                                     ->count();
+    }
+
+     // Fetch all transactions for top products calculation
+     $transactions = Transaction::all();
+
+
         // Initialize an array to store quantities for each product
         $productQuantities = [];
 
@@ -56,6 +71,10 @@ class ProductRankingController  extends Controller
             }
         }
 
+        // Get cart item count
+        $cartItemCount = count(session()->get('cart', []));
+
+
         // Convert to array and sort by quantity in descending order
         $productQuantities = array_values($productQuantities);
         usort($productQuantities, function ($a, $b) {
@@ -65,7 +84,11 @@ class ProductRankingController  extends Controller
         // Get only the top 5 products
         $topProducts = array_slice($productQuantities, 0, 5);
 
-        return view('welcome', ['topProducts' => $topProducts]);
+        return view('welcome', [
+            'topProducts' => $topProducts,
+            'transactionCount' => $transactionCount,
+            'cartItemCount' => $cartItemCount
+        ]);
     }
 
     public function rankBestSellingProducts()
