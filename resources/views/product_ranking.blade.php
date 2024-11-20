@@ -17,6 +17,7 @@
                 <tr>
                     <th>Product ID</th>
                     <th>Product Image</th>
+                    <th>Product Cat</th>
                     <th>Type ID</th>
                     <th>Type Name</th>
                     <th>Total Quantity Sold</th>
@@ -27,6 +28,7 @@
                     <tr>
                         <td>{{ $product['product_id'] }}</td>
                         <td>{{ $product['product_image'] }}</td>
+                        <td>{{ $product['product_cat'] }}</td>
                         <td>{{ $product['type_id'] }}</td>
                         <td>{{ $product['name'] }}</td>
                         <td>{{ $product['quantity'] }}</td>

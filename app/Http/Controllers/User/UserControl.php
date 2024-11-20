@@ -135,7 +135,7 @@ class UserControl extends Controller
         }, $cart));
 
         // Get recommendations from CartService
-        $recommendationData = $this->cartService->getRecommendations();
+        $recommendationData = $this->cartService->getRecommendations_v2();
 
         return view('cart', [
             'cart' => $cart,

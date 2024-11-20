@@ -94,6 +94,7 @@ class ProductRankingController  extends Controller
                     $productQuantities[$productId] = [
                         'product_id' => $productId,
                         'product_image' => $product->image,
+                        'product_cat' => $product->cat_id,
                         'quantity' => $quantity,
                         'type_id' => $product->type->id ?? null,
                         'name' => $product->type->name ?? null,
