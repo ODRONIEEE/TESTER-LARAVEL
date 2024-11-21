@@ -160,6 +160,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Product</th>
+                                                            <th>Type</th>
                                                             <th>QTY</th>
                                                             <th>Price</th>
                                                         </tr>
@@ -168,6 +169,11 @@
                                                         @foreach ($order->products as $product)
                                                             <tr>
                                                                 <td>{{ $product['name'] }}</td>
+                                                                <td>
+                                                                    @if(isset($product['temperature']))
+                                                                        <span class="badge bg-info">{{ $product['temperature'] }}</span>
+                                                                    @endif
+                                                                </td>
                                                                 <td>{{ $product['quantity'] }}</td>
                                                                 <td>₱{{ number_format($product['price'], 2) }}</td>
                                                             </tr>
@@ -175,6 +181,7 @@
                                                                 @foreach ($product['extras'] as $extra)
                                                                     <tr class="table-light">
                                                                         <td class="ps-4">+ {{ $extra['name'] }}</td>
+                                                                        <td></td>
                                                                         <td>{{ $extra['quantity'] }}</td>
                                                                         <td>₱{{ number_format($extra['price'], 2) }}</td>
                                                                     </tr>

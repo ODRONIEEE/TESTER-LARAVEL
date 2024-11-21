@@ -103,25 +103,25 @@ class ProductRankingController  extends Controller
         foreach ($transactions as $transaction) {
             foreach (json_decode($transaction->products) as $item) {
                 $productId = $item->id;
-                // $productImage = $item->image;
                 $quantity = $item->quantity;
 
                 // Retrieve product details, including type info
                 $product = Product::with('type')->find($productId);
 
-                // Accumulate quantities for each product
-                if (isset($productQuantities[$productId])) {
-                    $productQuantities[$productId]['quantity'] += $quantity;
-                } else {
-                    // Initialize the product details with type information
-                    $productQuantities[$productId] = [
-                        'product_id' => $productId,
-                        'product_image' => $product->image,
-                        'product_cat' => $product->cat_id,
-                        'quantity' => $quantity,
-                        'type_id' => $product->type->id ?? null,
-                        'name' => $product->type->name ?? null,
-                    ];
+                if ($product) { // Check if the product exists
+                    if (isset($productQuantities[$productId])) {
+                        $productQuantities[$productId]['quantity'] += $quantity;
+                    } else {
+                        // Initialize the product details with type information
+                        $productQuantities[$productId] = [
+                            'product_id' => $productId,
+                            'product_image' => $product->image,
+                            'product_cat' => $product->cat_id,
+                            'quantity' => $quantity,
+                            'type_id' => $product->type->id ?? null,
+                            'name' => $product->type->name ?? null,
+                        ];
+                    }
                 }
             }
         }

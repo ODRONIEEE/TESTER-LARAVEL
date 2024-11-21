@@ -165,7 +165,7 @@ class CartService
      * When foodCount > drinkCount, only drink-related products are considered.
      * When both are equal, all product categories are included.
      * Efficient Filtering:
-     * 
+     *
      * The loop over transactions now explicitly checks the recommendCategory and processes items accordingly.
      */
 
@@ -173,7 +173,7 @@ class CartService
     {
         $cart = $this->getCart();
 
-   
+
         $drinkCount = 0;
         $foodCount = 0;
 
@@ -209,7 +209,7 @@ class CartService
          * 1	Drinks
          * 2	Foods
          */
-   
+
         // Initialize counters
         // Determine which category to recommend
         if ($drinkCount > $foodCount) {
@@ -220,7 +220,7 @@ class CartService
             $recommendCategory = 'both';
         }
 
-  
+
         // Get transactions and calculate top products
         $transactions = Transaction::all();
         $productQuantities = [];
@@ -234,7 +234,7 @@ class CartService
                 if (!$product || !$product->category) continue;
 
                 // Logic based on recommendation category
-                if ($recommendCategory === 'food' && $product->category->id == 2 ) { # FOOD 
+                if ($recommendCategory === 'food' && $product->category->id == 2 ) { # FOOD
                     // Increment food product quantities
                     $productId = $product->id;
                     if (!isset($productQuantities[$productId])) {

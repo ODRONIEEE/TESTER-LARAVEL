@@ -23,7 +23,7 @@ Route::get('/test-notification', function () {
 });
 
 
-// Notification Ajax 
+// Notification Ajax
 Route::get('/notifications', [NotificationController::class, 'fetchNotifications'])->name('notifications.fetch');
 Route::post('/notifications/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
@@ -36,8 +36,6 @@ route::get('privacy', function(){return view('privacy'); })->name('privacy');
 Route::get('/best-selling-products', [ProductRankingController::class, 'rankBestSellingProducts']);
 Route::get('/top-products-by-type', [ProductRankingController::class, 'rankBestSellingProductsByType'])->name('top.products.by.type');
 Route::get('/top-one-products-by-type', [ProductRankingController::class, 'rankTopOneSellingProductsByType'])->name('top.one.products.by.type');
-
-
 
 
 Route::middleware('auth')->group(function () {

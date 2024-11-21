@@ -160,7 +160,7 @@
                 <div class="col-12">
                     <h3 class="order-history-title mb-4">Order History</h3>
                     <div class="orders-container">
-                        @foreach($orders as $order)
+                        @foreach($orders->sortByDesc('created_at') as $order)
                         @if($order->customer_name == Auth::user()->name)
                         <div class="order-card">
                             <div class="order-header">
