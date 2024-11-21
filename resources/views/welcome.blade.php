@@ -118,26 +118,23 @@
                         <span class="navbar-divider"></span>
                     </li>
 
-                    <!-- Notification Icon with Badge -->
-                    <div class="custom-notification-icon" onclick="toggleDropdown()">
-                        <i class="bi bi-person toggle-dropdown"></i>
-                        <!-- <span class="custom-badge" id="badgeCount">{{ auth()->user()->unreadNotifications->count() }}</span> -->
-                        <span id="notification-badge" class="custom-badge">0</span>
-                    </div>
+                                        <!-- Notification Icon with Badge -->
+                                        <div class="custom-notification-icon" onclick="toggleDropdown()">
+                                            <i class="bi bi-person toggle-dropdown"></i>
+                                            <span id="notification-badge" class="custom-badge">{{ auth()->user()->unreadNotifications->count() }}</span> <!-- Badge shows count -->
+                                        </div>
 
-                    <!-- Dropdown Notification List -->
-                    <div class="custom-dropdown" id="notifications-list">
-                            <div>
-                                @foreach(auth()->user()->unreadNotifications as $notification)
-                                    <div class="custom-dropdown-item" onclick="markAsRead('{{ $notification->id }}')">
-                                        {{ $notification->data['message'] }}
-                                    </div>
-                                @endforeach
-                            </div>
-
-
-                    </div>
-
+                                        <!-- Dropdown Notification List -->
+                                        <div class="custom-dropdown" id="notifications-list">
+                                            <div>
+                                                <h4>Notifications ({{ auth()->user()->unreadNotifications->count() }})</h4> <!-- Display count in dropdown -->
+                                                @foreach(auth()->user()->unreadNotifications as $notification)
+                                                    <div class="custom-dropdown-item" onclick="markAsRead('{{ $notification->id }}')">
+                                                        {{ $notification->data['message'] }}
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
                     <!-- Content area where the details will appear -->
                     <div id="content"></div>
 
@@ -608,6 +605,22 @@
 
 
     <style>
+    .custom-notification-icon {
+        position: relative; /* Ensure the badge is positioned relative to the icon */
+        display: inline-block; /* Ensure it aligns properly */
+    }
+
+    .custom-badge {
+        position: absolute;
+        top: -5px; /* Adjust as needed */
+        right: -10px; /* Adjust as needed */
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+        display: inline-block; /* Ensure it displays correctly */
+    }
     .hover-orange:hover {
         color: orange !important;
         transition: color 0.3s ease;

@@ -156,7 +156,12 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h2 class="cup-count">{{ array_sum($categoryCounts) }}</h2> <!-- Total cups -->
+                        <h2 class="cup-count">
+                            {{ $categoryCounts['Coffee'] +
+                               $categoryCounts['Non-Coffee'] +
+                               $categoryCounts['Refreshers'] +
+                               $categoryCounts['Tea'] }}
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -173,6 +178,8 @@
                 </div>
             </div>
         </div>
+
+
            <div class="row mt-5">
                                 <div class="col-12">
                                     <table class="table table-bordered table-striped">
@@ -187,7 +194,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($completedOrders as $order)
+                                            @foreach($completedOrders->sortByDesc('created_at') as $order)
                                                 <tr>
                                                     <td>{{ $order->customer_name }}</td>
                                                     <td>Php {{ number_format($order->total_price, 2) }}</td>
@@ -196,27 +203,27 @@
                                                     <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d/m/Y') }}</td>
                                                     <td>
                                                     <ul>
-                            @foreach($order->products as $product)
-                                <li>
-                                    <strong>{{ $product['name'] ?? 'Unnamed Product' }}</strong> - Quantity: {{ $product['quantity'] }}
-                                    @if(!empty($product['extras']) && is_array($product['extras']))
-                                        <ul>
-                                            @foreach($product['extras'] as $extra)
-                                                @if(is_array($extra)) <!-- Check if $extra is an array -->
-                                                    <li>{{ $extra['name'] ?? 'Unknown Extra' }} - Price: Php {{ number_format($extra['price'], 2) }}</li>
-                                                @else
-                                                    <li>Invalid extra data</li> <!-- Handle invalid extra data -->
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
+                                                    @foreach($order->products as $product)
+                                                        <li>
+                                                            <strong>{{ $product['name'] ?? 'Unnamed Product' }}</strong> - Quantity: {{ $product['quantity'] }}
+                                                            @if(!empty($product['extras']) && is_array($product['extras']))
+                                                                <ul>
+                                                                    @foreach($product['extras'] as $extra)
+                                                                        @if(is_array($extra)) <!-- Check if $extra is an array -->
+                                                                            <li>{{ $extra['name'] ?? 'Unknown Extra' }} - Price: Php {{ number_format($extra['price'], 2) }}</li>
+                                                                        @else
+                                                                            <li>Invalid extra data</li> <!-- Handle invalid extra data -->
+                                                                        @endif
+                                                                    @endforeach
+                                                                </ul>
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
 
-                            </td>
-                        </tr>
-                    @endforeach
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                 </tbody>
             </table>
         </div>
@@ -268,7 +275,9 @@
             lengthMenu: [10, 25, 50, 100]  // Options for the number of records per page
         });
     });
+
 </script>
+
 </body>
 
 </html>

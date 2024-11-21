@@ -79,6 +79,8 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::get('/admin/product',[AdminControl::class, 'product'])->name('admin.product');
     Route::get('/admin/pos/{category}',[AdminControl::class, 'pos'])->name('admin.pos');
     Route::get('/admin/sales',[OrderController::class, 'showsales'])->name('admin.sales');
+
+
     Route::get('/admin/pos',[AdminControl::class, 'test'])->name('admin.test');
 
 

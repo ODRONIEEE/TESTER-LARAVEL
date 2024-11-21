@@ -169,11 +169,23 @@
                 </div>
                 <div class="col-2 col-md-2 mb-3"></div>
                 <div class="col-10 col-md-5 mb-3">
-                    <input type="text" id="name" name="name" placeholder="Name" class="login-input mb-2" required >
-                    <input type="email" id="email" name="email"  placeholder="Email Address" class="login-input mb-2" required>
-                    <input type="password" id="password" name="password"  placeholder="Password" class="login-input mb-2" required>
-                    <input type="password" id="password_confirmation" name="password_confirmation"  placeholder="Confirm Password" class="login-input mb-2" required>
-                    <button type="submit"  class="btn-login">Sign Up</button>
+                    <input type="text" id="name" name="name" placeholder="Name" class="login-input mb-2" required value="{{ old('name') }}">
+                    @error('name')
+                        <div class="error-message" style="color:red;">{{ $message }}</div>
+                    @enderror
+                    <input type="email" id="email" name="email" placeholder="Email Address" class="login-input mb-2" required value="{{ old('email') }}">
+                    @error('email')
+                        <div class="error-message" style="color:red;">{{ $message }}</div>
+                    @enderror
+                    <input type="password" id="password" name="password" placeholder="Password" class="login-input mb-2" required>
+                    @error('password')
+                        <div class="error-message" style="color:red;">{{ $message }}</div>
+                    @enderror
+                    <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" class="login-input mb-2" required>
+                    @error('password_confirmation')
+                        <div class="error-message" style="color:red;">{{ $message }}</div>
+                    @enderror
+                    <button type="submit" class="btn-login">Sign Up</button>
                 </div>
                 </form>
 

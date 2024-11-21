@@ -9,6 +9,8 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 class OrderController extends Controller
 {
+
+
     public function placeOrder(Request $request)
     {
         try {
@@ -162,7 +164,6 @@ public function showsales()
         'Burgers' => 0  // Added Burgers category
     ];
 
-    // Rest of your existing foreach loop remains the same
     foreach ($completedOrders as $order) {
         $order->products = is_string($order->products) ? json_decode($order->products, true) : $order->products;
 
@@ -173,13 +174,14 @@ public function showsales()
                 $typeId = $productDetails->type_id;
                 $category = $this->getCategoryByTypeId($typeId);
                 $price = $product['price'];
+                $quantity = $product['quantity'] ?? 1; // Get the quantity, default to 1 if not set
 
                 if (array_key_exists($category, $categorySales)) {
-                    $categorySales[$category] += $price;
-                    $categoryCounts[$category]++;
+                    $categorySales[$category] += ($price * $quantity); // Multiply price by quantity
+                    $categoryCounts[$category] += $quantity; // Add the actual quantity instead of incrementing by 1
                 }
 
-                $totalSales += $price;
+                $totalSales += ($price * $quantity);
             }
         }
     }

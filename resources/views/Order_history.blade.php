@@ -199,7 +199,11 @@
 
                                 <div class="order-total">
                                     <span>Total Amount</span>
-                                    <span class="total-price">₱{{ number_format($order->total_price, 2) }}</span>
+                                    <span class="total-price">
+                                        ₱{{ number_format(collect($order->products)->sum(function($product) {
+                                            return $product['price'] * $product['quantity'];
+                                        }), 2) }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
