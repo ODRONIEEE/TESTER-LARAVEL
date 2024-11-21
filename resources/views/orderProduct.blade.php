@@ -199,7 +199,7 @@
                             @endif
 
                             <input type="hidden" name="price" id="price-input" value="{{ $product->price }}">
-                            <input type="number" name="quantity" value="1" min="1">
+                            <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}">
                             <input type="hidden" name="extras" id="extras-input" value="">
                             <button type="submit" class="btn btn-warning mt-3" id="addToCartButton">Add to Cart</button>
                         </form>

@@ -211,11 +211,25 @@ public function getCategoryByTypeId($typeId)
 
 public function updateStatus(Request $request, $id)
 {
-    // $order = Order::find($id);
-    $order = Transaction::find($id);
-    if ($order) {
-        $order->status = $request->status;
-        $order->save();
+    $transaction = Transaction::find($id);
+    if ($transaction) {
+        if ($request->status === 'On Process') {
+            // Decode the products from the transaction
+            $products = json_decode($transaction->products, true);
+
+            // Update stock for each product
+            foreach ($products as $orderProduct) {
+                $product = Product::find($orderProduct['id']);
+                if ($product) {
+                    // Deduct the ordered quantity from stock
+                    $product->stock -= $orderProduct['quantity'];
+                    $product->save();
+                }
+            }
+        }
+
+        $transaction->status = $request->status;
+        $transaction->save();
 
         return response()->json(['success' => true]);
     }

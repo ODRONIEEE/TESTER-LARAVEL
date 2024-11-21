@@ -210,9 +210,9 @@
                 <h2>Welcome Back! {{Auth::user()->name}}</h2>
                 <p>You have made {{ $transactionCount }} {{ Str::plural('transaction', $transactionCount) }} with us!</p>
 
-                @if($transactionCount >= 10)
+                @if($transactionCount == 10)
                     <p class="member-status vip">🌟 VIP Member 🌟</p>
-                @elseif($transactionCount >= 5)
+                @elseif($transactionCount == 5)
                     <p class="member-status gold">✨ Gold Member ✨</p>
                     <p>Use SAVE20 for 20% off!</p>
                 @endif
