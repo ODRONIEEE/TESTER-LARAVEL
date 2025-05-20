@@ -19,10 +19,13 @@
         <h3>Type: {{ $typeGroup['name'] }}</h3>
         <ul>
             @foreach ($typeGroup['products'] as $product)
+
             <li>
+                Photo: <img src="{{ $product['product_image'] }}" alt="{{ $product['product_name'] }}" style="width: 100px; height: auto;"/>
                 Product ID: {{ $product['product_id'] }},
                 Name: {{ $product['product_name'] }},
                 Quantity Sold: {{ $product['quantity'] }}
+                Price: {{ $product['product-price'] }}
             </li>
             @endforeach
         </ul>

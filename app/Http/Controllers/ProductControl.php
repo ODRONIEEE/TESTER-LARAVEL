@@ -14,6 +14,21 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class ProductControl extends Controller
 {
+
+    public function updateStock(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $change = (int) $request->input('change', 0);
+        $newStock = max(0, $product->stock + $change); // Prevent negative stock
+        $product->stock = $newStock;
+        $product->save();
+
+        return response()->json([
+            'success' => true,
+            'stock' => $product->stock,
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

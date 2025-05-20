@@ -101,6 +101,11 @@ Route::middleware(['auth','AdminMiddleware'])->group(function(){
     Route::delete('/admin/extras/{id}', [ExtrasController::class, 'destroy'])->name('admin.extras.destroy');
     Route::put('/admin/extras/{id}', [ExtrasController::class, 'update'])->name('admin.extras.update');
 
+    Route::post('/admin/product/{id}/stock', [ProductControl::class, 'updateStock'])->name('admin.product.updateStock');
+
+
+
+
 });
 
 //Product Control routes

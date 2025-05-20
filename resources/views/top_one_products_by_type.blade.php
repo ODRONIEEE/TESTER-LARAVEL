@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <!-- Additional custom styling if needed -->
+
     <style>
     .slider-container {
         width: 80%;
@@ -91,10 +92,12 @@
                     <th>Type Name</th>
                     <th>Product ID</th>
                     <th>Product Name</th>
+                    <th>Product Price</th>
                     <th>Image</th>
                     <th>Total Quantity Sold</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach($rankedProducts as $product)
                 <tr>
@@ -102,6 +105,7 @@
                     <td>{{ $product['type_name'] }}</td>
                     <td>{{ $product['product_id'] }}</td>
                     <td>{{ $product['product_name'] }}</td>
+                    <td>{{ $product['product-price'] }}</td>
                     <td>{{ $product['image'] }}</td>
                     <td>{{ $product['quantity'] }}</td>
                 </tr>
@@ -110,7 +114,6 @@
         </table>
 
     </div>
-
 
 
     <!-- jQuery, Popper.js, and Bootstrap JS -->

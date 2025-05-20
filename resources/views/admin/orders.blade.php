@@ -122,6 +122,7 @@
         <a class="custom-category-btn" href="{{route('admin.dashboard')}}">Back</a>
         <button class="custom-category-btn" onclick="showOrder('pending')">Pending</button>
         <button class="custom-category-btn" onclick="showOrder('onProcess')">On Process</button>
+        <button class="custom-category-btn" onclick="showOrder('voided')">Voided</button>
     </nav>
 
     <div class="row">
@@ -160,7 +161,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Product</th>
-                                                            <th>Type</th>
+                                                            <th>Temperature</th> <!-- Add a new column for temperature -->
                                                             <th>QTY</th>
                                                             <th>Price</th>
                                                         </tr>
@@ -170,22 +171,37 @@
                                                             <tr>
                                                                 <td>{{ $product['name'] }}</td>
                                                                 <td>
-                                                                    @if(isset($product['temperature']))
-                                                                        <span class="badge bg-info">{{ $product['temperature'] }}</span>
-                                                                    @endif
+                                                                    @php
+                                                                        // Fetch the product details from the database
+                                                                        $productDetails = \App\Models\Product::find($product['id']);
+                                                                        $badgeClass = 'bg-secondary'; // Default to N/A
+                                                                        $temperatureText = 'N/A'; // Default text
+
+                                                                        if ($productDetails) {
+                                                                            // Check if the product is a drink (type_id 1 for coffee, 2 for non-coffee, 4 for tea)
+                                                                            if (in_array($productDetails->type_id, [1, 2, 4])) {
+                                                                                // Check if the price matches the original price
+                                                                                if ($product['price'] == $productDetails->price) {
+                                                                                    $badgeClass = 'bg-info'; // Cold
+                                                                                    $temperatureText = 'Cold';
+                                                                                } else {
+                                                                                    $badgeClass = 'bg-warning'; // Hot
+                                                                                    $temperatureText = 'Hot';
+                                                                                }
+                                                                            } else {
+                                                                                // If it's food (not a drink), set temperature to N/A
+                                                                                $temperatureText = 'N/A';
+                                                                            }
+                                                                        }
+                                                                    @endphp
+
+                                                                    <span class="badge {{ $badgeClass }}">{{ $temperatureText }}</span>
                                                                 </td>
                                                                 <td>{{ $product['quantity'] }}</td>
                                                                 <td>₱{{ number_format($product['price'], 2) }}</td>
                                                             </tr>
                                                             @if(!empty($product['extras']))
-                                                                @foreach ($product['extras'] as $extra)
-                                                                    <tr class="table-light">
-                                                                        <td class="ps-4">+ {{ $extra['name'] }}</td>
-                                                                        <td></td>
-                                                                        <td>{{ $extra['quantity'] }}</td>
-                                                                        <td>₱{{ number_format($extra['price'], 2) }}</td>
-                                                                    </tr>
-                                                                @endforeach
+                                                                <!-- Handle extras display if needed -->
                                                             @endif
                                                         @endforeach
                                                     </tbody>
@@ -193,8 +209,8 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column gap-2">
-                                                    <button class="btn btn-primary" onclick="updateOrderStatus({{ $order->id }}, 'On Process')">On Process</button>
-                                                    <button class="btn btn-danger" onclick="deleteOrder({{ $order->id }})">Void</button>
+                                                    <button class="btn btn-primary" onclick="updateOrderStatus({{ $order->id }}, 'On Process')">Paid</button>
+                                                    <button class="btn btn-danger" onclick="updateOrderStatus({{ $order->id }}, 'Voided')">Void</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -244,6 +260,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Product</th>
+                                                            <th>Temperature</th> <!-- Add a new column for temperature -->
                                                             <th>QTY</th>
                                                             <th>Price</th>
                                                         </tr>
@@ -252,17 +269,38 @@
                                                         @foreach ($order->products as $product)
                                                             <tr>
                                                                 <td>{{ $product['name'] }}</td>
+                                                                <td>
+                                                                    @php
+                                                                        // Fetch the product details from the database
+                                                                        $productDetails = \App\Models\Product::find($product['id']);
+                                                                        $badgeClass = 'bg-secondary'; // Default to N/A
+                                                                        $temperatureText = 'N/A'; // Default text
+
+                                                                        if ($productDetails) {
+                                                                            // Check if the product is a drink (type_id 1 for coffee, 2 for non-coffee, 4 for tea)
+                                                                            if (in_array($productDetails->type_id, [1, 2, 4])) {
+                                                                                // Check if the price matches the original price
+                                                                                if ($product['price'] == $productDetails->price) {
+                                                                                    $badgeClass = 'bg-info'; // Cold
+                                                                                    $temperatureText = 'Cold';
+                                                                                } else {
+                                                                                    $badgeClass = 'bg-warning'; // Hot
+                                                                                    $temperatureText = 'Hot';
+                                                                                }
+                                                                            } else {
+                                                                                // If it's food (not a drink), set temperature to N/A
+                                                                                $temperatureText = 'N/A';
+                                                                            }
+                                                                        }
+                                                                    @endphp
+
+                                                                    <span class="badge {{ $badgeClass }}">{{ $temperatureText }}</span>
+                                                                </td>
                                                                 <td>{{ $product['quantity'] }}</td>
                                                                 <td>₱{{ number_format($product['price'], 2) }}</td>
                                                             </tr>
                                                             @if(!empty($product['extras']))
-                                                                @foreach ($product['extras'] as $extra)
-                                                                    <tr class="table-light">
-                                                                        <td class="ps-4">+ {{ $extra['name'] }}</td>
-                                                                        <td>{{ $extra['quantity'] }}</td>
-                                                                        <td>₱{{ number_format($extra['price'], 2) }}</td>
-                                                                    </tr>
-                                                                @endforeach
+                                                                <!-- Handle extras display if needed -->
                                                             @endif
                                                         @endforeach
                                                     </tbody>
@@ -286,6 +324,92 @@
                     @endif
                 </div>
             </div>
+
+
+            <!-- Voided Orders Tab -->
+        <div id="voided-orders" class="order-tab" style="display: none;">
+            <div class="table-responsive">
+                @php
+                    $hasVoidedOrders = $orders->contains('status', 'Voided');
+                @endphp
+
+                @if($hasVoidedOrders)
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Order Details</th>
+                                <th>Products</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($orders as $order)
+                                @if($order->status == 'Voided')
+                                    <tr>
+                                        <td>
+                                            <div class="order-info">
+                                                <h4>Customer: {{ $order->customer_name }}</h4>
+                                                <p>Order #{{ $order->id }}</p>
+                                                <p>Total: ₱{{ number_format($order->total_price, 2) }}</p>
+                                                <p>Payment: {{$order->p_method}}</p>
+                                                <p>Type: {{ $order->order_type }}</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th>Temperature</th>
+                                                        <th>QTY</th>
+                                                        <th>Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($order->products as $product)
+                                                        <tr>
+                                                            <td>{{ $product['name'] }}</td>
+                                                            <td>
+                                                                @php
+                                                                    $productDetails = \App\Models\Product::find($product['id']);
+                                                                    $badgeClass = 'bg-secondary';
+                                                                    $temperatureText = 'N/A';
+                                                                    if ($productDetails) {
+                                                                        if (in_array($productDetails->type_id, [1, 2, 4])) {
+                                                                            if ($product['price'] == $productDetails->price) {
+                                                                                $badgeClass = 'bg-info';
+                                                                                $temperatureText = 'Cold';
+                                                                            } else {
+                                                                                $badgeClass = 'bg-warning';
+                                                                                $temperatureText = 'Hot';
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                                <span class="badge {{ $badgeClass }}">{{ $temperatureText }}</span>
+                                                            </td>
+                                                            <td>{{ $product['quantity'] }}</td>
+                                                            <td>₱{{ number_format($product['price'], 2) }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-danger">Voided</span>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <div class="text-center p-5" style="color: #b22222">
+                        <p class="h2 fw-bold">No voided orders at the moment</p>
+                    </div>
+                @endif
+            </div>
+        </div>
 
         </div>
     </div>
@@ -329,11 +453,13 @@ function showOrder(status) {
         tab.style.display = 'none';
     });
 
-    // Show the selected tab
-    if (status === 'pending') {
+     // Show the selected tab
+     if (status === 'pending') {
         document.getElementById('pending-orders').style.display = 'block';
     } else if (status === 'onProcess') {
         document.getElementById('onProcess-orders').style.display = 'block';
+    } else if (status === 'voided') {
+        document.getElementById('voided-orders').style.display = 'block';
     }
 }
 
@@ -411,37 +537,57 @@ document.addEventListener('DOMContentLoaded', function() {
     showOrder('pending');
 });
 
-function deleteOrder(orderId) {
-    if (confirm('Are you sure you want to void this order? This action cannot be undone.')) {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) {
-            console.error("CSRF token not found.");
-            return;
-        }
-
-        fetch(`/delete-transaction/${orderId}`, {  // Updated endpoint
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Transaction has been voided and deleted successfully.');
-                location.reload();
-            } else {
-                alert('Failed to void transaction: ' + (data.message || 'Unknown error'));
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while voiding the transaction.');
-        });
+function updateOrderStatus(orderId, status) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    if (!csrfToken) {
+        console.error("CSRF token not found.");
+        return;
     }
-}
 
+    let confirmMsg = '';
+    if (status === 'Voided') {
+        confirmMsg = 'Are you sure you want to void this order? This action cannot be undone.';
+    }
+    if (confirmMsg && !confirm(confirmMsg)) {
+        return;
+    }
+
+    fetch(`/update-order-status/${orderId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({ status: status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            let message;
+            switch (status.toLowerCase()) {
+                case 'pending':
+                    message = 'Order set to Pending successfully.';
+                    break;
+                case 'completed':
+                    message = 'Order Completed successfully.';
+                    break;
+                case 'on process':
+                    message = 'Order is now On Process.';
+                    break;
+                case 'voided':
+                    message = 'Order has been voided.';
+                    break;
+                default:
+                    message = 'Order status updated successfully.';
+            }
+            alert(message);
+            location.reload();
+        } else {
+            alert('Failed to update order status.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
 </script>
 </body>
 

@@ -40,6 +40,7 @@ class OrderController extends Controller
             'order_type' => 'required|string',
         ]);
 
+        // Decode the products from JSON
         $products = json_decode($request->products, true);
         $formattedProducts = [];
 
@@ -50,6 +51,7 @@ class OrderController extends Controller
                 'name' => $product['name'],
                 'price' => $product['price'],
                 'quantity' => $product['quantity'] ?? 1,
+                'temperature' => $product['temperature'] ?? null, // Ensure temperature is included
                 'extras' => [] // Initialize extras array for this product
             ];
 
@@ -70,6 +72,7 @@ class OrderController extends Controller
             $formattedProducts[] = $productData;
         }
 
+        // Create the transaction data
         $transactionData = [
             'user_id' => $request->userId,
             'customer_name' => $request->customer_name,
@@ -77,17 +80,18 @@ class OrderController extends Controller
             'p_method' => $request->p_method,
             'order_type' => $request->order_type,
             'dateCreated' => now(),
-            'products' => json_encode($formattedProducts),
+            'products' => json_encode($formattedProducts), // Store formatted products as JSON string
             'status' => 'Pending'
         ];
 
         try {
+            // Create the transaction
             $transaction = Transaction::create($transactionData);
-            session()->forget('cart');
+            session()->forget('cart'); // Clear the cart after successful order
             return response()->json(['success' => true, 'message' => 'Order placed successfully!']);
         } catch (\Exception $e) {
             Log::error('Order creation failed: ' . $e->getMessage());
-            throw new \Exception('Failed to place the order. Please try again later. Error details: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to place the order. Please try again later.']);
         }
     }
 
@@ -212,31 +216,41 @@ public function getCategoryByTypeId($typeId)
 }
 
 public function updateStatus(Request $request, $id)
-{
-    $transaction = Transaction::find($id);
-    if ($transaction) {
-        if ($request->status === 'On Process') {
-            // Decode the products from the transaction
-            $products = json_decode($transaction->products, true);
+    {
+        $status = $request->input('status');
+        $validStatuses = ['Pending', 'On Process', 'Completed', 'Voided'];
 
-            // Update stock for each product
-            foreach ($products as $orderProduct) {
-                $product = Product::find($orderProduct['id']);
-                if ($product) {
-                    // Deduct the ordered quantity from stock
-                    $product->stock -= $orderProduct['quantity'];
-                    $product->save();
-                }
-            }
+        if (!in_array($status, $validStatuses)) {
+            return response()->json(['success' => false, 'message' => 'Invalid status.'], 400);
         }
 
-        $transaction->status = $request->status;
-        $transaction->save();
+        // Try to find in Transaction first, then in Order
+        $transaction = Transaction::find($id);
+        $order = Order::find($id);
 
-        return response()->json(['success' => true]);
+        if ($transaction) {
+            // If status is 'On Process', update stock
+            if ($status === 'On Process') {
+                $products = is_string($transaction->products) ? json_decode($transaction->products, true) : $transaction->products;
+                foreach ($products as $orderProduct) {
+                    $product = Product::find($orderProduct['id']);
+                    if ($product) {
+                        $product->stock -= $orderProduct['quantity'];
+                        $product->save();
+                    }
+                }
+            }
+            $transaction->status = $status;
+            $transaction->save();
+            return response()->json(['success' => true, 'status' => $transaction->status]);
+        } elseif ($order) {
+            $order->status = $status;
+            $order->save();
+            return response()->json(['success' => true, 'status' => $order->status]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Order/Transaction not found.'], 404);
+        }
     }
-    return response()->json(['success' => false], 400);
-}
 
 public function deleteTransaction($id)
 {
@@ -251,6 +265,8 @@ public function deleteTransaction($id)
         return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
     }
 }
+
+
 
 
 }

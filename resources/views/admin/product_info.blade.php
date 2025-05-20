@@ -83,11 +83,53 @@
 
 
     <div class="menu-container ">
-        <div class="d-flex justify-content-start mt-3">
-            <a href="{{ route('admin.add') }}" class="btn btn-brown" style="background-color: #b86143; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#ff8c00'; this.style.color='#fff'" onmouseout="this.style.backgroundColor='#b86143'" onmousedown="this.style.backgroundColor='#ff8c00'; this.style.color='#fff'" onmouseup="this.style.backgroundColor='#b86143'">
-                Add New Product
-            </a>
+        <div style="display: flex; justify-content: left; align-items: center;">
+            <a href="{{route('admin.add')}}" style="       position: relative;
+            width: 300px;
+            height: 81px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            z-index: 1;
+            margin: 10px;
+            box-sizing: border-box;
+            background-color: #3f2314;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;"
+            onmouseover="this.style.backgroundColor='#ff8c00'"
+            onmouseout="this.style.backgroundColor='#3f2314'">
+            <span>Add Product</span>
+        </a>
+        <a href="{{route('admin.product')}}" style="       position: relative;
+            width: 300px;
+            height: 81px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            z-index: 1;
+            margin: 10px;
+            box-sizing: border-box;
+            background-color: #3f2314;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;"
+            onmouseover="this.style.backgroundColor='#ff8c00'"
+            onmouseout="this.style.backgroundColor='#3f2314'">
+            <span>Back</span>
+        </a>
         </div>
+
         <div class="col-lg-12 col-md-12 col-lg-12  product-details">
             <h1 class=" text-center" style="color:white;font-weight: 700;"><strong>Products
             </strong></h1>
@@ -119,7 +161,15 @@
                                 </div>
                             </td>
                             <td class="text-center">
-                                <div class="table-container">{{ $product->stock }}</div>
+                                <div class="table-container d-flex align-items-center justify-content-center">
+                                    <button class="btn btn-success btn-sm me-1" onclick="updateStock({{ $product->id }}, 1)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <span id="stock-value-{{ $product->id }}">{{ $product->stock }}</span>
+                                    <button class="btn btn-danger btn-sm ms-1" onclick="updateStock({{ $product->id }}, -1)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
                             </td>
                             <td>
                                 <div class="showPhoto">
@@ -374,6 +424,28 @@
         if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
             event.target.form.submit();
         }
+    }
+    </script>
+
+<script>
+    function updateStock(productId, change) {
+        fetch(`/admin/product/${productId}/stock`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ change: change })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById(`stock-value-${productId}`).innerText = data.stock;
+            } else {
+                alert(data.message || 'Failed to update stock.');
+            }
+        })
+        .catch(() => alert('Error updating stock.'));
     }
     </script>
 

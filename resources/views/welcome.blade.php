@@ -196,8 +196,8 @@
 
 
     <main class="main">
-        <section id="hero" class="hero section light-background">
 
+        <section id="hero" class="hero section light-background">
             <div class="container">
                 <div class="row gy-4">
                     <!-- Text content section -->
@@ -207,9 +207,10 @@
                 <h2>Welcome Back! {{Auth::user()->name}}</h2>
                 <p>You have made {{ $transactionCount }} {{ Str::plural('transaction', $transactionCount) }} with us!</p>
 
-                @if($transactionCount == 10)
+                @if($transactionCount >= 10)
                     <p class="member-status vip">🌟 VIP Member 🌟</p>
-                @elseif($transactionCount == 5)
+                    <p>Use "SAVE20" For your next order</p>
+                @elseif($transactionCount <=> 5)
                     <p class="member-status gold">✨ Gold Member ✨</p>
                     <p>Use SAVE20 for 20% off!</p>
                 @endif
@@ -241,7 +242,6 @@
                 </svg>
             </div>
         </section>
-
 
 
         <section id="menu" class="about section">
@@ -297,7 +297,113 @@
             </div>
         </section>
 
+        <section id="menu" class="about section">
+            <div class="container section-title" data-aos="fade-up">
+                <h2>TOP PRODUCTS</h2>
+            </div>
 
+
+            {{-- <div class="container">
+                <div class="row gy-4">
+                    <div class="container" data-aos="zoom-in">
+                        <div class="swiper bestseller-swiper">
+                            <div class="swiper-wrapper align-items-center">
+
+                                @if(isset($topProducts) && count($topProducts) > 0)
+                                @foreach($topProducts as $index => $product)
+                                <div class="swiper-slide">
+                                    <div class="card card-slider">
+                                        <div class="ribbon-wrapper">
+                                            <div class="ribbon text-center">
+                                                Top {{ $index + 1 }}
+                                            </div>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <h4 class="text-center mb-3">{{ $product['product_name'] }}</h4>
+                                            <img src="{{ asset($product['image']) }}" class="img-fluid"
+                                                alt="{{ $product['product_name'] }}"
+                                                onerror="this.src='{{ asset('assets/img/products/default.png') }}'">
+                                            <div class="text-center mt-3">
+                                                <div class="price mt-2">₱{{ number_format($product['price'], 2) }}</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                @endforeach
+                                @else
+                                <div class="swiper-slide">
+                                    <div class="card card-slider">
+                                        <div class="card-body text-center">
+                                            <p>No best-selling products available yet</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
+            <div id="food" class="row">
+                <div class="container">
+                    <div class="row" id="productContainer">
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4 product-card">
+                            <div class="card text-center">
+                                <div class="card-img-top product-img" style="display: flex; align-items: center ">
+
+                                </div>
+
+                                <div class="card-body">
+                                    <h3>Refresher</h3>
+                                    <h5 class="card-title">₱ </h5>
+                                    <p class="card-text">name</p>
+                                    <p class="card-text">description</p>
+                                    <div class="yellow-border"></div>
+                                </div>
+                            </div>
+                            <div class="card text-center">
+                                <div class="card-img-top product-img" style="display: flex; align-items: center; justify-content: center;">
+
+                                </div>
+
+                                <div class="card-body">
+                                    <h3>Refresher</h3>
+                                    <h5 class="card-title">₱ </h5>
+                                    <p class="card-text">name</p>
+                                    <p class="card-text">description</p>
+                                    <div class="yellow-border"></div>
+                                </div>
+                            </div>
+                            <div class="card text-center">
+                                <div class="card-img-top product-img" style="display: flex; align-items: center; justify-content: center;">
+
+                                </div>
+
+                                <div class="card-body">
+                                    <h3>Refresher</h3>
+                                    <h5 class="card-title">₱ </h5>
+                                    <p class="card-text">name</p>
+                                    <p class="card-text">description</p>
+                                    <div class="yellow-border"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+        </section>
 
 
 

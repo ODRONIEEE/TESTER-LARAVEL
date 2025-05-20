@@ -8,14 +8,14 @@
     text-transform: uppercase;
     letter-spacing: 5px;
     color: #ffffff;
- 
+
 }
 
 
 
   .menu-options {
         display: flex;
-       
+
         justify-content: center;
         align-items: center;
         gap: 20px;
@@ -95,13 +95,12 @@
     background-color: #242424;
     height: 100%;
     padding: 10px;
-  
+
     margin: auto;
 }
 .footer-product h1 {
   color: white;
   font-size: 25px;
-
 }
 
 
@@ -181,7 +180,7 @@
     }
     .hero h1 {
 
-font-size: 5.5rem; 
+font-size: 5.5rem;
 
 }
 }

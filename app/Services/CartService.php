@@ -177,18 +177,6 @@ class CartService
         $drinkCount = 0;
         $foodCount = 0;
 
-        // // Count items by category in cart
-        // foreach ($cart as $cartItem) {
-        //     $product = Product::with('type')->find($cartItem['id']);
-        //     if ($product && $product->type) {
-        //         $quantity = isset($cartItem['quantity']) ? $cartItem['quantity'] : 1;
-        //         if ($product->type->category === 'drink') {
-        //             $drinkCount += $quantity;
-        //         } else {
-        //             $foodCount += $quantity;
-        //         }
-        //     }
-        // }
 
          // Count items by category in cart
          foreach ($cart as $cartItem) {
@@ -286,13 +274,7 @@ class CartService
             }
         }
 
-        // echo '<pre>';
-        // print_r($cart );
-        // print_r('drink: ' . $drinkCount);
-        // print_r(' |food: ' . $foodCount);
-        // print_r('<br> recom: '. $recommendCategory. '<br>');
-        // print_r($productQuantities);
-        // exit();
+
 
 
         // Convert to array and sort by quantity

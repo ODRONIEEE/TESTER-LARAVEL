@@ -36,5 +36,14 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'user_id'); // Ensure `user_id` exists in the `transaction` table
     }
+    public function getProductTemperature($productId)
+    {
+        foreach ($this->products as $product) {
+            if ($product['id'] == $productId) {
+                return $product['temperature'] ?? null; // Return temperature if it exists
+            }
+        }
+        return null; // Return null if not found
+    }
 }
 

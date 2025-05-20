@@ -111,7 +111,6 @@
                     </a>
                 </div>
 
-
                 <div class="row ">
                         <div class="menu-options d-flex">
                             <a href="{{ route('admin.product_info', ['type' => 1]) }}" class="menu-system">

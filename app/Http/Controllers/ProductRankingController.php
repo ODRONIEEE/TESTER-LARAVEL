@@ -175,6 +175,8 @@ class ProductRankingController  extends Controller
                 } else {
                     // Initialize the product details with type information
                     $productQuantitiesByType[$typeId]['products'][$productId] = [
+                        'product_image' => $product->image, // Assuming product has an 'image' attribute
+                        'product-price' => $product->price,
                         'product_id' => $productId,
                         'quantity' => $quantity,
                         'product_name' => $product->name, // Assuming product has a name attribute
@@ -227,6 +229,7 @@ class ProductRankingController  extends Controller
                         'quantity' => $quantity,
                         'type_id' => $typeId,
                         'type_name' => $typeName,
+                        'product-price' => $product->price,
                     ];
                 } else {
                     $productQuantities[$typeId][$productId]['quantity'] += $quantity;
