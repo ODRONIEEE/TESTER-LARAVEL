@@ -303,61 +303,29 @@
                 <h2>Try Our Best Selling by Category!</h2>
             </div>
 
-            <div class="container">
-                <div class="row gy-4">
-                    <div class="container" data-aos="zoom-in">
-                        @if(isset($rankedProductsByType) && count($rankedProductsByType) > 0)
-                            @foreach($rankedProductsByType as $type)
-                                <div class="mb-5">
-                                    <h3 class="mb-3 text-center">{{ $type['name'] }}</h3>
-                                    <div class="swiper bestseller-swiper">
-                                        <div class="swiper-wrapper align-items-center">
-                                            @php
-                                                $topProducts = array_slice($type['products'], 0, 3);
-                                            @endphp
-                                            @if(count($topProducts) > 0)
-                                                @foreach($topProducts as $index => $product)
-                                                    <div class="swiper-slide">
-                                                        <div class="card card-slider">
-                                                            <div class="ribbon-wrapper">
-                                                                <div class="ribbon text-center">
-                                                                    Top {{ $index + 1 }}
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <h4 class="text-center mb-3">{{ $product['product_name'] }}</h4>
-                                                                <img src="{{ asset($product['product_image']) }}" class="img-fluid"
-                                                                    alt="{{ $product['product_name'] }}"
-                                                                    onerror="this.src='{{ asset('assets/img/products/default.png') }}'">
-                                                                <div class="text-center mt-3">
-                                                                    <div class="price mt-2">₱{{ number_format($product['product-price'], 2) }}</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            @else
-                                                <div class="swiper-slide">
-                                                    <div class="card card-slider">
-                                                        <div class="card-body text-center">
-                                                            <p>No best-selling products in this category yet</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="swiper-pagination"></div>
-                                        <div class="swiper-button-next"></div>
-                                        <div class="swiper-button-prev"></div>
+            <div class="container mt-5">
+                <h2>Top One (1) Selling Products by Type</h2>
+                <div class="row">
+                    @foreach($rankedProducts as $product)
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                @if(!empty($product['image']))
+                                    <img src="{{ $product['image'] }}" class="card-img-top" alt="{{ $product['product_name'] }}" style="object-fit:cover; height:200px;">
+                                @else
+                                    <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height:200px;">
+                                        <span class="text-muted">No Image</span>
                                     </div>
+                                @endif
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $product['product_name'] }}</h5>
+                                    <p class="card-text mb-1"><strong>Type:</strong> {{ $product['type_name'] }} </p>
+
+                                    <p class="card-text mb-1"><strong>Price:</strong> ₱{{ number_format($product['product-price'], 2) }}</p>
+
                                 </div>
-                            @endforeach
-                        @else
-                            <div class="text-center p-5">
-                                <p class="h2 fw-bold">No best-selling products available yet</p>
                             </div>
-                        @endif
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>

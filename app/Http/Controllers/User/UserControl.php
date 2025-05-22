@@ -18,6 +18,10 @@ use App\Http\Controllers\ExtrasController;
 class UserControl extends Controller
 {
 
+
+
+
+
     public function home()
     {
         // Get the authenticated user
@@ -89,6 +93,55 @@ class UserControl extends Controller
                 $topProducts = array_slice($productQuantities, 0, 5);
             }
         }
+        $transactions = Transaction::all();
+
+        // Initialize an array to store quantities of each product, grouped by type
+        $productQuantities = [];
+
+        // Loop through each transaction and aggregate product quantities
+        foreach ($transactions as $transaction) {
+            foreach (json_decode($transaction->products) as $item) {
+                $productId = $item->id;
+                $quantity = $item->quantity;
+
+                // Retrieve product details, including type info
+                $product = Product::with('type')->find($productId);
+
+                // Ensure product and type data are available
+                if ($product && $product->type) {
+                    $typeId = $product->type->id;
+                    $typeName = $product->type->name;
+
+                    // Initialize or accumulate quantities per product and type
+                    if (!isset($productQuantities[$typeId][$productId])) {
+                        $productQuantities[$typeId][$productId] = [
+                            'product_id' => $productId,
+                            'product_name' => $product->name,
+                            'image' => $product->image,
+                            'quantity' => $quantity,
+                            'type_id' => $typeId,
+                            'type_name' => $typeName,
+                            'product-price' => $product->price,
+                        ];
+                    } else {
+                        $productQuantities[$typeId][$productId]['quantity'] += $quantity;
+                    }
+                }
+            }
+        }
+
+        // Get top 1 product for each type
+        $topProductsByType = [];
+        foreach ($productQuantities as $typeId => $products) {
+            // Sort each type's products by quantity in descending order
+            usort($products, function ($a, $b) {
+                return $b['quantity'] <=> $a['quantity'];
+            });
+
+            // Get the top 1 product for this type
+            $topProductsByType[$typeId] = $products[0];
+        }
+
 
         // Get cart item count for the cart badge
         $cartItemCount = count(session()->get('cart', []));
@@ -96,8 +149,12 @@ class UserControl extends Controller
         return view('welcome', [
             'transactionCount' => $transactionCount,
             'topProducts' => $topProducts,
-            'cartItemCount' => $cartItemCount
+            'cartItemCount' => $cartItemCount,
+            'rankedProducts' => $topProductsByType,
         ]);
+
+
+
     }
 
 

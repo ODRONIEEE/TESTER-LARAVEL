@@ -16,78 +16,133 @@ class ProductRankingController  extends Controller
 
     public function welcome()
     {
-        // Fetch all transactions
-        $transactions = Transaction::all();
+        // Get the authenticated user
+        $user = Auth::user();
 
         // Initialize variables
         $transactionCount = 0;
-    $user = Auth::user();
+        $topProducts = [];
 
-    if ($user) {
-        // Count completed transactions for the authenticated user using customer_name
-        $transactionCount = Transaction::where('customer_name', $user->name)
-                                     ->where('status', 'Completed')
-                                     ->count();
-    }
+        if ($user) {
+            // Count transactions for the authenticated user based on customer_name
+            $transactionCount = Transaction::where('customer_name', $user->name)
+                                         ->where('status', 'Completed')
+                                         ->count();
 
-     // Fetch all transactions for top products calculation
-     $transactions = Transaction::all();
+            // Fetch all completed transactions
+            $transactions = Transaction::where('status', 'Completed')->get();
 
+            // Initialize array to store product quantities
+            $productQuantities = [];
 
-        // Initialize an array to store quantities for each product
+            // Process each transaction
+            foreach ($transactions as $transaction) {
+                $products = json_decode($transaction->products);
+
+                // Skip if products is not valid JSON
+                if (!is_array($products) && !is_object($products)) {
+                    continue;
+                }
+
+                // Process each product in the transaction
+                foreach ($products as $item) {
+                    if (!isset($item->id) || !isset($item->quantity)) {
+                        continue;
+                    }
+
+                    $productId = $item->id;
+                    $quantity = $item->quantity;
+
+                    // Get product details
+                    $product = Product::find($productId);
+                    if (!$product) {
+                        continue;
+                    }
+
+                    // Accumulate quantities for each product
+                    if (isset($productQuantities[$productId])) {
+                        $productQuantities[$productId]['quantity'] += $quantity;
+                    } else {
+                        $productQuantities[$productId] = [
+                            'product_id' => $productId,
+                            'product_name' => $product->name,
+                            'quantity' => $quantity,
+                            'price' => $product->price,
+                            'image' => $product->image ?? null,
+                        ];
+                    }
+                }
+            }
+
+            // Sort products by quantity sold
+            if (!empty($productQuantities)) {
+                $productQuantities = array_values($productQuantities);
+                usort($productQuantities, function($a, $b) {
+                    return $b['quantity'] <=> $a['quantity'];
+                });
+
+                // Get top 5 products
+                $topProducts = array_slice($productQuantities, 0, 5);
+            }
+        }
+        $transactions = Transaction::all();
+
+        // Initialize an array to store quantities of each product, grouped by type
         $productQuantities = [];
 
         // Loop through each transaction and aggregate product quantities
         foreach ($transactions as $transaction) {
-            $products = json_decode($transaction->products);
-            if (!is_array($products) && !is_object($products)) {
-                continue;
-            }
-
-            foreach ($products as $item) {
+            foreach (json_decode($transaction->products) as $item) {
                 $productId = $item->id;
                 $quantity = $item->quantity;
 
-                // Retrieve product details
-                $product = Product::find($productId);
+                // Retrieve product details, including type info
+                $product = Product::with('type')->find($productId);
 
-                // Skip if the product is not found
-                if (!$product) {
-                    continue;
-                }
+                // Ensure product and type data are available
+                if ($product && $product->type) {
+                    $typeId = $product->type->id;
+                    $typeName = $product->type->name;
 
-                // Accumulate quantities for each product
-                if (isset($productQuantities[$productId])) {
-                    $productQuantities[$productId]['quantity'] += $quantity;
-                } else {
-                    $productQuantities[$productId] = [
-                        'product_id' => $productId,
-                        'product_name' => $product->name,
-                        'quantity' => $quantity,
-                        'price' => $product->price,
-                        'image' => $product->image ?? null,
-                    ];
+                    // Initialize or accumulate quantities per product and type
+                    if (!isset($productQuantities[$typeId][$productId])) {
+                        $productQuantities[$typeId][$productId] = [
+                            'product_id' => $productId,
+                            'product_name' => $product->name,
+                            'image' => $product->image,
+                            'quantity' => $quantity,
+                            'type_id' => $typeId,
+                            'type_name' => $typeName,
+                            'product-price' => $product->price,
+                        ];
+                    } else {
+                        $productQuantities[$typeId][$productId]['quantity'] += $quantity;
+                    }
                 }
             }
         }
 
-        // Get cart item count
+        // Get top 1 product for each type
+        $topProductsByType = [];
+        foreach ($productQuantities as $typeId => $products) {
+            // Sort each type's products by quantity in descending order
+            usort($products, function ($a, $b) {
+                return $b['quantity'] <=> $a['quantity'];
+            });
+
+            // Get the top 1 product for this type
+            $topProductsByType[$typeId] = $products[0];
+        }
+
+
+        // Get cart item count for the cart badge
         $cartItemCount = count(session()->get('cart', []));
 
-
-        // Convert to array and sort by quantity in descending order
-        $productQuantities = array_values($productQuantities);
-        usort($productQuantities, function ($a, $b) {
-            return $b['quantity'] <=> $a['quantity'];
-        });
-
-        // Get only the top 5 products
-        $topProducts = array_slice($productQuantities, 0, 5);
-
         return view('welcome', [
-            'topProducts' => $topProducts,
             'transactionCount' => $transactionCount,
-            'cartItemCount' => $cartItemCount
+            'topProducts' => $topProducts,
+            'cartItemCount' => $cartItemCount,
+            'rankedProducts' => $topProductsByType,
         ]);
     }
 
