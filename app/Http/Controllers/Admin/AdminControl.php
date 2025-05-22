@@ -36,6 +36,9 @@ class AdminControl extends Controller
     public function welcome(){
         return view('welcome');
     }
+    public function logs(){
+        return view('admin.logs');
+    }
 
     public function drink($category){
         $products = Product::where('type_id', $category)->get();

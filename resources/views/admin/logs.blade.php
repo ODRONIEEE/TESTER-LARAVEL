@@ -9,8 +9,8 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="{{asset('assets/img/logobrown.png')}}" rel="icon">
-
+    <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
+    <link href="{{asset('assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -38,8 +38,9 @@
     @if (Route::has('login'))
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
         <a href="{{route('admin.dashboard')}}" class="logo d-flex align-items-center me-auto">
-          <img src="{{asset('assets/img/logo/logo2.png')}}" alt="">
+          <img src="{{asset('assets/img/logo/logo.png')}}" alt="">
         </a>
         @auth
         <nav id="navmenu" class="navmenu">
@@ -58,7 +59,6 @@
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a href="{{route('profile.edit')}}">{{Auth::user()->name}}</a></li>
-                <li><a href="{{route('admin.logs')}}">Logs</a></li>
 
                 <form method="POST" action="{{ route('logout') }}">
                   @csrf
@@ -80,44 +80,30 @@
   </header>
   @endif
 
-  <main class="main">
+<main class="main">
 
 
-    <section id="coffee" class="hero hero-menu menu-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <div class="row justify-content-center">
-                        <div class="menu-options">
-
-                            <a href="{{route('admin.product')}}" class="menu-option foods">
-                                <span>PRODUCT</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="menu-options">
-                            <a href="{{route('admin.sales')}}" class="menu-option drinks">
-                                <span>Sales</span>
-                            </a>
-                            <a href="{{route('admin.orders')}}" class="menu-option foods">
-                                <span>Orders</span>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-6 text-center">
-                    <img src="{{asset('assets/img/logo/logo2.png')}}" class="img-fluid cold-latte" alt="Cold Latte">
-                </div>
-            </div>
-
+    <div class="row mt-5">
+        <div class="col-12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Total Price</th>
+                        <th>Payment Method</th>
+                        <th>Order Type</th>
+                        <th>Date Created</th>
+                        <th>Products</th>
+                    </tr>
+                </thead>
         </div>
-    </section>
+    </div>
+
+
 
 </main>
 
-<footer id="footer" class="footer-product text-center">
+<footer id="footer" class="footer-product background-dark text-center">
     <h1>"brewing timeless moments"</h1>
 </footer>
 
@@ -127,7 +113,14 @@
 
 <!-- Preloader -->
 <div id="preloader"></div>
+<!-- DataTable CSS -->
+<link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTable JS -->
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <!-- Vendor JS Files -->
 <script src="{{url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{url('assets/vendor/php-email-form/validate.js')}}"></script>
@@ -141,37 +134,19 @@
 <!-- Main JS File -->
 <script src="{{url('assets/js/main.js')}}"></script>
 <script src="{{url('assets/js/drinks_menu.js')}}"></script>
-<style>
-    .menu-options {
-        display: flex;
-        justify-content: center; /* Align items to the center horizontally */
-        align-items: center; /* Align items to the center vertically */
-    }
 
-    .menu-option {
-        /* ... your existing styles ... */
-        flex: 1; /* Make each option take equal width */
-    }
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable on the table
+        $('.table').DataTable({
+            responsive: true,  // Makes the table responsive on smaller screens
+            pageLength: 10,    // Set default number of records per page
+            lengthMenu: [10, 25, 50, 100]  // Options for the number of records per page
+        });
+    });
 
-    /* Optional: To adjust the image position and size */
-    .cold-latte {
-        /* ... your existing styles ... */
-        position: absolute;
-        right: 0; /* Position the image to the right */
-        top: 50%;
-        transform: translateY(-50%); /* Vertically center the image */
-        width: 50%; /* Adjust the image width as needed */
-    }
-    @media (min-width: 768px) and (max-width: 1024px) {
-    .menu-options {
-        flex-direction: column; /* Stack options vertically */
-    }
+</script>
 
-    .menu-option {
-        /* Adjust width and height as needed */
-        width: 100%;
-    }
-</style>
 </body>
 
 </html>

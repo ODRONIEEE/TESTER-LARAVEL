@@ -309,7 +309,7 @@
                                             <td>
                                                 <div class="d-flex flex-column gap-2">
                                                     <button class="btn btn-primary" onclick="updateOrderStatus({{ $order->id }}, 'Completed')">Completed</button>
-                                                    <button class="btn btn-danger" onclick="deleteOrder({{ $order->id }})">Void</button>
+                                                    <button class="btn btn-danger" onclick="updateOrderStatus({{ $order->id }}, 'Voided')">Void</button>
                                                 </div>
                                             </td>
                                         </tr>
